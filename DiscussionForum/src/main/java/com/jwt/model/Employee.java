@@ -21,15 +21,27 @@ public class Employee implements Serializable {
 
 	@Column
 	private String name;
-
+	
+	@Column
+	private String firstName;
+	
+	@Column
+	private String lastName;
+	
+	@Column
+	private String designation;
+	
+	@Column 
+	private String team;
+	
+	@Column 
+	private String manager;
+	
 	@Column
 	private String email;
 
 	@Column
-	private String address;
-
-	@Column
-	private String telephone;
+	private String psw;
 
 	public int getId() {
 		return id;
@@ -47,6 +59,46 @@ public class Employee implements Serializable {
 		this.name = name;
 	}
 
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+
+	public String getTeam() {
+		return team;
+	}
+
+	public void setTeam(String team) {
+		this.team = team;
+	}
+
+	public String getManager() {
+		return manager;
+	}
+
+	public void setManager(String manager) {
+		this.manager = manager;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -55,20 +107,19 @@ public class Employee implements Serializable {
 		this.email = email;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getPsw() {
+		return psw;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setPsw(String psw) {
+		this.psw = psw;
 	}
 
-	public String getTelephone() {
-		return telephone;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
-	}
+	
+
 
 }

@@ -40,6 +40,17 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		return (Employee) sessionFactory.getCurrentSession().get(
 				Employee.class, empid);
 	}
+	
+	public Employee authUser(Employee employee) {
+		Employee emp = new Employee();
+		 List<Employee> demo =  sessionFactory.getCurrentSession().createQuery("from Employee")
+					.list();
+		 
+		 if(!demo.isEmpty()){
+			 emp = demo.get(0);
+		 }
+		return emp;
+	};
 
 	@Override
 	public Employee updateEmployee(Employee employee) {

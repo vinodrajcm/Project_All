@@ -40,7 +40,7 @@
 form.example button {
     float: left;
     width: 20%;
-    padding: 5px;
+    padding: 9.5px;
     background: #343a40;
     color: white;
     font-size: 17px;

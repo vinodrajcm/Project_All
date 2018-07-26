@@ -42,6 +42,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 		// TODO Auto-generated method stub
 		return employeeDAO.updateEmployee(employee);
 	}
+	
+	public Employee authUser(Employee employee) {
+		return employeeDAO.authUser(employee);
+	}
 
 	public void setEmployeeDAO(EmployeeDAO employeeDAO) {
 		this.employeeDAO = employeeDAO;
