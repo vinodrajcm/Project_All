@@ -15,7 +15,7 @@
 <div class="col-sm-4"></div>
 <div class="col-sm-4">
   
-	<label for="uname"><b>Username</b></label>
+	<label for="uname"><b>Username demo</b></label>
     <input type="text" placeholder="Enter Username" name="uname" required>
 
     <label for="psw"><b>Password</b></label>
