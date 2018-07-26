@@ -28,11 +28,11 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 
-	@RequestMapping(value = "/demo")
+	@RequestMapping(value = "/view")
 	public ModelAndView listEmployee(ModelAndView model) throws IOException {
 		List<Employee> listEmployee = employeeService.getAllEmployees();
 		model.addObject("listEmployee", listEmployee);
-		model.setViewName("home");
+		model.setViewName("pages/home");
 		return model;
 	}
 
@@ -40,7 +40,7 @@ public class EmployeeController {
 	public ModelAndView newContact(ModelAndView model) {
 		Employee employee = new Employee();
 		model.addObject("employee", employee);
-		model.setViewName("EmployeeForm");
+		model.setViewName("pages/EmployeeForm");
 		return model;
 	}
 
@@ -52,21 +52,21 @@ public class EmployeeController {
 		} else {
 			employeeService.updateEmployee(employee);
 		}
-		return new ModelAndView("redirect:/demo");
+		return new ModelAndView("redirect:/");
 	}
 
 	@RequestMapping(value = "/deleteEmployee", method = RequestMethod.GET)
 	public ModelAndView deleteEmployee(HttpServletRequest request) {
 		int employeeId = Integer.parseInt(request.getParameter("id"));
 		employeeService.deleteEmployee(employeeId);
-		return new ModelAndView("redirect:/demo");
+		return new ModelAndView("redirect:/");
 	}
 
 	@RequestMapping(value = "/editEmployee", method = RequestMethod.GET)
 	public ModelAndView editContact(HttpServletRequest request) {
 		int employeeId = Integer.parseInt(request.getParameter("id"));
 		Employee employee = employeeService.getEmployee(employeeId);
-		ModelAndView model = new ModelAndView("EmployeeForm");
+		ModelAndView model = new ModelAndView("pages/EmployeeForm");
 		model.addObject("employee", employee);
 
 		return model;
