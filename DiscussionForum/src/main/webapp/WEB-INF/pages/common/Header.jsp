@@ -163,7 +163,7 @@ span.psw {
 	<div class="btn-group">
 	  
 	  <button id="login" type="button" class="btn btn-primary btn-kenna">Login</button>
-	  <button type="button" class="btn btn-primary btn-kenna">Register</button>
+	  <button id="Register" type="button" class="btn btn-primary btn-kenna">Register</button>
 	</div>
 	</div>
 	

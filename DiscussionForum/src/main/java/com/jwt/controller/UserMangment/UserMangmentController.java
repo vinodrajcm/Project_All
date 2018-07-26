@@ -1,4 +1,4 @@
-package com.jwt.controller.login;
+package com.jwt.controller.UserMangment;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,20 +12,28 @@ import com.jwt.controller.EmployeeController;
 import com.jwt.model.Employee;
 
 @Controller
-public class LoginController {
+public class UserMangmentController {
 
 	private static final Logger logger = Logger
-			.getLogger(LoginController.class);
+			.getLogger(UserMangmentController.class);
 	
-	public LoginController() {
+	public UserMangmentController() {
 		System.out.println("LoginController()");
 	}
 	
-	@RequestMapping(value = "/")
+	@RequestMapping(value = "/login")
 	public ModelAndView login(ModelAndView model) throws IOException {
 		//List<Employee> listEmployee = employeeService.getAllEmployees();
 		model.addObject("listEmployee", "");
 		model.setViewName("pages/userManagment/Login");
+		return model;
+	}
+	
+	@RequestMapping(value = "/register")
+	public ModelAndView register(ModelAndView model) throws IOException {
+		//List<Employee> listEmployee = employeeService.getAllEmployees();
+		model.addObject("listEmployee", "");
+		model.setViewName("pages/userManagment/Register");
 		return model;
 	}
 
