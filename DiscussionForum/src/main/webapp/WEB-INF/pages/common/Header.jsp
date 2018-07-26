@@ -162,8 +162,9 @@ span.psw {
     <div class="col-sm-3">
 	<div class="btn-group">
 	  
-	  <button id="login" type="button" class="btn btn-primary btn-kenna">Login</button>
-	  <button id="Register" type="button" class="btn btn-primary btn-kenna">Register</button>
+	  <a href="login" id="login"  class="btn btn-primary btn-kenna">Login</a>
+	  <a href="register" id="Register"  class="btn btn-primary btn-kenna">Register</a>
+
 	</div>
 	</div>
 	
