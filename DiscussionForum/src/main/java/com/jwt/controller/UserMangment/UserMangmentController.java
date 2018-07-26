@@ -21,7 +21,8 @@ public class UserMangmentController {
 			.getLogger(UserMangmentController.class);
 	
 	public UserMangmentController() {
-		System.out.println("LoginController()");
+		System.out.println("LoginController()"); 
+		
 	}
 	@Autowired
 	private EmployeeService employeeService;
