@@ -43,6 +43,14 @@ public class UserMangmentController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/askQuestions")
+	public ModelAndView askquestion(ModelAndView model) throws IOException {
+		//List<Employee> listEmployee = employeeService.getAllEmployees();
+		model.addObject("listEmployee", "");
+		model.setViewName("pages/userManagment/AskQuestion");
+		return model;
+	}
+	
 	
 	@RequestMapping(value = "/registerNewUser", method = RequestMethod.POST)
 	public ModelAndView register(Employee employee) throws IOException {
