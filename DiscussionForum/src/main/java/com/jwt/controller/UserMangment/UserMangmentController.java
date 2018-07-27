@@ -3,6 +3,10 @@ package com.jwt.controller.UserMangment;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.hibernate.Session;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.jwt.controller.EmployeeController;
 import com.jwt.model.Employee;
 import com.jwt.service.EmployeeService;
+import com.jwt.service.session.sessionBean;
 
 @Controller
 public class UserMangmentController {
@@ -27,11 +32,14 @@ public class UserMangmentController {
 	@Autowired
 	private EmployeeService employeeService;
 	
+	@Autowired
+	private sessionBean sessionBean;
+	
 	@RequestMapping(value = "/login")
-	public ModelAndView login(ModelAndView model) throws IOException {
+	public ModelAndView login(HttpServletRequest request, HttpServletResponse response,ModelAndView model) throws IOException {
 		//List<Employee> listEmployee = employeeService.getAllEmployees();
-		model.addObject("listEmployee", "");
-		model.setViewName("pages/userManagment/Login");
+			model.addObject("listEmployee", "");
+			model.setViewName("pages/userManagment/Login");
 		return model;
 	}
 	
@@ -57,17 +65,35 @@ public class UserMangmentController {
 	}
 
 	@RequestMapping(value = "/auth")
-	public ModelAndView auth(Employee employee) throws IOException {
+	public ModelAndView auth(HttpServletRequest request, HttpServletResponse response,Employee employee) throws IOException {
 		//List<Employee> listEmployee = employeeService.getAllEmployees();
-
-		Employee demo = employeeService.authUser(employee);
-		//model.setViewName("pages/userManagment/Login");
-		if(demo == null ){
-			System.out.println("un success");
-		}else{
-			
-			System.out.println(demo.getId());
+		ModelAndView model =new ModelAndView();
+		if (sessionBean.setRequest(request)) {
+			// prevent session fixation by reset the sessionId
+			request.getSession().invalidate();
+			request.getSession(true);
 		}
-		return null ;
+		
+		
+		
+			List<Employee> listEmployee = employeeService.getAllEmployees();
+			Employee demo = employeeService.authUser(employee);
+			model.addObject("listEmployee", listEmployee);
+			model.setViewName("index");
+			sessionBean.setEmp(demo);
+			
+		
+		return model ;
 	}
+	
+	@RequestMapping(value = "/logout")
+	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		//List<Employee> listEmployee = employeeService.getAllEmployees();
+		
+		request.getSession().invalidate();
+		
+		return new ModelAndView("redirect:/login") ;
+	}
+	
+	
 }

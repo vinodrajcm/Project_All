@@ -24,7 +24,15 @@
 		<property name="prefix" value="/WEB-INF/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-
+	
+	
+	<mvc:interceptors>		 	
+		<mvc:interceptor>
+			<mvc:mapping path="/user/**" />			
+			
+			<bean class="com.jwt.interceptor.loginInterceptor"></bean>	
+		</mvc:interceptor>
+	</mvc:interceptors>	
 	<!-- DataSource -->
 	<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource"
 		id="dataSource">
