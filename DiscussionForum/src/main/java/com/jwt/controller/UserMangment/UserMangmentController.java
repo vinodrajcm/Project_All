@@ -90,6 +90,8 @@ public class UserMangmentController {
 			model.setViewName("index");
 			sessionBean.setEmp(demo);
 			
+			
+			//munirvc
 		
 		return model ;
 	}
