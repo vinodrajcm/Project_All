@@ -27,7 +27,7 @@ public class UserMangmentController {
 	
 	public UserMangmentController() {
 		System.out.println("LoginController()"); 
-		
+		System.out.println("ttttt");
 	}
 	@Autowired
 	private EmployeeService employeeService;
