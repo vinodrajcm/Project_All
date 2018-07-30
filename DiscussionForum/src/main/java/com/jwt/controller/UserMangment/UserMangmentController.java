@@ -86,12 +86,11 @@ public class UserMangmentController {
 		
 			List<Employee> listEmployee = employeeService.getAllEmployees();
 			Employee demo = employeeService.authUser(employee);
-			model.addObject("listEmployee", listEmployee);
-			model.setViewName("index");
+			
 			sessionBean.setEmp(demo);
 			
 		
-		return model ;
+		return new ModelAndView("redirect:/user/userList") ;
 	}
 	
 	@RequestMapping(value = "/logout")
