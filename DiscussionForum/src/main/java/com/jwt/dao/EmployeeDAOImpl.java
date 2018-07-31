@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.jwt.model.Employee;
+import com.jwt.model.Questions;
 
 @Repository
 public class EmployeeDAOImpl implements EmployeeDAO {
@@ -56,6 +57,12 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	public Employee updateEmployee(Employee employee) {
 		sessionFactory.getCurrentSession().update(employee);
 		return employee;
+	}
+
+	@Override
+	public void addQuestion(Questions Que) {
+		// TODO Auto-generated method stub
+		sessionFactory.getCurrentSession().saveOrUpdate(Que);
 	}
 
 }

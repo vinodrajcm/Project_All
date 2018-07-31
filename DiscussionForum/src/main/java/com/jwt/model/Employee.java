@@ -1,62 +1,134 @@
 package com.jwt.model;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+
 @Entity
-@Table(name = "EMP_TBL")
+@Table(name = "USER_MASTER")
 public class Employee implements Serializable {
 
 	private static final long serialVersionUID = -3465813074586302847L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	@Column(name="USER_ID")
+	private int userId;
 
-	@Column
-	private String name;
+	@Column(name="LOGIN_ID",unique = true, nullable = false)
+	private String loginId;
 	
-	@Column
-	private String firstName;
+	@Column(name="FIRST_NAME",nullable = false)
+	private String firstName ;
 	
-	@Column
+	@Column(name="LAST_NAME")
 	private String lastName;
 	
-	@Column
+	@Column(name="DESGINATION")
 	private String designation;
 	
-	@Column 
+	@Column(name="TEAM") 
 	private String team;
 	
-	@Column 
-	private String manager;
-	
-	@Column
+	@Column(name="EMAIL",unique = true, nullable = false) 
 	private String email;
 
-	@Column
-	private String psw;
-
-	public int getId() {
-		return id;
+	@Column(name="PASSWORD") 
+	private String password;
+	
+	@Column(name="CREATED_DATE")
+	private String createdDate;
+	
+	@Column(name="CREATED_BY")
+	private String createdBy;
+		
+	@Column(name="ACTIVATION_FLAG")
+	private String activationFlag;
+	
+	@Column(name="MODIFIED_BY")
+	private String modifiedBy;
+	
+	@Column(name="MODIFIED_DATE")
+	private String modifiedDate;
+	
+	@OneToMany(targetEntity=Questions.class, mappedBy="emp",
+			cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	public List<Questions> questionList;
+	
+	
+	@OneToMany(targetEntity=Answers.class, mappedBy="emp",
+			cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	public List<Answers> answerList;
+	
+	
+	
+	public List<Answers> getAnswerList() {
+		return answerList;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setAnswerList(List<Answers> answerList) {
+		this.answerList = answerList;
 	}
 
-	public String getName() {
-		return name;
+	public List<Questions> getQuestionList() {
+		return questionList;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setQuestionList(List<Questions> questionList) {
+		this.questionList = questionList;
+	}
+
+	
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public String getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(String modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public String getLoginId() {
+		return loginId;
+	}
+
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
 	}
 
 	public String getFirstName() {
@@ -91,14 +163,6 @@ public class Employee implements Serializable {
 		this.team = team;
 	}
 
-	public String getManager() {
-		return manager;
-	}
-
-	public void setManager(String manager) {
-		this.manager = manager;
-	}
-
 	public String getEmail() {
 		return email;
 	}
@@ -107,89 +171,27 @@ public class Employee implements Serializable {
 		this.email = email;
 	}
 
-	public String getPsw() {
-		return psw;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setPsw(String psw) {
-		this.psw = psw;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public String getCreatedDate() {
+		return createdDate;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((designation == null) ? 0 : designation.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + id;
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((manager == null) ? 0 : manager.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((psw == null) ? 0 : psw.hashCode());
-		result = prime * result + ((team == null) ? 0 : team.hashCode());
-		return result;
+	public void setCreatedDate(String createdDate) {
+		this.createdDate = createdDate;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Employee other = (Employee) obj;
-		if (designation == null) {
-			if (other.designation != null)
-				return false;
-		} else if (!designation.equals(other.designation))
-			return false;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (firstName == null) {
-			if (other.firstName != null)
-				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
-		if (id != other.id)
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
-				return false;
-		} else if (!lastName.equals(other.lastName))
-			return false;
-		if (manager == null) {
-			if (other.manager != null)
-				return false;
-		} else if (!manager.equals(other.manager))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (psw == null) {
-			if (other.psw != null)
-				return false;
-		} else if (!psw.equals(other.psw))
-			return false;
-		if (team == null) {
-			if (other.team != null)
-				return false;
-		} else if (!team.equals(other.team))
-			return false;
-		return true;
+	public String getActivationFlag() {
+		return activationFlag;
 	}
 
-	
-
-
+	public void setActivationFlag(String activationFlag) {
+		this.activationFlag = activationFlag;
+	}	
 }
