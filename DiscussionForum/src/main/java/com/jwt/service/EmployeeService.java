@@ -3,10 +3,13 @@ package com.jwt.service;
 import java.util.List;
 
 import com.jwt.model.Employee;
+import com.jwt.model.Questions;
 
 public interface EmployeeService {
 	
 	public void addEmployee(Employee employee);
+	
+	public void addQuestion(Questions que);
 
 	public List<Employee> getAllEmployees();
 

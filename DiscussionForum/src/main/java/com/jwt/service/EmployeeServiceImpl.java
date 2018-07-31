@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jwt.dao.EmployeeDAO;
 import com.jwt.model.Employee;
+import com.jwt.model.Questions;
 
 @Service
 @Transactional
@@ -49,6 +50,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	public void setEmployeeDAO(EmployeeDAO employeeDAO) {
 		this.employeeDAO = employeeDAO;
+	}
+
+	@Override
+	public void addQuestion(Questions que) {
+		// TODO Auto-generated method stub
+		this.employeeDAO.addQuestion(que);
 	}
 
 }
