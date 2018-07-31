@@ -2,6 +2,8 @@ package com.jwt.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import com.jwt.model.Employee;
+import com.jwt.model.Questions;
 import com.jwt.service.EmployeeService;
 
 @Controller
@@ -31,6 +34,12 @@ public class EmployeeController {
 	@RequestMapping(value = "/view")
 	public ModelAndView listEmployee(ModelAndView model) throws IOException {
 		List<Employee> listEmployee = employeeService.getAllEmployees();
+		for (Employee employee : listEmployee) {
+			List<Questions> demo = employee.getQuestionList();
+			for (Questions questions : demo) {
+				System.out.println(questions.getQuestionTitle());
+			}
+		}
 		model.addObject("listEmployee", listEmployee);
 		model.setViewName("pages/home");
 		return model;
@@ -39,6 +48,8 @@ public class EmployeeController {
 	@RequestMapping(value = "/newEmployee", method = RequestMethod.GET)
 	public ModelAndView newContact(ModelAndView model) {
 		Employee employee = new Employee();
+		
+		
 		model.addObject("employee", employee);
 		model.setViewName("pages/EmployeeForm");
 		return model;
@@ -46,7 +57,7 @@ public class EmployeeController {
 
 	@RequestMapping(value = "/saveEmployee", method = RequestMethod.POST)
 	public ModelAndView saveEmployee(@ModelAttribute Employee employee) {
-		if (employee.getId() == 0) { // if employee id is 0 then creating the
+		if (employee.getUserId() == 0) { // if employee id is 0 then creating the
 			// employee other updating the employee
 			employeeService.addEmployee(employee);
 		} else {
@@ -70,6 +81,39 @@ public class EmployeeController {
 		model.addObject("employee", employee);
 
 		return model;
+	}
+	
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView create(HttpServletRequest request) {
+		
+		Employee emp = new Employee();
+		
+		emp.setLoginId("kumarrk");
+		emp.setFirstName("ranjtith");
+		
+		emp.setEmail("");
+		
+		employeeService.addEmployee(emp);
+		
+		return null;
+	}
+	
+	
+	@RequestMapping(value = "/createQue", method = RequestMethod.GET)
+	public ModelAndView createQue(HttpServletRequest request) {
+		
+		int employeeId = Integer.parseInt("1");
+		//Employee employee = employeeService.getEmployee(employeeId);
+		
+		Employee employee = new Employee();
+		employee.setUserId(employeeId);
+		Questions qu = new Questions();
+		qu.setQuestionTitle("demo2");
+		qu.setQuestionDescription("demo2 description");
+		qu.setEmp(employee);
+		employeeService.addQuestion(qu);
+		
+		return null;
 	}
 
 }
