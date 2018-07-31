@@ -99,9 +99,8 @@ form.example::after {
 }
 
 .container-fluid-footer {
-	background-color: #343a40;
+	background-color: #f1f1f1;
 	padding-top: 2%;
-	color: white;
 }
 
 input[type=text], input[type=password] {

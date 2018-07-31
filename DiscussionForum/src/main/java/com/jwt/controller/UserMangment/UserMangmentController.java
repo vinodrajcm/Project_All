@@ -55,7 +55,7 @@ public class UserMangmentController {
 	public ModelAndView askquestion(ModelAndView model) throws IOException {
 		//List<Employee> listEmployee = employeeService.getAllEmployees();
 		model.addObject("listEmployee", "");
-		model.setViewName("pages/userManagment/AskQuestion");
+		model.setViewName("pages/userManagment/AskQuestions");
 		return model;
 	}
 	
