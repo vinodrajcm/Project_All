@@ -99,8 +99,8 @@ public class EmployeeController {
 	}
 	
 	
-	@RequestMapping(value = "/createQue", method = RequestMethod.GET)
-	public ModelAndView createQue(HttpServletRequest request) {
+	@RequestMapping(value = "/createQue", method = RequestMethod.POST)
+	public ModelAndView createQue(HttpServletRequest request,Questions question) {
 		
 		int employeeId = Integer.parseInt("1");
 		//Employee employee = employeeService.getEmployee(employeeId);
@@ -108,12 +108,14 @@ public class EmployeeController {
 		Employee employee = new Employee();
 		employee.setUserId(employeeId);
 		Questions qu = new Questions();
-		qu.setQuestionTitle("demo2");
-		qu.setQuestionDescription("demo2 description");
+		qu.setQuestionTitle(question.getQuestionTitle());
+		qu.setQuestionDescription(question.getQuestionDescription());
 		qu.setEmp(employee);
 		employeeService.addQuestion(qu);
 		
 		return null;
 	}
+	
+	
 
 }

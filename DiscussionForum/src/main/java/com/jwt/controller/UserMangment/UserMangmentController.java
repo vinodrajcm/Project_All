@@ -55,14 +55,14 @@ public class UserMangmentController {
 	public ModelAndView askquestion(ModelAndView model) throws IOException {
 		//List<Employee> listEmployee = employeeService.getAllEmployees();
 		model.addObject("listEmployee", "");
-		model.setViewName("pages/userManagment/AskQuestion");
+		model.setViewName("pages/userManagment/AskQuestions");
 		return model;
 	}
 	
 	
 	@RequestMapping(value = "/registerNewUser", method = RequestMethod.POST)
 	public ModelAndView register(Employee employee) throws IOException {
-		if (employee.getId() == 0) { // if employee id is 0 then creating the
+		if (employee.getUserId() == 0) { // if employee id is 0 then creating the
 			// employee other updating the employee
 			employeeService.addEmployee(employee);
 		} else {

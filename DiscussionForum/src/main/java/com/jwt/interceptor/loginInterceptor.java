@@ -27,7 +27,7 @@ public class loginInterceptor extends HandlerInterceptorAdapter{
 	
 	String userName = null;
 	if (sessionBean != null && sessionBean.getEmp() != null) {
-		userName  = sessionBean.getEmp().getName();
+		userName  = sessionBean.getEmp().getLoginId();
 		
 	    }
 	    if (userName  == null || userName == "" ) {
