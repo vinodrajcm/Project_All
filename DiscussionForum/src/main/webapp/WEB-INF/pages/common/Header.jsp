@@ -67,7 +67,7 @@
 						</li>
 						<li class="nav-item"><a class="nav-link headerText" href="#">Unanswered
 								Questions</a></li>
-						<li class="nav-item"><a class="nav-link headerText" href="#">Ask
+						<li class="nav-item"><a class="nav-link headerText" href="askQuestions">Ask
 								Questions</a></li>
 					</ul>
 				</div>

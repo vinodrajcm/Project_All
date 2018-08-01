@@ -32,17 +32,6 @@ public class Answers {
 	@Column(name="ANSWERED_DATE")
 	private String ansDate;
 	
-	@Column(name="STATUS")
-	private String status;
-	
-	@Column(name="RATING")
-	private String rating;
-	
-	@Column(name="LIKE")
-	private String like;
-	
-	@Column(name="DISLIKE")
-	private String dislike;
 	
 	@ManyToOne
 	@JoinColumn(name="ANSWERED_BY")
@@ -84,37 +73,6 @@ public class Answers {
 		this.emp = emp;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getRating() {
-		return rating;
-	}
-
-	public void setRating(String rating) {
-		this.rating = rating;
-	}
-
-	public String getLike() {
-		return like;
-	}
-
-	public void setLike(String like) {
-		this.like = like;
-	}
-
-	public String getDislike() {
-		return dislike;
-	}
-
-	public void setDislike(String dislike) {
-		this.dislike = dislike;
-	}
 
 	public Questions getQuestion() {
 		return question;
