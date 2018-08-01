@@ -62,7 +62,7 @@ public class UserMangmentController {
 	
 	@RequestMapping(value = "/registerNewUser", method = RequestMethod.POST)
 	public ModelAndView register(Employee employee) throws IOException {
-		if (Integer.parseInt(employee.getLoginId()) == 0) { // if employee id is 0 then creating the
+		if (employee.getUserId() == 0) { // if employee id is 0 then creating the
 			// employee other updating the employee
 			employeeService.addEmployee(employee);
 		} else {

@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name = "QUESTION_MASTER")
 public class Questions implements Serializable{
@@ -32,7 +34,7 @@ public class Questions implements Serializable{
 	@Column(name="QUESTION_TITLE")
 	private String questionTitle;
 	
-	@Column(name="QUESTION_DESC")
+	@Column(name="QUESTION_DESC", length = Integer.MAX_VALUE)
 	private String questionDescription;
 	
 	@Column(name="TAG")
