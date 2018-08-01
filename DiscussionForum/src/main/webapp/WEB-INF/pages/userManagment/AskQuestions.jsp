@@ -30,7 +30,7 @@
 <div class="col-sm-1"></div>
 <div class="col-sm-10">
   
-  //demov
+  //
 	<label for="uname"><b>Title</b></label>
     <input type="text" placeholder="Enter Username" name="name" required>
 
