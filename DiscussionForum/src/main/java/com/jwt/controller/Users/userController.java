@@ -16,6 +16,8 @@ import com.jwt.controller.UserMangment.UserMangmentController;
 import com.jwt.model.Employee;
 import com.jwt.service.EmployeeService;
 import com.jwt.service.session.sessionBean;
+import com.google.gson.Gson;
+
 
 @Controller
 @RequestMapping(value = "/user")
@@ -34,6 +36,26 @@ public class userController {
 	@Autowired
 	private sessionBean sessionBean;
 	
+	
+	@RequestMapping(value = "/view")
+	public ModelAndView userList(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		//List<Employee> listEmployee = employeeService.getAllEmployees();
+		ModelAndView model =new ModelAndView();
+		
+		
+			List<Employee> listEmployee = employeeService.getAllEmployees();
+			model.addObject("userDetails", sessionBean.getEmp());
+			Gson gson = new Gson();
+			//Here object is converted to json string
+			String json = gson.toJson(listEmployee);
+			model.addObject("listUsers", listEmployee);
+			model.setViewName("pages/userManagment/viewUsers");
+			//sessionBean.setEmp(demo);
+			
+		
+		return model ;
+	}
+	
 	@RequestMapping(value = "/userList")
 	public ModelAndView auth(HttpServletRequest request, HttpServletResponse response,Employee employee) throws IOException {
 		//List<Employee> listEmployee = employeeService.getAllEmployees();
@@ -41,10 +63,10 @@ public class userController {
 		
 		
 			List<Employee> listEmployee = employeeService.getAllEmployees();
-			Employee demo = employeeService.authUser(employee);
+			//Employee demo = employeeService.authUser(employee);
 			model.addObject("listEmployee", listEmployee);
-			model.setViewName("index");
-			sessionBean.setEmp(demo);
+			model.setViewName("pages/home");
+			//sessionBean.setEmp(demo);
 			
 		
 		return model ;

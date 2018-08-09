@@ -51,7 +51,7 @@ public class Questions implements Serializable{
 	private Employee emp;
 	
 	@OneToMany(targetEntity=Answers.class, mappedBy="question",
-			cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+			cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	public List<Answers> answerList;
 	
 	

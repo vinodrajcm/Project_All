@@ -1,0 +1,148 @@
+.header { 
+	background-color: #ffd200;
+    padding: 3px;
+    position: -webkit-sticky;
+  	position: sticky;
+ 	top: 0;
+  	z-index: 99;
+    width: 100%;
+}
+
+.img-fluid { 
+	height:37px;
+}
+.search1 {
+	border: 1px solid grey;
+	border-radius: 0.25rem;
+}
+form.search .searchText {
+	padding: 5px;
+	font-size: 17px;
+	border: none;
+	float: left;
+	width: 80%;
+	background: #f1f1f1;
+	
+}
+
+form.search .searchButton {
+	float: left;
+    width: 20%;
+    padding: 9.2px;
+    background: black;
+    color: #ffd200;
+    font-size: 17px;
+    cursor: pointer;
+    border: none;
+}
+
+form.search .searchButton:hover {
+	background: #343a40b8;
+}
+
+form.search .searchButton:focus {
+	outline: none !important;
+}
+
+form.search .searchText:focus {
+	outline: none !important;
+}
+
+form.search::after {
+	content: "";
+	clear: both;
+	display: table;
+}
+
+.menu{
+	background-color: black;
+}
+
+
+
+.btn-group {
+	float: right;
+}
+
+.btn-kenna {
+	color: #ffd200;
+	background-color: black;
+	border-color: #838383;
+}
+
+.btn-kenna:hover {
+	color: #fff;
+	background-color: #343a40b8;
+	border-color: #838383;
+}
+
+.btn-kenna:focus {
+	box-shadow: none !important;
+}
+
+.container-fluid-header2 {
+	background-color: #343a40;
+	height: 20%;
+}
+
+.container-fluid-header2 .container {
+	padding-top: 1.5%;
+}
+
+.title {
+	font-weight: 200;
+	font-size: x-large;
+	
+}
+
+.headerText {
+	color: #ffd200;
+}
+
+.headerText:hover {
+	color: #ffffff;
+	text-decoration:none
+}
+
+.container-fluid-footer {
+	background-color: #000000;
+    padding-top: 2%;
+    border-top: 1px solid #ffd200;
+    margin-top: 5%;
+}
+
+/* input[type=text], input[type=password] {
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+} */
+
+/* button {
+	background-color: #343a40;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+} */
+
+button:hover {
+	opacity: 0.8;
+}
+
+span.psw {
+	float: right;
+	padding-top: 16px;
+}
+
+.address{
+	color: #ffffff;
+}
+.text-uppercase{
+	color: #ffffff;
+}
+

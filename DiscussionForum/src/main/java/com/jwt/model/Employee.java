@@ -62,17 +62,52 @@ public class Employee implements Serializable {
 	@Column(name="MODIFIED_DATE")
 	private String modifiedDate;
 	
+	@Column(name="MANAGER")
+	private String manager;
+	
+	@Column(name="USER_ROLE")
+	private String userRole;
+	
+	
+	
+	public String getManager() {
+		return manager;
+	}
+
+	public void setManager(String manager) {
+		this.manager = manager;
+	}
+
+	public String getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRole(String userRole) {
+		this.userRole = userRole;
+	}
+
 	@OneToMany(targetEntity=Questions.class, mappedBy="emp",
-			cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+			cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	public List<Questions> questionList;
 	
 	
 	@OneToMany(targetEntity=Answers.class, mappedBy="emp",
-			cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+			cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	public List<Answers> answerList;
 	
+	@OneToMany(targetEntity=Tag.class, mappedBy="emp",
+			cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	public List<Tag> tagList;
 	
 	
+	public List<Tag> getTagList() {
+		return tagList;
+	}
+
+	public void setTagList(List<Tag> tagList) {
+		this.tagList = tagList;
+	}
+
 	public List<Answers> getAnswerList() {
 		return answerList;
 	}

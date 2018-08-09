@@ -1,13 +1,16 @@
 package com.jwt.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.jwt.model.Answers;
 import com.jwt.model.Employee;
 import com.jwt.model.Questions;
+import com.jwt.model.Tag;
 
 @Repository
 public class EmployeeDAOImpl implements EmployeeDAO {
@@ -52,17 +55,58 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		 }
 		return emp;
 	};
+	
+	public List<Questions> getQuestions(){
+		
+		List<Questions> demo =  sessionFactory.getCurrentSession().createQuery("from Questions")
+				.list();
+		return demo;
+	};
 
 	@Override
 	public Employee updateEmployee(Employee employee) {
 		sessionFactory.getCurrentSession().update(employee);
 		return employee;
-	}
+	};
 
 	@Override
 	public void addQuestion(Questions Que) {
 		// TODO Auto-generated method stub
 		sessionFactory.getCurrentSession().saveOrUpdate(Que);
+	};
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Tag> getTags(String tag){
+		List<Tag> demo = new ArrayList<Tag>();
+		if(tag ==""){
+			demo =  sessionFactory.getCurrentSession().createQuery("from Tag")
+					.list();
+		}else{
+			demo =  sessionFactory.getCurrentSession().createQuery("from Tag where tagName='"+tag+"'")
+					.list();
+		}
+		
+		return demo;
+	};
+	
+	@Override
+	public void createTag(Tag tag){
+		// TODO Auto-generated method stub
+				sessionFactory.getCurrentSession().saveOrUpdate(tag);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Questions questionDetails(int questionId){
+		Questions demo = new Questions();
+		List<Answers> demo2 = new ArrayList<Answers>();
+		demo = (Questions) sessionFactory.getCurrentSession().get(Questions.class, questionId);
+		if(!demo.equals(null)){
+			demo2 = (List<Answers>) sessionFactory.getCurrentSession().get(Answers.class, questionId);
+		}
+		demo.setAnswerList(demo2);
+		return demo;
+	};
 
 }

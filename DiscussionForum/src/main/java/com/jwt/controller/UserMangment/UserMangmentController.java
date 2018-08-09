@@ -20,6 +20,7 @@ import com.jwt.service.EmployeeService;
 import com.jwt.service.session.sessionBean;
 
 @Controller
+@RequestMapping(value="/userMangment")
 public class UserMangmentController {
 
 	private static final Logger logger = Logger
@@ -27,7 +28,6 @@ public class UserMangmentController {
 	
 	public UserMangmentController() {
 		System.out.println("LoginController()"); 
-		System.out.println("ttttt");
 	}
 	@Autowired
 	private EmployeeService employeeService;
@@ -51,15 +51,6 @@ public class UserMangmentController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/askQuestions")
-	public ModelAndView askquestion(ModelAndView model) throws IOException {
-		//List<Employee> listEmployee = employeeService.getAllEmployees();
-		model.addObject("listEmployee", "");
-		model.setViewName("pages/userManagment/AskQuestions");
-		return model;
-	}
-	
-	
 	@RequestMapping(value = "/registerNewUser", method = RequestMethod.POST)
 	public ModelAndView register(Employee employee) throws IOException {
 		if (employee.getUserId() == 0) { // if employee id is 0 then creating the
@@ -68,8 +59,10 @@ public class UserMangmentController {
 		} else {
 			employeeService.updateEmployee(employee);
 		}
-		System.out.println("successful");
-		return null;
+		ModelAndView model = new ModelAndView();
+		model .addObject("Success", "Successfully done");
+		model.setViewName("index");
+		return model;
 	}
 
 	@RequestMapping(value = "/auth")
@@ -86,14 +79,13 @@ public class UserMangmentController {
 		
 			List<Employee> listEmployee = employeeService.getAllEmployees();
 			Employee demo = employeeService.authUser(employee);
-			model.addObject("listEmployee", listEmployee);
-			model.setViewName("index");
+			
 			sessionBean.setEmp(demo);
 			
 			
 			//munirvc
 		
-		return model ;
+			return new ModelAndView("redirect:/home/view");
 	}
 	
 	@RequestMapping(value = "/logout")
@@ -102,7 +94,7 @@ public class UserMangmentController {
 		
 		request.getSession().invalidate();
 		
-		return new ModelAndView("redirect:/login") ;
+		return new ModelAndView("redirect:/userMangment/login") ;
 	}
 	
 	

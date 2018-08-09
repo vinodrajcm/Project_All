@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.jwt.model.Employee;
 import com.jwt.model.Questions;
+import com.jwt.model.Tag;
 
 public interface EmployeeService {
 	
@@ -20,4 +21,14 @@ public interface EmployeeService {
 	public Employee updateEmployee(Employee employee);
 	
 	public Employee authUser(Employee employee);
+	
+	public  List<Questions> getQuestions();
+	
+	public List<Tag> getTags(String tag);
+	
+	public void createTag(Tag tag);
+	
+	public Questions questionDetails(int questionId);
+	
+	
 }
