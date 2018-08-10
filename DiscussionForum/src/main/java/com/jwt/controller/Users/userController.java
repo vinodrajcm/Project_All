@@ -1,22 +1,25 @@
 package com.jwt.controller.Users;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.jwt.controller.UserMangment.UserMangmentController;
 import com.jwt.model.Employee;
 import com.jwt.service.EmployeeService;
 import com.jwt.service.session.sessionBean;
-import com.google.gson.Gson;
 
 
 @Controller
@@ -42,12 +45,41 @@ public class userController {
 		//List<Employee> listEmployee = employeeService.getAllEmployees();
 		ModelAndView model =new ModelAndView();
 		
-		
 			List<Employee> listEmployee = employeeService.getAllEmployees();
+			/*int i=0;
+			List<List<Employee>> listEmployeeNew = new ArrayList<List<Employee>>();
+			List<Employee> temp =  new ArrayList<Employee>();
+			for (Employee employee : listEmployee) {
+				if(i<4 ){
+					temp.add(employee);
+					i++;
+				}else{
+					listEmployeeNew.add(temp);
+					temp = new ArrayList<Employee>();
+					i=0;
+				}
+			}
+			if(i!=0){
+				
+				int rem = 4-i;
+				for(int j =0;j<rem;j++){
+					Employee tempNew =  new Employee();
+					temp.add(tempNew);
+				}
+				listEmployeeNew.add(temp);
+			}*/
+			
 			model.addObject("userDetails", sessionBean.getEmp());
-			Gson gson = new Gson();
-			//Here object is converted to json string
-			String json = gson.toJson(listEmployee);
+			//Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+			//String json = gson.toJson(listEmployee);
+			//System.out.println(json);
+			ObjectMapper mapper = new ObjectMapper();
+			//Object to JSON in String
+			String jsonInString = mapper.writeValueAsString(listEmployee);
+			
+			System.out.println(jsonInString);
+			model.addObject("listUsersJson", jsonInString);
+			
 			model.addObject("listUsers", listEmployee);
 			model.setViewName("pages/userManagment/viewUsers");
 			//sessionBean.setEmp(demo);

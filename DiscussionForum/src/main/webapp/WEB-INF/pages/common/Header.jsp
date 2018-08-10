@@ -83,7 +83,7 @@
 							</li>
 							<li class="nav-item"><a class="nav-link headerText" href="../user/view">Users</a>
 							</li>
-							<li class="nav-item"><a class="nav-link headerText" href="#">Tags</a>
+							<li class="nav-item"><a class="nav-link headerText" href="../tags/view">Tags</a>
 							</li>
 							<li class="nav-item"><a class="nav-link headerText" href="../askQuestion/allView">Unanswered
 									Questions</a></li>

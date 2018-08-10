@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jwt.dao.EmployeeDAO;
+import com.jwt.model.Answers;
 import com.jwt.model.Employee;
 import com.jwt.model.Questions;
 import com.jwt.model.Tag;
@@ -79,8 +80,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 	
 	@Override
+	@Transactional
+	public void postAns(Answers ans){
+		// TODO Auto-generated method stub
+				this.employeeDAO.postAns(ans);
+	}
+	
+	@Override
 	public List<Tag> getTags(String tag){
-		System.out.println(tag);
 		
 		return employeeDAO.getTags(tag);
 	};
@@ -103,5 +110,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Questions questionDetails(int questionId){
 		return this.employeeDAO.questionDetails(questionId);
 	};
+	
+	@Override
+	@Transactional
+	public List<Answers> getAnswers(int questionId){
+		return this.employeeDAO.getAnswers(questionId);
+	}
 
 }

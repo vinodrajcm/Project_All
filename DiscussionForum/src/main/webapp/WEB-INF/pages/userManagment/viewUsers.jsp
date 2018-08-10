@@ -67,46 +67,88 @@ background-color: #ffd2004a;
      	
 }
 
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #ffd200;
+    border-color: #ffd200;
+}
+.page-link:focus {
+    //z-index: 2;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(255, 210, 0, 0.35);
+}
+.page-link{
+	color:black;
+}
+
+.page-link:hover {
+    z-index: 2;
+    color: #ffd200;
+    text-decoration: none;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+.tr-header{
+}
+.tr-header:hover{
+    background-color: #3e3e3e;
+    cursor: pointer;
+    color: white;
+}
+.tr-header a:hover{
+   color: #FFC107;
+    text-decoration-line: none;
+}
+.tr-header a{
+   color: black;
+    text-decoration-line: none;
+}
+.tr-header:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(19, 19, 18, 0.44);
+}
+
+.tr-head th{
+    font-weight: 500;
+}
+
 </style>
 </head>
 <body>
 <div class="container">
-<div class="headerTitle">Users</div>
+<div class="headerTitle">Registered Users</div>
 <div class="row">
-<div class="col-sm-2"></div>
-<div class="col-sm-8">
 
-<table id="userList" class="table" style="width:100%">
-        <thead style="display: none;">
-            <tr>
-                <th>User List</th>
-                
+<div class="col-sm-12">
+
+<table id="userList" class="table" style="width:100%;border: 1px solid #dee2e6;">
+        <thead style="background-color: #ffd200;color: #000000;">
+            <tr class="tr-head">
+                <th style="display:none">User ID</th>
+                <th>Login ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Mail ID</th>
+                <th>Designation</th>
+                <th>Department</th>
+                <th>Team Lead</th>
             </tr>
         </thead>
         
         <tbody>
          <c:forEach var="listUsers" items="${listUsers}">
-          <tr>
+          <tr class="tr-header">
         
-                <td class="table-td">
-                		<div class="row profileHeader">
-                				<div class="col-sm-2">
-                					<img  class= "img-profile" alt="profile_pic" src="${pageContext.request.contextPath}/resources/img/02th-egg-person.png"></img>
-                					 <div class="profileName">${listUsers.firstName} ${listUsers.lastName}</div> 
-                				</div>
-                				
-                				<div class="col-sm-5">
-                						<div class="profileDetail">Mail ID :  ${listUsers.email}</div>
-                						<div class="profileDetail">Department :  ${listUsers.team}</div>
-                				</div>
-                				<div class="col-sm-5">
-                						<div class="profileDetail">Designation :  ${listUsers.designation}</div>
-                						 <div class="profileDetail">Team Lead :  ${listUsers.manager}</div>
-                				
-                				</div>
-                		</div>
+                <td style="display:none">${listUsers.userId}</td>
+                <td><a href="#">${listUsers.loginId}</a></td>
+                <td>${listUsers.firstName}</td>
+                <td>${listUsers.lastName}</td>
+                <td>${listUsers.email}</td>
+                <td>${listUsers.designation}</td>
+                <td>${listUsers.team}</td>
+                <td>${listUsers.manager}</td>
                 
-                </td>
                     
             </tr>
       </c:forEach>
@@ -118,19 +160,14 @@ background-color: #ffd2004a;
         </tfoot>
     </table>
 </div>
-<div class="col-sm-2"></div>
 
 </div>
 </div>
-
 <script type="text/javascript">
 $(document).ready(function() {
 	
 	
-	 // var complexObjectList = JSON.parse(${listUsers});
-	  var paramOne =<c:out value="${listUsers}"/>
-	  //var modelAttributeValue = [[${listUsers}]];
-	  console.log(paramOne);
+	 
     var table = $('#userList').DataTable( {
         lengthChange: false,
         fixedHeader: {
@@ -140,13 +177,14 @@ $(document).ready(function() {
         buttons: []
     } );
  
-    $("#example thead").remove();
+    //$("#example thead").remove();
     
     table.buttons().container()
         .appendTo( '#example_wrapper .col-md-6:eq(0)' );
 } );
 
 </script>
-<jsp:include page="../common/footer.jsp" />  
+
 </body>
+ <jsp:include page="../common/footer.jsp" /> 
 </html>

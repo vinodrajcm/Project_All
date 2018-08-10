@@ -74,6 +74,11 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		// TODO Auto-generated method stub
 		sessionFactory.getCurrentSession().saveOrUpdate(Que);
 	};
+	@Override
+	public void postAns(Answers ans){
+		// TODO Auto-generated method stub
+				sessionFactory.getCurrentSession().saveOrUpdate(ans);
+	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -103,10 +108,19 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		List<Answers> demo2 = new ArrayList<Answers>();
 		demo = (Questions) sessionFactory.getCurrentSession().get(Questions.class, questionId);
 		if(!demo.equals(null)){
-			demo2 = (List<Answers>) sessionFactory.getCurrentSession().get(Answers.class, questionId);
+			//demo2 = (List<Answers>) sessionFactory.getCurrentSession().get(Answers.class, questionId);
+			
+			
 		}
 		demo.setAnswerList(demo2);
 		return demo;
 	};
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Answers> getAnswers(int questionId){
+		
+		return sessionFactory.getCurrentSession().createQuery("from Answers where question="+questionId+"").list();
+	}
 
 }

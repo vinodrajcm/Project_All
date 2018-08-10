@@ -23,7 +23,7 @@ import com.jwt.service.EmployeeService;
 import com.jwt.service.session.sessionBean;
 
 @Controller
-@RequestMapping(value="tags")
+@RequestMapping(value="/tags")
 public class TagsController {
 	
 	private static final Logger logger = Logger
@@ -40,11 +40,14 @@ public class TagsController {
 	@Autowired
 	private EmployeeService employeeService;
 	
-	
+	@RequestMapping(value = "/view")
 	public ModelAndView view(ModelAndView model) throws IOException {
-		//List<Employee> listEmployee = employeeService.getAllEmployees();
+		
+		List<Tag> tagList = new ArrayList<Tag>();
+		tagList = employeeService.getTags("");
+		model.addObject("tags", tagList);
 		model.addObject("userDetails", sessionBean.getEmp());
-		model.setViewName("");
+		model.setViewName("pages/userManagment/TagsView");
 		return model;
 	}
 	
@@ -63,10 +66,5 @@ public class TagsController {
 		}else{
 			return "already exsits";
 		}
-		
-		
-		
-		
-		
 	}
 }

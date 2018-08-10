@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.jwt.controller.UserMangment.UserMangmentController;
+import com.jwt.model.Answers;
 import com.jwt.model.Employee;
 import com.jwt.model.Questions;
 import com.jwt.model.Tag;
@@ -67,8 +68,9 @@ public class askQuestionController {
 		String questionId = request.getParameter("questionId");
 		int qunId = Integer.parseInt(questionId);
 		Questions question = employeeService.questionDetails(qunId);
-		//List<Employee> listEmployee = employeeService.getAllEmployees();
+		List<Answers> ansList = employeeService.getAnswers(qunId);
 		model.addObject("questionDetails", question);
+		model.addObject("ansList", ansList);
 		model.addObject("userDetails", sessionBean.getEmp());
 		model.setViewName("pages/userManagment/QuestionDetails");
 		return model;
@@ -128,7 +130,16 @@ public class askQuestionController {
 	}
 	
 	
-	
+	@RequestMapping(value = "/postAns", method = RequestMethod.POST)
+	public @ResponseBody String postAns(HttpServletRequest request,Answers answers) {
+		int employeeId = sessionBean.getEmp().getUserId();
+		Employee emp = new Employee();
+		emp.setUserId(employeeId);
+		answers.setEmp(emp);
+		employeeService.postAns(answers);
+		
+		return "success";
+	}
 	
 	
 }

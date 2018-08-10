@@ -26,7 +26,7 @@ public class Answers {
 	@Column(name="ID")
 	private int ansId;
 
-	@Column(name="ANSWER_DETAILS")
+	@Column(name="ANSWER_DETAILS", length = Integer.MAX_VALUE)
 	private String detailAns;
 	
 	@Column(name="ANSWERED_DATE")
