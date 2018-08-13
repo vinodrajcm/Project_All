@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -29,7 +30,49 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/home.css">
 <style type="text/css">
 .table-td{
-	border-top: 1px solid #0000 !important;
+	   border-bottom: 1px solid #0000003b !important;
+	   border-top:none !important;
+}
+.cp{
+	text-align: center;
+    font-size: smaller;
+
+}
+.votes{
+	font-size: 20px;
+}
+.votes div{
+	font-size: 12px;
+}
+.status{
+	font-size: 20px;
+}
+.status div{
+	font-size: 12px;
+}
+div.b {
+    //white-space: nowrap; 
+    //width: 50px; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    //border: 1px solid #000000;
+    font-size: small;
+}
+div.b * {
+	font-size: small !important;
+}
+h3{
+	    font-size: 1em;
+}
+.views{
+	    margin-top: 15px;
+}
+.started{
+float: right;
+}
+.col-sm-8{
+     overflow: hidden ;
+    overflow-x: auto;
 }
 </style>
 </head>
@@ -39,7 +82,7 @@
 <div class="row">
 
 <div class="col-sm-8">
-<table id="example" class="table" style="width:100%">
+<table id="example" class="table" >
         <thead>
             <tr>
                 <th></th>
@@ -47,535 +90,47 @@
             </tr>
         </thead>
         <tbody>
+        <c:forEach var="questions" items="${questions}">
           <tr>
-                <td class="table-td"><div class="row quetion-list"> 
-				<div class="col-sm-12 quetion-mini-list">
-					<div class="question-summary narrow _gps" id="question-summary-119887">
-					    <div onclick="window.location.href='/questions/119887/can-a-card-have-lozenges'" class="cp">
+             <td class="table-td">
+             <div class="row quetion-list"> 
+				
+					<div class="col-sm-2">
+							<div class="cp">
 					        <div class="votes">
-					            <div class="mini-counts"><span title="1 vote">1</span></div>
+					            <span title=" ${questions.likes} vote">${questions.likes}</span>
 					            <div>vote</div>
 					        </div>
-					        <div class="status answered">
-					            <div class="mini-counts"><span title="1 answer">1</span></div>
-					            <div>answer</div>
+					        <div class="status">
+					            <span title=" ${questions.noAnswers} answer">${questions.noAnswers}</span>
+					            <div>answers</div>
 					        </div>
 					        <div class="views">
-					            <div class="mini-counts"><span title="78 views">78</span></div>
-					            <div>views</div>
-					        </div>
-					    </div>
-					    <div class="summary">				        
-					        <h3><a href="/questions/119887/can-a-card-have-lozenges" class="question-hyperlink">Can a card have lozenges?</a></h3>
-					        <div class="tags t-cards">
-					            <a href="/questions/tagged/cards" class="post-tag" title="" rel="tag">cards</a> 
-					        </div>
-					        <div class="started">
-					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
-					            <a href="/users/103321/pectoralis-major">Pectoralis Major</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
+					            <div>${questions.hitCount} views</div>
 					        </div>
 					    </div>
 					</div>
-				</div>
-			</div></td>
-                
-            </tr>
-             <tr>
-                <td class="table-td"><div class="row quetion-list"> 
-				<div class="col-sm-12 quetion-mini-list">
-					<div class="question-summary narrow _gps" id="question-summary-119887">
-					    <div onclick="window.location.href='/questions/119887/can-a-card-have-lozenges'" class="cp">
-					        <div class="votes">
-					            <div class="mini-counts"><span title="1 vote">1</span></div>
-					            <div>vote</div>
-					        </div>
-					        <div class="status answered">
-					            <div class="mini-counts"><span title="1 answer">1</span></div>
-					            <div>answer</div>
-					        </div>
-					        <div class="views">
-					            <div class="mini-counts"><span title="78 views">78</span></div>
-					            <div>views</div>
-					        </div>
-					    </div>
-					    <div class="summary">				        
-					        <h3><a href="/questions/119887/can-a-card-have-lozenges" class="question-hyperlink">Can a card have lozenges?</a></h3>
+					<div class="col-sm-10">
+						<div class="summary">				        
+					        <h3><a href="../askQuestion/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink">${questions.questionTitle}</a></h3>
+					        <div class="b">${questions.questionDescription}</div>
 					        <div class="tags t-cards">
-					            <a href="/questions/tagged/cards" class="post-tag" title="" rel="tag">cards</a> 
+					            <c:forEach var="tags" items="${questions.tags}">
+					                   <a href="#" class="post-tag" title="" rel="tag">${tags.tagName}</a> 
+					            </c:forEach>
 					        </div>
-					        <div class="started">
-					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
-					            <a href="/users/103321/pectoralis-major">Pectoralis Major</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
+					        
+							<div class="started">
+					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">Asked <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
+					            <a href="/users/103321/pectoralis-major">${questions.emp.firstName}</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
 					        </div>
-					    </div>
+							
+							</div>
+						</div>
 					</div>
-				</div>
-			</div></td>
-                
-            </tr>
-             <tr>
-                <td class="table-td"><div class="row quetion-list"> 
-				<div class="col-sm-12 quetion-mini-list">
-					<div class="question-summary narrow _gps" id="question-summary-119887">
-					    <div onclick="window.location.href='/questions/119887/can-a-card-have-lozenges'" class="cp">
-					        <div class="votes">
-					            <div class="mini-counts"><span title="1 vote">1</span></div>
-					            <div>vote</div>
-					        </div>
-					        <div class="status answered">
-					            <div class="mini-counts"><span title="1 answer">1</span></div>
-					            <div>answer</div>
-					        </div>
-					        <div class="views">
-					            <div class="mini-counts"><span title="78 views">78</span></div>
-					            <div>views</div>
-					        </div>
-					    </div>
-					    <div class="summary">				        
-					        <h3><a href="/questions/119887/can-a-card-have-lozenges" class="question-hyperlink">Can a card have lozenges?</a></h3>
-					        <div class="tags t-cards">
-					            <a href="/questions/tagged/cards" class="post-tag" title="" rel="tag">cards</a> 
-					        </div>
-					        <div class="started">
-					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
-					            <a href="/users/103321/pectoralis-major">Pectoralis Major</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
-					        </div>
-					    </div>
-					</div>
-				</div>
-			</div></td>
-                
-            </tr>
-             <tr>
-                <td class="table-td"><div class="row quetion-list"> 
-				<div class="col-sm-12 quetion-mini-list">
-					<div class="question-summary narrow _gps" id="question-summary-119887">
-					    <div onclick="window.location.href='/questions/119887/can-a-card-have-lozenges'" class="cp">
-					        <div class="votes">
-					            <div class="mini-counts"><span title="1 vote">1</span></div>
-					            <div>vote</div>
-					        </div>
-					        <div class="status answered">
-					            <div class="mini-counts"><span title="1 answer">1</span></div>
-					            <div>answer</div>
-					        </div>
-					        <div class="views">
-					            <div class="mini-counts"><span title="78 views">78</span></div>
-					            <div>views</div>
-					        </div>
-					    </div>
-					    <div class="summary">				        
-					        <h3><a href="/questions/119887/can-a-card-have-lozenges" class="question-hyperlink">Can a card have lozenges?</a></h3>
-					        <div class="tags t-cards">
-					            <a href="/questions/tagged/cards" class="post-tag" title="" rel="tag">cards</a> 
-					        </div>
-					        <div class="started">
-					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
-					            <a href="/users/103321/pectoralis-major">Pectoralis Major</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
-					        </div>
-					    </div>
-					</div>
-				</div>
-			</div></td>
-                
-            </tr>
-             <tr>
-                <td class="table-td"><div class="row quetion-list"> 
-				<div class="col-sm-12 quetion-mini-list">
-					<div class="question-summary narrow _gps" id="question-summary-119887">
-					    <div onclick="window.location.href='/questions/119887/can-a-card-have-lozenges'" class="cp">
-					        <div class="votes">
-					            <div class="mini-counts"><span title="1 vote">1</span></div>
-					            <div>vote</div>
-					        </div>
-					        <div class="status answered">
-					            <div class="mini-counts"><span title="1 answer">1</span></div>
-					            <div>answer</div>
-					        </div>
-					        <div class="views">
-					            <div class="mini-counts"><span title="78 views">78</span></div>
-					            <div>views</div>
-					        </div>
-					    </div>
-					    <div class="summary">				        
-					        <h3><a href="/questions/119887/can-a-card-have-lozenges" class="question-hyperlink">Can a card have lozenges?</a></h3>
-					        <div class="tags t-cards">
-					            <a href="/questions/tagged/cards" class="post-tag" title="" rel="tag">cards</a> 
-					        </div>
-					        <div class="started">
-					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
-					            <a href="/users/103321/pectoralis-major">Pectoralis Major</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
-					        </div>
-					    </div>
-					</div>
-				</div>
-			</div></td>
-                
-            </tr>
-             <tr>
-                <td class="table-td"><div class="row quetion-list"> 
-				<div class="col-sm-12 quetion-mini-list">
-					<div class="question-summary narrow _gps" id="question-summary-119887">
-					    <div onclick="window.location.href='/questions/119887/can-a-card-have-lozenges'" class="cp">
-					        <div class="votes">
-					            <div class="mini-counts"><span title="1 vote">1</span></div>
-					            <div>vote</div>
-					        </div>
-					        <div class="status answered">
-					            <div class="mini-counts"><span title="1 answer">1</span></div>
-					            <div>answer</div>
-					        </div>
-					        <div class="views">
-					            <div class="mini-counts"><span title="78 views">78</span></div>
-					            <div>views</div>
-					        </div>
-					    </div>
-					    <div class="summary">				        
-					        <h3><a href="/questions/119887/can-a-card-have-lozenges" class="question-hyperlink">Can a card have lozenges?</a></h3>
-					        <div class="tags t-cards">
-					            <a href="/questions/tagged/cards" class="post-tag" title="" rel="tag">cards</a> 
-					        </div>
-					        <div class="started">
-					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
-					            <a href="/users/103321/pectoralis-major">Pectoralis Major</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
-					        </div>
-					    </div>
-					</div>
-				</div>
-			</div></td>
-                
-            </tr>
-             <tr>
-                <td class="table-td"><div class="row quetion-list"> 
-				<div class="col-sm-12 quetion-mini-list">
-					<div class="question-summary narrow _gps" id="question-summary-119887">
-					    <div onclick="window.location.href='/questions/119887/can-a-card-have-lozenges'" class="cp">
-					        <div class="votes">
-					            <div class="mini-counts"><span title="1 vote">1</span></div>
-					            <div>vote</div>
-					        </div>
-					        <div class="status answered">
-					            <div class="mini-counts"><span title="1 answer">1</span></div>
-					            <div>answer</div>
-					        </div>
-					        <div class="views">
-					            <div class="mini-counts"><span title="78 views">78</span></div>
-					            <div>views</div>
-					        </div>
-					    </div>
-					    <div class="summary">				        
-					        <h3><a href="/questions/119887/can-a-card-have-lozenges" class="question-hyperlink">Can a card have lozenges?</a></h3>
-					        <div class="tags t-cards">
-					            <a href="/questions/tagged/cards" class="post-tag" title="" rel="tag">cards</a> 
-					        </div>
-					        <div class="started">
-					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
-					            <a href="/users/103321/pectoralis-major">Pectoralis Major</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
-					        </div>
-					    </div>
-					</div>
-				</div>
-			</div></td>
-                
-            </tr>
-             <tr>
-                <td class="table-td"><div class="row quetion-list"> 
-				<div class="col-sm-12 quetion-mini-list">
-					<div class="question-summary narrow _gps" id="question-summary-119887">
-					    <div onclick="window.location.href='/questions/119887/can-a-card-have-lozenges'" class="cp">
-					        <div class="votes">
-					            <div class="mini-counts"><span title="1 vote">1</span></div>
-					            <div>vote</div>
-					        </div>
-					        <div class="status answered">
-					            <div class="mini-counts"><span title="1 answer">1</span></div>
-					            <div>answer</div>
-					        </div>
-					        <div class="views">
-					            <div class="mini-counts"><span title="78 views">78</span></div>
-					            <div>views</div>
-					        </div>
-					    </div>
-					    <div class="summary">				        
-					        <h3><a href="/questions/119887/can-a-card-have-lozenges" class="question-hyperlink">Can a card have lozenges?</a></h3>
-					        <div class="tags t-cards">
-					            <a href="/questions/tagged/cards" class="post-tag" title="" rel="tag">cards</a> 
-					        </div>
-					        <div class="started">
-					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
-					            <a href="/users/103321/pectoralis-major">Pectoralis Major</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
-					        </div>
-					    </div>
-					</div>
-				</div>
-			</div></td>
-                
-            </tr>
-             <tr>
-                <td class="table-td"><div class="row quetion-list"> 
-				<div class="col-sm-12 quetion-mini-list">
-					<div class="question-summary narrow _gps" id="question-summary-119887">
-					    <div onclick="window.location.href='/questions/119887/can-a-card-have-lozenges'" class="cp">
-					        <div class="votes">
-					            <div class="mini-counts"><span title="1 vote">1</span></div>
-					            <div>vote</div>
-					        </div>
-					        <div class="status answered">
-					            <div class="mini-counts"><span title="1 answer">1</span></div>
-					            <div>answer</div>
-					        </div>
-					        <div class="views">
-					            <div class="mini-counts"><span title="78 views">78</span></div>
-					            <div>views</div>
-					        </div>
-					    </div>
-					    <div class="summary">				        
-					        <h3><a href="/questions/119887/can-a-card-have-lozenges" class="question-hyperlink">Can a card have lozenges?</a></h3>
-					        <div class="tags t-cards">
-					            <a href="/questions/tagged/cards" class="post-tag" title="" rel="tag">cards</a> 
-					        </div>
-					        <div class="started">
-					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
-					            <a href="/users/103321/pectoralis-major">Pectoralis Major</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
-					        </div>
-					    </div>
-					</div>
-				</div>
-			</div></td>
-                
-            </tr>
-             <tr>
-                <td class="table-td"><div class="row quetion-list"> 
-				<div class="col-sm-12 quetion-mini-list">
-					<div class="question-summary narrow _gps" id="question-summary-119887">
-					    <div onclick="window.location.href='/questions/119887/can-a-card-have-lozenges'" class="cp">
-					        <div class="votes">
-					            <div class="mini-counts"><span title="1 vote">1</span></div>
-					            <div>vote</div>
-					        </div>
-					        <div class="status answered">
-					            <div class="mini-counts"><span title="1 answer">1</span></div>
-					            <div>answer</div>
-					        </div>
-					        <div class="views">
-					            <div class="mini-counts"><span title="78 views">78</span></div>
-					            <div>views</div>
-					        </div>
-					    </div>
-					    <div class="summary">				        
-					        <h3><a href="/questions/119887/can-a-card-have-lozenges" class="question-hyperlink">Can a card have lozenges?</a></h3>
-					        <div class="tags t-cards">
-					            <a href="/questions/tagged/cards" class="post-tag" title="" rel="tag">cards</a> 
-					        </div>
-					        <div class="started">
-					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
-					            <a href="/users/103321/pectoralis-major">Pectoralis Major</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
-					        </div>
-					    </div>
-					</div>
-				</div>
-			</div></td>
-                
-            </tr>
-             <tr>
-                <td class="table-td"><div class="row quetion-list"> 
-				<div class="col-sm-12 quetion-mini-list">
-					<div class="question-summary narrow _gps" id="question-summary-119887">
-					    <div onclick="window.location.href='/questions/119887/can-a-card-have-lozenges'" class="cp">
-					        <div class="votes">
-					            <div class="mini-counts"><span title="1 vote">1</span></div>
-					            <div>vote</div>
-					        </div>
-					        <div class="status answered">
-					            <div class="mini-counts"><span title="1 answer">1</span></div>
-					            <div>answer</div>
-					        </div>
-					        <div class="views">
-					            <div class="mini-counts"><span title="78 views">78</span></div>
-					            <div>views</div>
-					        </div>
-					    </div>
-					    <div class="summary">				        
-					        <h3><a href="/questions/119887/can-a-card-have-lozenges" class="question-hyperlink">Can a card have lozenges?</a></h3>
-					        <div class="tags t-cards">
-					            <a href="/questions/tagged/cards" class="post-tag" title="" rel="tag">cards</a> 
-					        </div>
-					        <div class="started">
-					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
-					            <a href="/users/103321/pectoralis-major">Pectoralis Major</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
-					        </div>
-					    </div>
-					</div>
-				</div>
-			</div></td>
-                
-            </tr>
-             <tr>
-                <td class="table-td"><div class="row quetion-list"> 
-				<div class="col-sm-12 quetion-mini-list">
-					<div class="question-summary narrow _gps" id="question-summary-119887">
-					    <div onclick="window.location.href='/questions/119887/can-a-card-have-lozenges'" class="cp">
-					        <div class="votes">
-					            <div class="mini-counts"><span title="1 vote">1</span></div>
-					            <div>vote</div>
-					        </div>
-					        <div class="status answered">
-					            <div class="mini-counts"><span title="1 answer">1</span></div>
-					            <div>answer</div>
-					        </div>
-					        <div class="views">
-					            <div class="mini-counts"><span title="78 views">78</span></div>
-					            <div>views</div>
-					        </div>
-					    </div>
-					    <div class="summary">				        
-					        <h3><a href="/questions/119887/can-a-card-have-lozenges" class="question-hyperlink">Can a card have lozenges?</a></h3>
-					        <div class="tags t-cards">
-					            <a href="/questions/tagged/cards" class="post-tag" title="" rel="tag">cards</a> 
-					        </div>
-					        <div class="started">
-					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
-					            <a href="/users/103321/pectoralis-major">Pectoralis Major</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
-					        </div>
-					    </div>
-					</div>
-				</div>
-			</div></td>
-                
-            </tr>
-             <tr>
-                <td class="table-td"><div class="row quetion-list"> 
-				<div class="col-sm-12 quetion-mini-list">
-					<div class="question-summary narrow _gps" id="question-summary-119887">
-					    <div onclick="window.location.href='/questions/119887/can-a-card-have-lozenges'" class="cp">
-					        <div class="votes">
-					            <div class="mini-counts"><span title="1 vote">1</span></div>
-					            <div>vote</div>
-					        </div>
-					        <div class="status answered">
-					            <div class="mini-counts"><span title="1 answer">1</span></div>
-					            <div>answer</div>
-					        </div>
-					        <div class="views">
-					            <div class="mini-counts"><span title="78 views">78</span></div>
-					            <div>views</div>
-					        </div>
-					    </div>
-					    <div class="summary">				        
-					        <h3><a href="/questions/119887/can-a-card-have-lozenges" class="question-hyperlink">Can a card have lozenges?</a></h3>
-					        <div class="tags t-cards">
-					            <a href="/questions/tagged/cards" class="post-tag" title="" rel="tag">cards</a> 
-					        </div>
-					        <div class="started">
-					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
-					            <a href="/users/103321/pectoralis-major">Pectoralis Major</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
-					        </div>
-					    </div>
-					</div>
-				</div>
-			</div></td>
-                
-            </tr>
-             <tr>
-                <td class="table-td"><div class="row quetion-list"> 
-				<div class="col-sm-12 quetion-mini-list">
-					<div class="question-summary narrow _gps" id="question-summary-119887">
-					    <div onclick="window.location.href='/questions/119887/can-a-card-have-lozenges'" class="cp">
-					        <div class="votes">
-					            <div class="mini-counts"><span title="1 vote">1</span></div>
-					            <div>vote</div>
-					        </div>
-					        <div class="status answered">
-					            <div class="mini-counts"><span title="1 answer">1</span></div>
-					            <div>answer</div>
-					        </div>
-					        <div class="views">
-					            <div class="mini-counts"><span title="78 views">78</span></div>
-					            <div>views</div>
-					        </div>
-					    </div>
-					    <div class="summary">				        
-					        <h3><a href="/questions/119887/can-a-card-have-lozenges" class="question-hyperlink">Can a card have lozenges?</a></h3>
-					        <div class="tags t-cards">
-					            <a href="/questions/tagged/cards" class="post-tag" title="" rel="tag">cards</a> 
-					        </div>
-					        <div class="started">
-					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
-					            <a href="/users/103321/pectoralis-major">Pectoralis Major</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
-					        </div>
-					    </div>
-					</div>
-				</div>
-			</div></td>
-                
-            </tr>
-             <tr>
-                <td class="table-td"><div class="row quetion-list"> 
-				<div class="col-sm-12 quetion-mini-list">
-					<div class="question-summary narrow _gps" id="question-summary-119887">
-					    <div onclick="window.location.href='/questions/119887/can-a-card-have-lozenges'" class="cp">
-					        <div class="votes">
-					            <div class="mini-counts"><span title="1 vote">1</span></div>
-					            <div>vote</div>
-					        </div>
-					        <div class="status answered">
-					            <div class="mini-counts"><span title="1 answer">1</span></div>
-					            <div>answer</div>
-					        </div>
-					        <div class="views">
-					            <div class="mini-counts"><span title="78 views">78</span></div>
-					            <div>views</div>
-					        </div>
-					    </div>
-					    <div class="summary">				        
-					        <h3><a href="/questions/119887/can-a-card-have-lozenges" class="question-hyperlink">Can a card have lozenges?</a></h3>
-					        <div class="tags t-cards">
-					            <a href="/questions/tagged/cards" class="post-tag" title="" rel="tag">cards</a> 
-					        </div>
-					        <div class="started">
-					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
-					            <a href="/users/103321/pectoralis-major">Pectoralis Major</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
-					        </div>
-					    </div>
-					</div>
-				</div>
-			</div></td>
-                
-            </tr>
-             <tr>
-                <td class="table-td"><div class="row quetion-list"> 
-				<div class="col-sm-12 quetion-mini-list">
-					<div class="question-summary narrow _gps" id="question-summary-119887">
-					    <div onclick="window.location.href='/questions/119887/can-a-card-have-lozenges'" class="cp">
-					        <div class="votes">
-					            <div class="mini-counts"><span title="1 vote">1</span></div>
-					            <div>vote</div>
-					        </div>
-					        <div class="status answered">
-					            <div class="mini-counts"><span title="1 answer">1</span></div>
-					            <div>answer</div>
-					        </div>
-					        <div class="views">
-					            <div class="mini-counts"><span title="78 views">78</span></div>
-					            <div>views</div>
-					        </div>
-					    </div>
-					    <div class="summary">				        
-					        <h3><a href="/questions/119887/can-a-card-have-lozenges" class="question-hyperlink">Can a card have lozenges?</a></h3>
-					        <div class="tags t-cards">
-					            <a href="/questions/tagged/cards" class="post-tag" title="" rel="tag">cards</a> 
-					        </div>
-					        <div class="started">
-					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
-					            <a href="/users/103321/pectoralis-major">Pectoralis Major</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
-					        </div>
-					    </div>
-					</div>
-				</div>
-			</div></td>
-                
-            </tr>
-              
+			</td>
+          </tr>
+          </c:forEach>
         </tbody>
         <tfoot>
             

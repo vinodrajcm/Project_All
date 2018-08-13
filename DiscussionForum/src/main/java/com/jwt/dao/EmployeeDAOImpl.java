@@ -3,6 +3,7 @@ package com.jwt.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -19,8 +20,12 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	private SessionFactory sessionFactory;
 
 	public void addEmployee(Employee employee) {
-		sessionFactory.getCurrentSession().saveOrUpdate(employee);
-
+		
+				if(employee.getUserId() == 0){
+					sessionFactory.getCurrentSession().save(employee);
+				}else{
+					sessionFactory.getCurrentSession().update(employee);
+				}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -47,8 +52,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	
 	public Employee authUser(Employee employee) {
 		Employee emp = new Employee();
-		 List<Employee> demo =  sessionFactory.getCurrentSession().createQuery("from Employee")
-					.list();
+		 List<Employee> demo =  sessionFactory.getCurrentSession().createQuery("from Employee where loginId='"+employee.getLoginId()+"'").list();
+					;
 		 
 		 if(!demo.isEmpty()){
 			 emp = demo.get(0);
@@ -60,6 +65,14 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		
 		List<Questions> demo =  sessionFactory.getCurrentSession().createQuery("from Questions")
 				.list();
+		for (Questions questions : demo) {
+			Query query = sessionFactory.getCurrentSession().createQuery("select count(ansId) from Answers where question="+questions.getQuestionId()+"");
+			Long i;
+			i =   (Long) query.uniqueResult();
+			Integer count = (int) (long) i;
+			questions.setNoAnswers(count);
+		}
+		
 		return demo;
 	};
 
@@ -72,7 +85,12 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public void addQuestion(Questions Que) {
 		// TODO Auto-generated method stub
-		sessionFactory.getCurrentSession().saveOrUpdate(Que);
+		if(Que.getQuestionId() == 0){
+			sessionFactory.getCurrentSession().save(Que);
+		}else{
+			sessionFactory.getCurrentSession().update(Que);
+		}
+		
 	};
 	@Override
 	public void postAns(Answers ans){

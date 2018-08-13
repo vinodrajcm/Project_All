@@ -74,8 +74,19 @@ public class Employee implements Serializable {
 	@Column(name="USER_ROLE")
 	private String userRole;
 	
+	@Column(name="VIEW_COUNT")
+	private int count;
 	
 	
+	
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
 	public String getManager() {
 		return manager;
 	}

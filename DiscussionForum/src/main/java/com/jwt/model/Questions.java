@@ -1,6 +1,7 @@
 package com.jwt.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,8 +15,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
+import org.junit.Ignore;
 
 @Entity
 @Table(name = "QUESTION_MASTER")
@@ -46,6 +49,18 @@ public class Questions implements Serializable{
 	@Column(name="COUNT")
 	private int hitCount;
 	
+	@Column(name="LIKES")
+	private int likes;
+	
+	@Column(name="DISLIKE")
+	private int dislikes;
+	
+	@Column(name="NUM_ANSWERS")
+	private int noAnswers;
+	
+	@Column(name="CREATED_DATE")
+	private Date cratedDate;
+	
 	@ManyToOne
 	@JoinColumn(name="USER_ID")
 	private Employee emp;
@@ -54,8 +69,19 @@ public class Questions implements Serializable{
 			cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	public List<Answers> answerList;
 	
+	@Transient
+	private List<Tag> tags;
 	
 	
+	
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
+
 	public List<Answers> getAnswerList() {
 		return answerList;
 	}
@@ -119,6 +145,39 @@ public class Questions implements Serializable{
 	public void setHitCount(int hitCount) {
 		this.hitCount = hitCount;
 	}
+
+	public int getLikes() {
+		return likes;
+	}
+
+	public void setLikes(int likes) {
+		this.likes = likes;
+	}
+
+	public int getDislikes() {
+		return dislikes;
+	}
+
+	public void setDislikes(int dislikes) {
+		this.dislikes = dislikes;
+	}
+
+	public int getNoAnswers() {
+		return noAnswers;
+	}
+
+	public void setNoAnswers(int noAnswers) {
+		this.noAnswers = noAnswers;
+	}
+
+	public Date getCratedDate() {
+		return cratedDate;
+	}
+
+	public void setCratedDate(Date cratedDate) {
+		this.cratedDate = cratedDate;
+	}
+
 
 	
 }

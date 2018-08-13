@@ -3,8 +3,6 @@ package com.jwt.controller;
 import java.io.IOException;
 import java.lang.ProcessBuilder.Redirect;
 import java.util.*;
-import java.util.Arrays;
-import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,12 +30,12 @@ import com.sun.javafx.collections.MappingChange.Map;
 
 @Controller
 @RequestMapping(value = "/askQuestion")
-public class askQuestionController {
+public class QuestionController {
 
 	private static final Logger logger = Logger
 			.getLogger(UserMangmentController.class);
 	
-	public askQuestionController() {
+	public QuestionController() {
 		System.out.println("askQuestionController()"); 
 	}
 	
@@ -58,16 +56,44 @@ public class askQuestionController {
 	@RequestMapping(value = "/allView")
 	public ModelAndView allQuestion(ModelAndView model) throws IOException {
 		//List<Employee> listEmployee = employeeService.getAllEmployees();
-		model.addObject("userDetails", sessionBean.getEmp());
-		model.setViewName("pages/userManagment/AllQuestions");
-		return model;
+		ModelAndView model_return = new ModelAndView();
+		List<Questions> listOfQuestions = employeeService.getQuestions();
+		for (Questions questions : listOfQuestions) {
+			String questionTags = questions.getTag();
+			java.util.List<String> items = Arrays.asList(questionTags.split("\\s*,\\s*"));
+			List<Tag> tagList = new ArrayList<Tag>();
+			for (String string : items) {
+				if(!string.isEmpty()){
+						
+						tagList.addAll( employeeService.getTags(string));
+						
+				}
+			}
+			questions.setTags(tagList);
+		}
+		List<Tag> listOftags = employeeService.getTags("");
+		if(listOftags.size() >10){
+			listOftags = listOftags.subList(0, 10);
+		}
+		model_return.addObject("tagList", listOftags);
+		model_return.addObject("questions",listOfQuestions);
+		model_return.addObject("userDetails", sessionBean.getEmp());
+		model_return.setViewName("pages/userManagment/AllQuestions");
+		return model_return;
 	}
 	
 	@RequestMapping(value = "/questionDetails",method=RequestMethod.GET)
 	public ModelAndView questionDetails(HttpServletRequest request, HttpServletResponse response,ModelAndView model) throws IOException {
 		String questionId = request.getParameter("questionId");
 		int qunId = Integer.parseInt(questionId);
+	
+		//get the question details from data base
 		Questions question = employeeService.questionDetails(qunId);
+		//update count in question table 
+		int count = question.getHitCount()+1;
+		question.setHitCount(count);
+		employeeService.addQuestion(question);
+		//get all the related answers from the particular question 
 		List<Answers> ansList = employeeService.getAnswers(qunId);
 		model.addObject("questionDetails", question);
 		model.addObject("ansList", ansList);
@@ -88,6 +114,11 @@ public class askQuestionController {
 		qu.setQuestionTitle(question.getQuestionTitle());
 		qu.setQuestionDescription(question.getQuestionDescription());
 		qu.setTag(question.getTag());
+		qu.setCratedDate(new Date());
+		qu.setHitCount(0);
+		qu.setLikes(0);
+		qu.setDislikes(0);
+		qu.setNoAnswers(0);
 		String questionTags = question.getTag();
 		java.util.List<String> items = Arrays.asList(questionTags.split("\\s*,\\s*"));
 		for (String string : items) {

@@ -1,6 +1,8 @@
 package com.jwt.controller.home;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.jboss.logging.Logger;
@@ -11,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.jwt.model.Employee;
 import com.jwt.model.Questions;
+import com.jwt.model.Tag;
 import com.jwt.service.EmployeeService;
 import com.jwt.service.session.sessionBean;
 
@@ -32,11 +35,28 @@ public class HomeController {
 	
 	@RequestMapping(value = "/view")
 	public ModelAndView home() throws IOException {
-		//List<Employee> listEmployee = employeeService.getAllEmployees();
-		//model.addObject("listEmployee", listEmployee);
+		
 		ModelAndView model2 = new ModelAndView();
-		List<Questions> demo = employeeService.getQuestions();
-		model2.addObject("questions",demo);
+		List<Questions> listOfQuestions = employeeService.getQuestions();
+		for (Questions questions : listOfQuestions) {
+			String questionTags = questions.getTag();
+			java.util.List<String> items = Arrays.asList(questionTags.split("\\s*,\\s*"));
+			List<Tag> tagList = new ArrayList<Tag>();
+			for (String string : items) {
+				if(!string.isEmpty()){
+						
+						tagList.addAll( employeeService.getTags(string));
+						
+				}
+			}
+			questions.setTags(tagList);
+		}
+		List<Tag> listOftags = employeeService.getTags("");
+		if(listOftags.size() >10){
+			listOftags = listOftags.subList(0, 10);
+		}
+		model2.addObject("tagList", listOftags);
+		model2.addObject("questions",listOfQuestions);
 		model2.addObject("userDetails", sessionBean.getEmp());
 		model2.setViewName("index");
 		return model2;

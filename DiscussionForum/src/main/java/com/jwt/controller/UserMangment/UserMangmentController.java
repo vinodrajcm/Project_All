@@ -77,7 +77,7 @@ public class UserMangmentController {
 		
 		
 		
-			List<Employee> listEmployee = employeeService.getAllEmployees();
+			//List<Employee> listEmployee = employeeService.getAllEmployees();
 			Employee demo = employeeService.authUser(employee);
 			
 			sessionBean.setEmp(demo);

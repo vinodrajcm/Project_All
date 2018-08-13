@@ -31,27 +31,12 @@
 			<div class="eoq-desc"> <h1>Explore Our Questions</h1> </div>
 			<div class="row"> 
 				<div class="col-sm-8 explore-tags">
+				
+				<c:forEach var="tagList" items="${tagList}">
 						<a href="/?tags=usability" class="post-tag"
-							title="Show questions relating to usability" rel="tag">usability</a>
-						<a href="/?tags=website-design" class="post-tag"
-							title="Show questions relating to website-design" rel="tag">website-design</a>
-							<a href="/?tags=forms" class="post-tag"
-							title="Show questions relating to forms" rel="tag">forms</a>
-							<a href="/?tags=gui-design" class="post-tag "
-							title="Show questions relating to gui-design" rel="tag">gui-design</a>
-							<a href="/?tags=mobile" class="post-tag "
-							title="Show questions relating to mobile" rel="tag">mobile</a>
-							<a href="/?tags=interaction-design" class="post-tag "
-							title="Show questions relating to interaction-design" rel="tag">interaction-design</a>
-							<a href="/?tags=user-behavior" class="post-tag "
-							title="Show questions relating to user-behavior" rel="tag">user-behavior</a>
-							<a href="/?tags=navigation" class="post-tag "
-							title="Show questions relating to navigation" rel="tag">navigation</a>
-							<a href="/?tags=buttons" class="post-tag "
-							title="Show questions relating to buttons" rel="tag">buttons</a>
-							<a href="/?tags=user-expectation" class="post-tag "
-							title="Show questions relating to user-expectation" rel="tag">user-expectation</a> 
-							<a class="more-tags _gps" href="/tags">more&nbsp;tags</a>
+							title="Show questions relating to usability" rel="tag">${tagList.tagName}</a>
+				</c:forEach>		
+							<a class="more-tags _gps" href="../tags/view">more&nbsp;tags</a>
 					</div>
 				<div class="col-sm-4"> </div>
 			</div>
@@ -60,24 +45,26 @@
 				
 				<c:forEach var="questions" items="${questions}">
 					<div class="question-summary narrow _gps" id="question-summary-119887">
-					    <div onclick="window.location.href='/questions/119887/can-a-card-have-lozenges'" class="cp">
+					    <div onclick="window.location.href='../askQuestion/questionDetails?questionId=${questions.questionId}'" class="cp" style="font-weight: 600;">
 					        <div class="votes">
-					            <div class="mini-counts"><span title="1 vote">1</span></div>
+					            <div class="mini-counts"><span title=" ${questions.likes} vote">${questions.likes}</span></div>
 					            <div>vote</div>
 					        </div>
-					        <div class="status answered">
-					            <div class="mini-counts"><span title="1 answer">1</span></div>
-					            <div>answer</div>
+					        <div class="status">
+					            <div class="mini-counts"><span title=" ${questions.noAnswers} answer">${questions.noAnswers}</span></div>
+					            <div>answers</div>
 					        </div>
 					        <div class="views">
-					            <div class="mini-counts"><span title="78 views">78</span></div>
+					            <div class="mini-counts"><span title=" ${questions.hitCount} views">${questions.hitCount}</span></div>
 					            <div>views</div>
 					        </div>
 					    </div>
 					    <div class="summary">				        
 					        <h3><a href="../askQuestion/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink">"${questions.questionTitle}"</a></h3>
 					        <div class="tags t-cards">
-					            <a href="/questions/tagged/cards" class="post-tag" title="" rel="tag">${questions.tag}</a> 
+					            <c:forEach var="tags" items="${questions.tags}">
+					                   <a href="#" class="post-tag" title="" rel="tag">${tags.tagName}</a> 
+					            </c:forEach>
 					        </div>
 					        <div class="started">
 					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
@@ -122,4 +109,46 @@
 </div>
 <jsp:include page="../WEB-INF/pages/common/footer.jsp" /> 
 </body>
+<script>
+
+$(document).ready(function() {
+$(window).on('load',function(){
+	var votes = $('.votes');
+	var lengthVotes = $('.votes').length;
+	for(var i= 0;i<lengthVotes;i++){
+		var count = votes[i].innerText;
+		if(count.indexOf('0')>-1){
+			votes[i].style="color:black";
+			//votes[i].next().style="color:black";
+		}
+	}
+	
+	var status = $('.status');
+	var lengthstatus = $('.status').length;
+	for(var i= 0;i<lengthstatus;i++){
+		var count = status[i].innerText;
+		if(count.indexOf('0')>-1){
+			status[i].style="color:black";
+			//votes[i].next().style="color:black";
+		}else{
+			status[i].style="color:#4ab471";
+		}
+	}
+	
+	var views = $('.views');
+	var lengthviews = $('.views').length;
+	for(var i= 0;i<lengthviews;i++){
+		var count = views[i].innerText;
+		if(count.indexOf('0')>-1){
+			views[i].style="color:black";
+			//votes[i].next().style="color:black";
+		}
+	}
+	
+});
+
+});
+
+
+</script>
 </html>

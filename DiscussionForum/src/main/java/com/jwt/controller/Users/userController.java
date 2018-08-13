@@ -12,12 +12,15 @@ import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jwt.controller.UserMangment.UserMangmentController;
+import com.jwt.model.Answers;
 import com.jwt.model.Employee;
+import com.jwt.model.Questions;
 import com.jwt.service.EmployeeService;
 import com.jwt.service.session.sessionBean;
 
@@ -103,5 +106,24 @@ public class userController {
 		
 		return model ;
 	}
+	
+	@RequestMapping(value = "/userDetails",method=RequestMethod.GET)
+	public ModelAndView userDetails(HttpServletRequest request, HttpServletResponse response,ModelAndView model) throws IOException {
+		String userId = request.getParameter("userId");
+		int user_Id = Integer.parseInt(userId);
+	
+		//get the user Details from the data base 
+		Employee user = new Employee();
+		user = employeeService.getEmployee(user_Id);
+		//update count in question table 
+		int count = user.getCount() +1;
+		user.setCount(count);
+		employeeService.addEmployee(user);
+		//get all the related answers from the particular question 
+		model.addObject("userDetails", sessionBean.getEmp());
+		model.setViewName("pages/userManagment/userDetails");
+		return model;
+	}
+	
 
 }

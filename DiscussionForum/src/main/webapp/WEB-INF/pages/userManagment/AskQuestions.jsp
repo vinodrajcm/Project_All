@@ -97,6 +97,17 @@
 				    height: 25px;
 				    width: 100%;
 			}
+			
+			.Editor-editor:active, 
+			.Editor-editor:focus {
+				
+				 color: #495057;
+			    background-color: #fff;
+			    border-color: #dcb12e;
+			    outline: 0;
+			    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.55);
+			     	
+			}
 		</style>
 <div class="container">
 <form autocomplete="off">
@@ -120,7 +131,7 @@
     <span  class="clearBtn">
 				<div id="clearBtn1" class="explore-tags"></div>
   		</span>
-    	<input type="text" class="tags-textfield" id="tags" name="tags" placeholder="at least one tag such as (login interaction-design terminology), max 5 tags">
+    	<input type="text" class="tags-textfield" id="tags" name="tags" placeholder="at least one tag with comma seperation, max 5 tags">
   		
 	</div>
   	</div>

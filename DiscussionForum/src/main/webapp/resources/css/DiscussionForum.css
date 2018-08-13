@@ -21,6 +21,14 @@
 }
 
 body{
-	background-color: #ffc10705;
+	background-color: rgb(252, 252, 252);
 	padding:0px !important; 
+}
+
+a{
+	color:black;
+}
+
+.float_left{
+	    float: left;
 }

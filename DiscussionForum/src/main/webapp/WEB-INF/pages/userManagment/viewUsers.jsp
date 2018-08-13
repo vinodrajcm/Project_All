@@ -141,7 +141,7 @@ background-color: #ffd2004a;
           <tr class="tr-header">
         
                 <td style="display:none">${listUsers.userId}</td>
-                <td><a href="#">${listUsers.loginId}</a></td>
+                <td><a href="../user/userDetails?userId=${listUsers.userId}">${listUsers.loginId}</a></td>
                 <td>${listUsers.firstName}</td>
                 <td>${listUsers.lastName}</td>
                 <td>${listUsers.email}</td>
@@ -164,24 +164,24 @@ background-color: #ffd2004a;
 </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function() {
+$(document).ready(function(){
 	
 	
 	 
-    var table = $('#userList').DataTable( {
+    var table = $('#userList').DataTable({
         lengthChange: false,
         fixedHeader: {
             header: false,
             footer: true
         },
         buttons: []
-    } );
+    });
  
     //$("#example thead").remove();
     
     table.buttons().container()
         .appendTo( '#example_wrapper .col-md-6:eq(0)' );
-} );
+});
 
 </script>
 
