@@ -37,19 +37,22 @@ public class HomeController {
 	public ModelAndView home() throws IOException {
 		
 		ModelAndView model2 = new ModelAndView();
-		List<Questions> listOfQuestions = employeeService.getQuestions();
+		List<Questions> listOfQuestions = employeeService.getQuestions(null, null);
 		for (Questions questions : listOfQuestions) {
 			String questionTags = questions.getTag();
-			java.util.List<String> items = Arrays.asList(questionTags.split("\\s*,\\s*"));
-			List<Tag> tagList = new ArrayList<Tag>();
-			for (String string : items) {
-				if(!string.isEmpty()){
-						
-						tagList.addAll( employeeService.getTags(string));
-						
+			if(questionTags != null){
+				java.util.List<String> items = Arrays.asList(questionTags.split("\\s*,\\s*"));
+				List<Tag> tagList = new ArrayList<Tag>();
+				for (String string : items) {
+					if(!string.isEmpty()){
+							
+							tagList.addAll( employeeService.getTags(string));
+							
+					}
 				}
+				questions.setTags(tagList);
 			}
-			questions.setTags(tagList);
+			
 		}
 		List<Tag> listOftags = employeeService.getTags("");
 		if(listOftags.size() >10){

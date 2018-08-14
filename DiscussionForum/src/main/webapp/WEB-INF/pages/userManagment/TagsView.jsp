@@ -140,7 +140,7 @@ background-color: #ffd2004a;
           <tr class="tr-header">
         
                 <td style="display:none">${tags.tagId}</td>
-                <td><a href="#">${tags.tagName}</a></td>
+                <td><a href="../askQuestion/allView?tag=${tags.tagName}">${tags.tagName}</a></td>
                 <td>${tags.count}</td>
                 <td>${tags.createdBY}</td>
                 <td>${tags.createdDate}</td>

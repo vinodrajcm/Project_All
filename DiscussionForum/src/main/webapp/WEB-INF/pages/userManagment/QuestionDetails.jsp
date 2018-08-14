@@ -4,13 +4,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Insert title here</title>
 <jsp:include page="../common/Header.jsp" />  
 	<link href="${pageContext.request.contextPath}/resources/css/home.css" rel=stylesheet>
 </head>
 <body>
-
-
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		
@@ -77,6 +74,11 @@
 	    width: 100%;
     text-align: center;
 }
+.answerDiv{
+	border-bottom: 1px solid #ababab;
+    padding-bottom: 5%;
+    margin-bottom: 2%;
+}
 		</style>
 <div class="container">
 <form autocomplete="off">
@@ -87,12 +89,14 @@
 <div class="col-sm-9">
 	<div class="row">
 			<div class="col-sm-1 queLike">
-					<i  class="fa fa-thumbs-up like"></i>
-					<div class="like-count">10</div>
-					<i  class="fa fa-thumbs-down dislike"></i>
-					<div class="dislike-count">8</div>
+					<i  id="queLike_${questionDetails.questionId}" class="fa fa-thumbs-up like">${questionDetails.user_like_status}</i>
+					<div class="like_count">${questionDetails.likes}</div>
+					<i  id="queDisLike_${questionDetails.questionId}" class="fa fa-thumbs-down dislike"></i>
+					<div class="dislike_count">${questionDetails.dislikes}</div>
 			</div>
 			<div class="col-sm-11">${questionDetails.questionDescription}
+			
+			<div><a href="../askQuestion/view?questionId=${questionDetails.questionId}" id="${questionDetails.questionId}">improve this question</a></div>
 				<div>Asked By ${questionDetails.emp.firstName} ${questionDetails.emp.lastName} </div>
 			</div>
 	</div>
@@ -100,26 +104,33 @@
 	<div class="headerTitle"> Answers </div>
 	<c:forEach var="answers" items="${ansList}">
 	<div class="row">
-	
-			<div class="col-sm-1">
-					<div class="col-sm-1 queLike">
-					<i  class="fa fa-thumbs-up like"></i>
-					<div class="like-count">10</div>
-					<i  class="fa fa-thumbs-down dislike"></i>
-					<div class="dislike-count">8</div>
+	<div id="${answers.ansId}" style="display:none">${answers.ansId}</div>
+			<div class="col-sm-1 queLike">
+					<i  id="ansLike_${answers.ansId}" class="fa fa-thumbs-up like">${answers.user_like_status}</i>
+					<div class="like-count">${answers.total_likes}</div>
+					<i id="ansDislike_${answers.ansId}"  class="fa fa-thumbs-down dislike"></i>
+					<div class="dislike-count">${answers.total_dislikes}</div>
+			
 			</div>
-			</div>
-			<div class="col-sm-11">${answers.detailAns}
+			<div class="col-sm-11 answerDiv">${answers.detailAns}
+					<div><a href="../askQuestion/editAns?answerId=${answers.ansId}" id="${answers.ansId}">improve this answer</a></div>
 					<div>Answered By ${answers.emp.firstName} ${answers.emp.lastName} </div>
 			</div>
 		
 	</div>
 	</c:forEach>
+	<div class="row">
+	
+	<div class="col-sm-12">
+	<div class="headerTitle">Your Answer</div>
   	<div class="form-group">
-    <label for="ansDescription" class="headerTitle">Your Answer</label>
-    <textarea name="content" id="ansDescription"></textarea> 
-  	</div>
     
+    <textarea name="content" id="ansDescription"></textarea> 
+    
+    
+  	</div>
+  	</div>
+    </div>
     <button type="submit" class="btn btn-kenna">Post your Answer</button>
 </div>
 <div class="col-sm-3">
@@ -162,7 +173,6 @@ $(document).ready(function() {
 
     // process the form
     $('form').submit(function(event) {
-		
     	var quesId= $("#questionId").text();
         // get the form data
         // there are many ways to get this data using jQuery (you can use the class or id also)
@@ -171,7 +181,6 @@ $(document).ready(function() {
             'detailAns'             : $("#ansDescription").Editor("getText")
             
         };
-
         // process the form
         $.ajax({
             type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
@@ -196,31 +205,10 @@ $(document).ready(function() {
    
     
     $(".like").click(function () {
-        var input = $(".like-count").text();
-        var input2 = $(".dislike-count").text();
-        //dislike-count
-        var like = $(".like").attr('class');
-        var dislike = $(".dislike").attr('class');
-        if(like.indexOf("icon")>-1){
-        	
-        	 input2 = parseInt(input2)+1;
-        	$(".dislike-count").text(input2); 
-        	/* input = parseInt(input)-1;
-            $(".like-count").text(input); */
-        	$(".like").removeClass("icon");
-        }else{
-        	if((input!="0" || input2!="0") || (dislike.indexOf("icon")>-1) ){
-        		input2 = parseInt(input2)-1;
-            	$(".dislike-count").text(input2);
-        	}
-        	$(".like").addClass("icon");
-        	input = parseInt(input)+ 1;
-            $(".like-count").text(input);
-            $(".dislike").removeClass("icon");
-        }
+        console.log(this);
 
     });
-$(".dislike").click(function () {
+$(".queLike .dislike").click(function () {
 	var input = $(".dislike-count").text();
 	 var input2 = $(".like-count").text();
     //dislike-count

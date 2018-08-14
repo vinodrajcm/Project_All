@@ -1,5 +1,6 @@
-	<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -19,6 +20,15 @@
 		function tagDelete(val){
 			var valueToRemove = val.id;
 			val.remove();
+			var oriValue = $("#tag-values").val();
+			oriValue = oriValue.replace(valueToRemove+",","");
+			$("#tag-values").val(oriValue);
+			var width = $("#clearBtn1").width();
+    		$("#tags").css("margin-left",width+"px");
+		}
+		function tagDeleteDb(val){
+			var valueToRemove = val;
+			$("#"+valueToRemove).remove();
 			var oriValue = $("#tag-values").val();
 			oriValue = oriValue.replace(valueToRemove+",","");
 			$("#tag-values").val(oriValue);
@@ -113,13 +123,11 @@
 <form autocomplete="off">
 <div class="headerTitle">Ask Questions</div>
 <div class="row">
-
-<div class="col-sm-1"></div>
-<div class="col-sm-10">
-  
+<div class="col-sm-8">
+  	<div id="question_id" style="display:none">${questionDetails.questionId}</div>
 	<div class="form-group">
-    <label for="questionTitle">Login ID</label>
-    <input type="text" class="form-control" id="questionTitle" name="questionTitle" placeholder="Enter Question title">
+    <label for="questionTitle">Question Title</label>
+    <input type="text" class="form-control" id="questionTitle" name="questionTitle" placeholder="Enter Question title" value="${questionDetails.questionTitle}">
   	</div>
   	<div class="form-group">
     <label for="questionDescription">Body</label>
@@ -129,17 +137,20 @@
     <label for="tags">Tags</label>
     <div class="text-container form-control">
     <span  class="clearBtn">
-				<div id="clearBtn1" class="explore-tags"></div>
-  		</span>
-    	<input type="text" class="tags-textfield" id="tags" name="tags" placeholder="at least one tag with comma seperation, max 5 tags">
+				<div id="clearBtn1" class="explore-tags">
+					    		
+				
+				</div>
+  	</span>
+    	<input type="text" class="tags-textfield" id="tags" name="tags" placeholder="">
   		
 	</div>
   	</div>
-  	<input type="text" style="display: none;" id="tag-values">	
+  	<input type="text" style="display: none;" id="tag-values" value="${questionDetails.tag}">	
     <button type="submit" class="btn btn-kenna">Submit</button>
     
 </div>
-<div class="col-sm-1"></div>
+<div class="col-sm-4"></div>
 </div>
 </form>
 </div>
@@ -147,15 +158,36 @@
 </body>
 <script>
 $(document).ready(function() {
-
+	$(window).on('load',function(){
+		    //load description for editing if exsists
+			var div = '${questionDetails.questionDescription}';
+			$("#questionDescription").Editor("setText",div);
+			var tags = $("#tag-values").val();
+			var tagArray = tags.split(',');
+			for(var i=0;i<tagArray.length;i++){
+				var tag = tagArray[i];
+				if(tag != ""){
+					var tagView ="<a href='#'  id="+tag+" class='post-tag' title='Show questions relating to usability' rel='tag'>"+tag+"<span class='close-tag' id='close-tag' onClick='tagDeleteDb(\""+tag.trim()+"\");return false'>X</span></a>"
+		    		$('#clearBtn1').prepend($(tagView));
+		    		$("#tags").val("");
+		    		var width = $("#clearBtn1").width();
+		    		$("#tags").css("margin-left",width+"px");
+				}
+			}
+	});
     // process the form
     $('form').submit(function(event) {
 
+    	var questionId = $("#question_id").text();
+    	if(questionId ==""){
+    		questionId =0;
+    	}
         // get the form data
         // there are many ways to get this data using jQuery (you can use the class or id also)
         var formData = {
-            'questionTitle'              : $('input[name=questionTitle]').val(),
-            'questionDescription'             : $("#questionDescription").Editor("getText"),
+        	'questionId' :questionId,
+            'questionTitle': $('input[name=questionTitle]').val(),
+            'questionDescription': $("#questionDescription").Editor("getText"),
             'tag':$('#tag-values').val()
         };
 

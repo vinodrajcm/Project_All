@@ -5,6 +5,7 @@
 <html>
 <head>
 <title>Discussion Forum</title>
+<link rel="shortcut icon" type="image/ico" href="https://www.kennametal.com/etc/designs/kennametal/images/icon.gif">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -85,7 +86,7 @@
 							</li>
 							<li class="nav-item"><a class="nav-link headerText" href="../tags/view">Tags</a>
 							</li>
-							<li class="nav-item"><a class="nav-link headerText" href="../askQuestion/allView">Unanswered
+							<li class="nav-item"><a class="nav-link headerText" href="../askQuestion/allView?unaswered=true">Unanswered
 									Questions</a></li>
 							<li class="nav-item"><a class="nav-link headerText"
 								href="../askQuestion/view">Ask Questions</a></li>

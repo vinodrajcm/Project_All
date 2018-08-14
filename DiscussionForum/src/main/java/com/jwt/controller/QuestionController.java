@@ -23,8 +23,10 @@ import com.jwt.model.Answers;
 import com.jwt.model.Employee;
 import com.jwt.model.Questions;
 import com.jwt.model.Tag;
+import com.jwt.model.likeDislike;
 import com.jwt.service.EmployeeService;
 import com.jwt.service.session.sessionBean;
+import com.mysql.jdbc.StringUtils;
 import com.sun.javafx.collections.MappingChange.Map;
 
 
@@ -45,28 +47,58 @@ public class QuestionController {
 	@Autowired
 	private sessionBean sessionBean;
 	
-	@RequestMapping(value = "/view")
-	public ModelAndView askquestion(ModelAndView model) throws IOException {
+	@SuppressWarnings("null")
+	@RequestMapping(value = "/view",method=RequestMethod.GET)
+	public ModelAndView askquestion(HttpServletRequest request, HttpServletResponse response,ModelAndView model) throws IOException {
 		//List<Employee> listEmployee = employeeService.getAllEmployees();
+		String questionId = request.getParameter("questionId") == null ? "" : request.getParameter("questionId");
+		Questions question = new Questions();
+		if(!questionId.isEmpty()){
+			//get the question details from data base
+			int qunId = Integer.parseInt(questionId);
+			question = employeeService.questionDetails(qunId);
+			String questionTags = question.getTag();
+			String quesDescription = question.getQuestionDescription();
+			if(quesDescription != null && !quesDescription.isEmpty()){
+				quesDescription = quesDescription.replace("'", "\\'");
+			}
+			question.setQuestionDescription(quesDescription);
+			if(questionTags != null){
+				java.util.List<String> items = Arrays.asList(questionTags.split("\\s*,\\s*"));
+				List<Tag> tagList = new ArrayList<Tag>();
+				for (String string : items) {
+					if(!string.isEmpty()){
+							tagList.addAll( employeeService.getTags(string));
+					}
+				}
+				question.setTags(tagList);
+			}
+			
+			model.addObject("questionDetails", question);
+		}else{
+			model.addObject("questionDetails", question);
+		}
+		
 		model.addObject("userDetails", sessionBean.getEmp());
 		model.setViewName("pages/userManagment/AskQuestions");
 		return model;
 	}
 	
-	@RequestMapping(value = "/allView")
-	public ModelAndView allQuestion(ModelAndView model) throws IOException {
+	@RequestMapping(value = "/allView",method=RequestMethod.GET)
+	public ModelAndView allQuestion(HttpServletRequest request, HttpServletResponse response,ModelAndView model) throws IOException {
 		//List<Employee> listEmployee = employeeService.getAllEmployees();
+		String unaswered = request.getParameter("unaswered") == null ? "" : request.getParameter("unaswered");
+		String tag = request.getParameter("tag") == null ? "" : request.getParameter("tag");
+		
 		ModelAndView model_return = new ModelAndView();
-		List<Questions> listOfQuestions = employeeService.getQuestions();
+		List<Questions> listOfQuestions = employeeService.getQuestions(unaswered,tag);
 		for (Questions questions : listOfQuestions) {
 			String questionTags = questions.getTag();
 			java.util.List<String> items = Arrays.asList(questionTags.split("\\s*,\\s*"));
 			List<Tag> tagList = new ArrayList<Tag>();
 			for (String string : items) {
 				if(!string.isEmpty()){
-						
 						tagList.addAll( employeeService.getTags(string));
-						
 				}
 			}
 			questions.setTags(tagList);
@@ -114,11 +146,15 @@ public class QuestionController {
 		qu.setQuestionTitle(question.getQuestionTitle());
 		qu.setQuestionDescription(question.getQuestionDescription());
 		qu.setTag(question.getTag());
-		qu.setCratedDate(new Date());
-		qu.setHitCount(0);
-		qu.setLikes(0);
-		qu.setDislikes(0);
-		qu.setNoAnswers(0);
+		qu.setQuestionId(question.getQuestionId());
+		if(question.getQuestionId() == 0){
+			qu.setCratedDate(new Date());
+			qu.setHitCount(0);
+			qu.setLikes(0);
+			qu.setDislikes(0);
+			qu.setNoAnswers(0);
+			
+		}
 		String questionTags = question.getTag();
 		java.util.List<String> items = Arrays.asList(questionTags.split("\\s*,\\s*"));
 		for (String string : items) {
@@ -171,6 +207,33 @@ public class QuestionController {
 		
 		return "success";
 	}
+	
+	@RequestMapping(value = "/editAns", method = RequestMethod.GET)
+	public ModelAndView editAns(HttpServletRequest request,Answers answers,ModelAndView model) {
+		String answerId = request.getParameter("answerId") == null ? "" : request.getParameter("answerId");
+		int answer_id = Integer.parseInt(answerId);
+		Answers ans =  employeeService.getAnswer(answer_id);
+		String ansDescription = ans.getDetailAns();
+		if(!ansDescription.isEmpty()){
+			ansDescription = ansDescription.replace("'", "\\'");
+		}
+		ans.setDetailAns(ansDescription);
+		model.addObject("answer", ans);
+		model.addObject("userDetails", sessionBean.getEmp());
+		model.setViewName("pages/userManagment/editAnswer");
+		
+		return model;
+	}
+	
+	
+	@RequestMapping(value = "/updateLikeDisLike", method = RequestMethod.POST)
+	public String  updateLikeDisLike(HttpServletRequest request,likeDislike likeDislike) {
+		
+		
+		return null;
+		
+	}
+	
 	
 	
 }

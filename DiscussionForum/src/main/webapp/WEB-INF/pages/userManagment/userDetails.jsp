@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -75,16 +76,15 @@
 }
 
 .explore-tags{
-	width: 40%;
+	/*width: 10%; */
     background-color: #c1c1c1;
-    //padding-top: 1%;
     text-align: center;
-    //padding-bottom: 1%;
-    margin-left:2%;
+    margin-left: 2%;
     float: left;
     margin-bottom: 2%;
-    border-radius: 15px;
-    font-size: 25px;
+    border-radius: 10px;
+    /* font-size: 25px; */
+    padding: 5px;
 }
 .explore-tags:hover{
 	color:white !important;
@@ -122,24 +122,25 @@ text-decoration:none;
 	  </div>
     </div>
     <div class="col-sm-6">
-      <h3>Vinod Raj C M</h3>
-      <p>Designation</br>Department</br>Team</p>
+      <div id="userId" style="display:none">${selectedUser.userId}</div>
+      <h3>User Name : ${selectedUser.firstName} ${selectedUser.lastName}</h3>
+      <p>Designation : ${selectedUser.designation}</br>Team : ${selectedUser.team}</br>Team Lead : ${selectedUser.manager}</p>
     </div>
     <div class="col-sm-3">
       <div class="row">
       	
       			<div class="col-sm-6 ans-ques">
-      						341</br>
+      						${fn:length(selectedUser.answerList)}</br>
 							answers
       			</div>
       			<div class="col-sm-6 ans-ques">
-      					3</br>
+      					${fn:length(selectedUser.questionList)}</br>
 						questions
 				</div>
 				
       </div>
       <div class="text">
-      		<p> Member for 3 years, 6 months</br> 480 profile views</br>Last seen 2 days ago</p>
+      		<p> Member for 3 years, 6 months</br> ${selectedUser.count} profile views</br>Last seen 2 days ago</p>
       </div>
       
       
@@ -152,11 +153,12 @@ text-decoration:none;
     </div>
     <div class="col-sm-9">
       <div class="headerTitle"> Created Tags :</div>
+      <c:forEach var="tags" items="${tags}">
       		<div class="explore-tags">
-      			<a href="/?tags=usability" class="post-tag"
-							title="Show questions relating to usability" rel="tag">demo</a>
+      			<a href="# ${tags.tagName}" class="post-tag"
+							title="Show questions relating to usability" rel="tag">${tags.tagName}</a>
       		</div>
-      		
+      </c:forEach>		
     </div>
   </div>
   <div class="row">
@@ -192,11 +194,11 @@ text-decoration:none;
 			          <tr>
 			         
 			              <td>
-			                <h5><a href="../askQuestion/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink">"${questions.questionTitle}"</a></h5>
+			                <a href="../askQuestion/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink">${questions.questionTitle}</a>
 					        <div class="started">
-					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
-					            <a href="/users/103321/pectoralis-major">${questions.emp.firstName}</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
-					        </div>
+					        <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
+					         <a href="/users/103321/pectoralis-major">${questions.emp.firstName}</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
+			               </div>
 			               </td>
 			              
 			            </tr>
@@ -214,11 +216,11 @@ text-decoration:none;
 			            </tr>
 			        </thead>
 			        <tbody>
-			         <c:forEach var="answers" items="${answers}">
+			         <c:forEach var="questions" items="${QuestionForAnswers}">
 			          <tr>
 			              <td>
 			                
-			                <h5><a href="../askQuestion/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink">"${questions.questionTitle}"</a></h5>
+			                <a href="../askQuestion/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink">${questions.questionTitle}</a>
 					        <div class="started">
 					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
 					            <a href="/users/103321/pectoralis-major">${questions.emp.firstName}</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>

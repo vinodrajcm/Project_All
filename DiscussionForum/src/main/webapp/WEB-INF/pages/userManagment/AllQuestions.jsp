@@ -116,7 +116,7 @@ float: right;
 					        <div class="b">${questions.questionDescription}</div>
 					        <div class="tags t-cards">
 					            <c:forEach var="tags" items="${questions.tags}">
-					                   <a href="#" class="post-tag" title="" rel="tag">${tags.tagName}</a> 
+					                   <a href="../askQuestion/allView?tag=${tags.tagName}" class="post-tag" title="" rel="tag">${tags.tagName}</a> 
 					            </c:forEach>
 					        </div>
 					        

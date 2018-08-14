@@ -33,7 +33,7 @@
 				<div class="col-sm-8 explore-tags">
 				
 				<c:forEach var="tagList" items="${tagList}">
-						<a href="/?tags=usability" class="post-tag"
+						<a href="../askQuestion/allView?tag=${tagList.tagName}" class="post-tag"
 							title="Show questions relating to usability" rel="tag">${tagList.tagName}</a>
 				</c:forEach>		
 							<a class="more-tags _gps" href="../tags/view">more&nbsp;tags</a>
@@ -63,7 +63,7 @@
 					        <h3><a href="../askQuestion/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink">"${questions.questionTitle}"</a></h3>
 					        <div class="tags t-cards">
 					            <c:forEach var="tags" items="${questions.tags}">
-					                   <a href="#" class="post-tag" title="" rel="tag">${tags.tagName}</a> 
+					                   <a href="../askQuestion/allView?tag=${tags.tagName}" class="post-tag" title="" rel="tag">${tags.tagName}</a> 
 					            </c:forEach>
 					        </div>
 					        <div class="started">

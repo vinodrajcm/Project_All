@@ -72,7 +72,8 @@ public class Questions implements Serializable{
 	@Transient
 	private List<Tag> tags;
 	
-	
+	@Transient
+	private String user_like_status;
 	
 	public List<Tag> getTags() {
 		return tags;
@@ -178,6 +179,15 @@ public class Questions implements Serializable{
 		this.cratedDate = cratedDate;
 	}
 
+	public String getUser_like_status() {
+		return user_like_status;
+	}
 
+	public void setUser_like_status(String user_like_status) {
+		this.user_like_status = user_like_status;
+	}
+
+
+	
 	
 }

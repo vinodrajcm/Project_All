@@ -63,8 +63,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Override
 	@Transactional
-	public  List<Questions> getQuestions(){
-		return employeeDAO.getQuestions();
+	public  List<Questions> getQuestions(String unaswered, String tag){
+		return employeeDAO.getQuestions(unaswered,tag);
 	};
 
 	@Transactional
@@ -115,6 +115,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Transactional
 	public List<Answers> getAnswers(int questionId){
 		return this.employeeDAO.getAnswers(questionId);
-	}
+	};
 
+	@Override
+	@Transactional
+	public List<Tag> getTagsForUserId(int userId){
+		return this.employeeDAO.getTagsForUserId(userId);
+	};
+
+	@Override
+	@Transactional
+	public List<Questions> getQuestionsForUserID(int UserID){
+		return this.employeeDAO.getQuestionsForUserID(UserID);
+	};
+	
+	@Override
+	@Transactional
+	public Answers getAnswer(int answer_id){
+		return this.employeeDAO.getAnswer(answer_id);
+	};
 }

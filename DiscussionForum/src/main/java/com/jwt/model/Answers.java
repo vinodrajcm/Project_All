@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="ANSWER_MASTER")
@@ -32,6 +33,14 @@ public class Answers {
 	@Column(name="ANSWERED_DATE")
 	private String ansDate;
 	
+	@Column(name="TOTAL_LIKES")
+	private int total_likes;
+	
+	@Column(name="TOTAL_DISLIKES")
+	private int total_dislikes;
+	
+	@Transient
+	private String user_like_status;
 	
 	@ManyToOne
 	@JoinColumn(name="ANSWERED_BY")
@@ -80,6 +89,30 @@ public class Answers {
 
 	public void setQuestion(Questions question) {
 		this.question = question;
+	}
+
+	public int getTotal_likes() {
+		return total_likes;
+	}
+
+	public void setTotal_likes(int total_likes) {
+		this.total_likes = total_likes;
+	}
+
+	public int getTotal_dislikes() {
+		return total_dislikes;
+	}
+
+	public void setTotal_dislikes(int total_dislikes) {
+		this.total_dislikes = total_dislikes;
+	}
+
+	public String getUser_like_status() {
+		return user_like_status;
+	}
+
+	public void setUser_like_status(String user_like_status) {
+		this.user_like_status = user_like_status;
 	}
 	
 	

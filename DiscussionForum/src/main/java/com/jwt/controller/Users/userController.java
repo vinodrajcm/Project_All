@@ -21,6 +21,7 @@ import com.jwt.controller.UserMangment.UserMangmentController;
 import com.jwt.model.Answers;
 import com.jwt.model.Employee;
 import com.jwt.model.Questions;
+import com.jwt.model.Tag;
 import com.jwt.service.EmployeeService;
 import com.jwt.service.session.sessionBean;
 
@@ -119,7 +120,24 @@ public class userController {
 		int count = user.getCount() +1;
 		user.setCount(count);
 		employeeService.addEmployee(user);
-		//get all the related answers from the particular question 
+		//get all the tags of selected user
+		List<Answers> ansList = new ArrayList<Answers>();
+		List<Questions> QuestionForAnswers = new ArrayList<Questions>();
+		ansList = user.getAnswerList();
+		for (Answers answers : ansList) {
+			Questions que = new Questions();
+			que = employeeService.questionDetails(answers.getQuestion().getQuestionId());
+			QuestionForAnswers.add(que);
+		}
+		List<Tag> tags = employeeService.getTagsForUserId(user_Id);
+		//tags = user.getTagList();
+		List<Questions> Questions = employeeService.getQuestionsForUserID(user_Id);
+		//Questions =user.getQuestionList();
+		//get all the related answers from the particular question
+		model.addObject("selectedUser", user);
+		model.addObject("questions", Questions);
+		model.addObject("tags", tags);
+		model.addObject("QuestionForAnswers", QuestionForAnswers);
 		model.addObject("userDetails", sessionBean.getEmp());
 		model.setViewName("pages/userManagment/userDetails");
 		return model;

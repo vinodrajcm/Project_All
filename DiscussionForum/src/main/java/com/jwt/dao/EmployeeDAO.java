@@ -25,7 +25,7 @@ public interface EmployeeDAO {
 	
 	public Employee authUser(Employee employee);
 	
-	public  List<Questions> getQuestions();
+	public  List<Questions> getQuestions(String unaswered, String tag);
 	
 	public List<Tag> getTags(String tag);
 	
@@ -34,4 +34,10 @@ public interface EmployeeDAO {
 	public Questions questionDetails(int questionId);
 	
 	public List<Answers> getAnswers(int questionId);
+
+	public List<Tag> getTagsForUserId(int userId);
+
+	public List<Questions> getQuestionsForUserID(int UserID);
+
+	public Answers getAnswer(int answer_id);
 }
