@@ -31,11 +31,11 @@ import com.sun.javafx.collections.MappingChange.Map;
 
 
 @Controller
-@RequestMapping(value = "/askQuestion")
+@RequestMapping(value = "/question")
 public class QuestionController {
 
 	private static final Logger logger = Logger
-			.getLogger(UserMangmentController.class);
+			.getLogger(QuestionController.class);
 	
 	public QuestionController() {
 		System.out.println("askQuestionController()"); 
@@ -47,7 +47,8 @@ public class QuestionController {
 	@Autowired
 	private sessionBean sessionBean;
 	
-	@SuppressWarnings("null")
+	
+	
 	@RequestMapping(value = "/view",method=RequestMethod.GET)
 	public ModelAndView askquestion(HttpServletRequest request, HttpServletResponse response,ModelAndView model) throws IOException {
 		//List<Employee> listEmployee = employeeService.getAllEmployees();
@@ -61,6 +62,7 @@ public class QuestionController {
 			String quesDescription = question.getQuestionDescription();
 			if(quesDescription != null && !quesDescription.isEmpty()){
 				quesDescription = quesDescription.replace("'", "\\'");
+				quesDescription = quesDescription.replaceAll("\r", "").replaceAll("\n", "");
 			}
 			question.setQuestionDescription(quesDescription);
 			if(questionTags != null){
@@ -137,99 +139,108 @@ public class QuestionController {
 	@RequestMapping(value = "/createQue", method = RequestMethod.POST)
 	public @ResponseBody String createQue(HttpServletRequest request,Questions question) {
 		
-		int employeeId = sessionBean.getEmp().getUserId();
+		
+		int employeeId;
+		
+		if(sessionBean.getEmp() == null){
+			return "login_Failed";
+			
+		}
+		employeeId = sessionBean.getEmp().getUserId();
 		//Employee employee = employeeService.getEmployee(employeeId);
 		Boolean tagCreationStatus = false;
 		Employee employee = new Employee();
 		employee.setUserId(employeeId);
-		Questions qu = new Questions();
-		qu.setQuestionTitle(question.getQuestionTitle());
-		qu.setQuestionDescription(question.getQuestionDescription());
-		qu.setTag(question.getTag());
-		qu.setQuestionId(question.getQuestionId());
-		if(question.getQuestionId() == 0){
-			qu.setCratedDate(new Date());
-			qu.setHitCount(0);
-			qu.setLikes(0);
-			qu.setDislikes(0);
-			qu.setNoAnswers(0);
-			
-		}
 		String questionTags = question.getTag();
-		java.util.List<String> items = Arrays.asList(questionTags.split("\\s*,\\s*"));
-		for (String string : items) {
-			if(!string.isEmpty()){
-				
-				//List<Tag> tagList = new ArrayList<Tag>();
-				List<Tag> tagList = new ArrayList<Tag>();
-				tagList = employeeService.getTags(string);
-				
-				
-				if(!tagList.isEmpty()){
-					tagCreationStatus=false;
-				}else{
-					tagCreationStatus=true;
-					Tag tag = new Tag();
-					tag.setTagName(string);
-					employeeService.createTag(tag);
-					
-					
+		if(questionTags != ""){
+			List<String> items = Arrays.asList(questionTags.split("\\s*,\\s*"));
+			for (String string : items) {
+				if(!string.isEmpty()){
+					//List<Tag> tagList = new ArrayList<Tag>();
+					List<Tag> tagList = new ArrayList<Tag>();
+					tagList = employeeService.getTags(string);
+					if(!tagList.isEmpty()){
+						tagCreationStatus=false;
+					}else{
+						tagCreationStatus=true;
+						Tag tag = new Tag();
+						tag.setTagName(string);
+						employeeService.createTag(tag);
+					}
 				}
+				
 			}
-			
 		}
-		qu.setEmp(employee);
+		question.setEmp(employee);
+		if(question.getQuestionId() != 0){
+			Questions question_db = new Questions();
+			question_db = employeeService.questionDetails(question.getQuestionId());
+			if(question_db != null){
+				question_db.setQuestionTitle(question.getQuestionTitle());
+				question_db.setQuestionDescription(question.getQuestionDescription());
+				question_db.setTag(question.getTag());
+				employeeService.addQuestion(question_db);
+			}
+		}else{
+			question.setCratedDate(new Date());
+			employeeService.addQuestion(question);
+		}
 		
-		employeeService.addQuestion(qu);
-		/*RedirectView view = new RedirectView();
-		view.setContextRelative(true);
-		view.setUrl("/home/view");
-		HashMap<String, String> demo = new HashMap<String , String>();
-		*/
-		//demo.put("Success", "true");
-		return "success";
-		//return new ModelAndView("redirect:/home");
-		/*ModelAndView model= new ModelAndView();
 		
-		model.setViewName("index");
-		return model;*/
-		
-	}
-	
-	
-	@RequestMapping(value = "/postAns", method = RequestMethod.POST)
-	public @ResponseBody String postAns(HttpServletRequest request,Answers answers) {
-		int employeeId = sessionBean.getEmp().getUserId();
-		Employee emp = new Employee();
-		emp.setUserId(employeeId);
-		answers.setEmp(emp);
-		employeeService.postAns(answers);
 		
 		return "success";
+		
+		
 	}
 	
-	@RequestMapping(value = "/editAns", method = RequestMethod.GET)
-	public ModelAndView editAns(HttpServletRequest request,Answers answers,ModelAndView model) {
-		String answerId = request.getParameter("answerId") == null ? "" : request.getParameter("answerId");
-		int answer_id = Integer.parseInt(answerId);
-		Answers ans =  employeeService.getAnswer(answer_id);
-		String ansDescription = ans.getDetailAns();
-		if(!ansDescription.isEmpty()){
-			ansDescription = ansDescription.replace("'", "\\'");
-		}
-		ans.setDetailAns(ansDescription);
-		model.addObject("answer", ans);
-		model.addObject("userDetails", sessionBean.getEmp());
-		model.setViewName("pages/userManagment/editAnswer");
-		
-		return model;
-	}
+	
+	
 	
 	
 	@RequestMapping(value = "/updateLikeDisLike", method = RequestMethod.POST)
-	public String  updateLikeDisLike(HttpServletRequest request,likeDislike likeDislike) {
-		
-		
+	public @ResponseBody String  updateLikeDisLike(HttpServletRequest request,likeDislike likeDislike) {
+		if(sessionBean.getEmp() != null){
+			if(sessionBean.getEmp().getUserId() !=0){
+				
+				if(likeDislike.getAnswerId() == 0){
+					Questions question = new Questions();
+					question = employeeService.questionDetails(likeDislike.getQuestionId());
+					if(question !=null){
+						int likeCount = question.getLikes();
+						if(likeDislike.getLike() == 1){
+							likeCount = likeCount+1;
+						}else{
+							likeCount = likeCount-1;
+						}
+						
+						question.setLikes(likeCount);
+						employeeService.addQuestion(question);
+					}
+				}else{
+					Answers answer = new Answers();
+					answer = employeeService.getAnswer(likeDislike.getAnswerId());
+					if(answer != null){
+						int likeCount = answer.getTotal_likes();
+						if(likeDislike.getLike() == 1){
+							likeCount = likeCount+1;
+						}else{
+							likeCount = likeCount-1;
+						}
+						answer.setTotal_likes(likeCount);
+						employeeService.postAns(answer);
+					}
+					
+				}
+				likeDislike.setUserId(sessionBean.getEmp().getUserId());
+				employeeService.updateLikeDisLike(likeDislike);
+				
+				
+				
+			}
+		}else{
+			return "PLease login";
+		}
+	
 		return null;
 		
 	}

@@ -1,5 +1,7 @@
 package com.jwt.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,6 +43,9 @@ public class likeDislike {
 	
 	@Column(name="ANSWER_ID")
 	private int answerId;
+	
+	@Column(name="LIKED_DATE")
+	private Date date = new Date();
 
 	public int getLike() {
 		return like;

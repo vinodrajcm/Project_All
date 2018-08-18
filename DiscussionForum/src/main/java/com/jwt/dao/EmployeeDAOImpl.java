@@ -14,12 +14,17 @@ import com.jwt.model.Answers;
 import com.jwt.model.Employee;
 import com.jwt.model.Questions;
 import com.jwt.model.Tag;
+import com.jwt.model.likeDislike;
+import com.jwt.service.session.sessionBean;
 
 @Repository
 public class EmployeeDAOImpl implements EmployeeDAO {
 
 	@Autowired
 	private SessionFactory sessionFactory;
+	
+	@Autowired
+	private sessionBean sessionBean;
 
 	public void addEmployee(Employee employee) {
 		
@@ -144,6 +149,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		if(tag ==""){
 			demo =  sessionFactory.getCurrentSession().createQuery("from Tag")
 					.list();
+		}else if(tag.contains("forTypeAhead")){
+			tag = tag.replace("forTypeAhead", "");
+			demo =  sessionFactory.getCurrentSession().createQuery("from Tag where tagName like '%"+tag+"%'")
+					.list();
 		}else{
 			demo =  sessionFactory.getCurrentSession().createQuery("from Tag where tagName='"+tag+"'")
 					.list();
@@ -161,23 +170,38 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Questions questionDetails(int questionId){
-		Questions demo = new Questions();
-		//List<Answers> demo2 = new ArrayList<Answers>();
-		demo = (Questions) sessionFactory.getCurrentSession().get(Questions.class, questionId);
-		/*if(!demo.equals(null)){
-			//demo2 = (List<Answers>) sessionFactory.getCurrentSession().get(Answers.class, questionId);
-			
-			
+		Questions question = new Questions();
+		question = (Questions) sessionFactory.getCurrentSession().get(Questions.class, questionId);
+		if(sessionBean.getEmp() != null){
+			Query query = sessionFactory.getCurrentSession().createQuery("select count(id) from likeDislike where userId='"+sessionBean.getEmp().getUserId()+"'"+ " and questionId  ='"+questionId+"' and answerId = 0");
+			Long i;
+			i =   (Long) query.uniqueResult();
+			Integer count = (int) (long) i;
+			if(count>=1){
+				question.setUser_like_status("true");
+			}
 		}
-		demo.setAnswerList(demo2);*/
-		return demo;
+		
+		return question;
 	};
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Answers> getAnswers(int questionId){
-		
-		return sessionFactory.getCurrentSession().createQuery("from Answers where question="+questionId+"").list();
+		List<Answers> ansList = new ArrayList<Answers>();
+		ansList =  sessionFactory.getCurrentSession().createQuery("from Answers where question="+questionId+"").list();
+		if(sessionBean.getEmp() != null){
+			for (Answers answers : ansList) {
+				Query query = sessionFactory.getCurrentSession().createQuery("select count(id) from likeDislike where userId='"+sessionBean.getEmp().getUserId()+"'"+ " and questionId  ='"+answers.getQuestion().getQuestionId()+"' and answerId = '"+answers.getAnsId()+"'");
+				Long i;
+				i =   (Long) query.uniqueResult();
+				Integer count = (int) (long) i;
+				if(count>=1){
+					answers.setUser_like_status("true");
+				}
+			}
+		}
+		return ansList;
 	}
 	
 	
@@ -206,5 +230,33 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		return answer;
 		
 	};
+	
+	@Override
+	public void updateLikeDisLike(likeDislike like) {
+		// TODO Auto-generated method stub
+		if(like.getAnswerId() !=0){
+			Query query = sessionFactory.getCurrentSession().createQuery("select count(id) from likeDislike where userId='"+like.getUserId()+"'"+ " and questionId  ='"+like.getQuestionId() +"'and answerId='"+like.getAnswerId()+"'");
+			Long i;
+			i =   (Long) query.uniqueResult();
+			Integer count = (int) (long) i;
+			if(count>0){
+				this.sessionFactory.getCurrentSession().createQuery("delete from likeDislike where userId='"+like.getUserId()+"'"+ " and questionId  ='"+like.getQuestionId() +"' and answerId='"+like.getAnswerId()+"'").executeUpdate();
+				}else{
+				this.sessionFactory.getCurrentSession().save(like);
+			}
+		}else{
+			Query query = sessionFactory.getCurrentSession().createQuery("select count(id) from likeDislike where userId='"+like.getUserId()+"'"+ " and questionId  ='"+like.getQuestionId() +" and answerId=0'");
+			Long i;
+			i =   (Long) query.uniqueResult();
+			Integer count = (int) (long) i;
+			if(count>0){
+				this.sessionFactory.getCurrentSession().createQuery("delete from likeDislike where userId='"+like.getUserId()+"'"+ " and questionId  ='"+like.getQuestionId() +"' and answerId=0").executeUpdate();
+			}else{
+				this.sessionFactory.getCurrentSession().save(like);
+			}
+		}
+		
+
+	}
 
 }

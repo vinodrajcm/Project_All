@@ -6,6 +6,7 @@ import com.jwt.model.Answers;
 import com.jwt.model.Employee;
 import com.jwt.model.Questions;
 import com.jwt.model.Tag;
+import com.jwt.model.likeDislike;
 
 public interface EmployeeDAO {
 
@@ -40,4 +41,6 @@ public interface EmployeeDAO {
 	public List<Questions> getQuestionsForUserID(int UserID);
 
 	public Answers getAnswer(int answer_id);
+
+	void updateLikeDisLike(likeDislike like);
 }

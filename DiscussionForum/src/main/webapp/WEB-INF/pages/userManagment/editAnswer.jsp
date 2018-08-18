@@ -134,13 +134,13 @@ $(document).ready(function() {
         // process the form
         $.ajax({
             type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-            url         : '../askQuestion/postAns', // the url where we want to POST
+            url         : '../answer/postAns', // the url where we want to POST
             data        : formData, // our data object
             //dataType    : 'json', // what type of data do we expect back from the server
             encode          : true,
             success: function (data) {
             	console.log("demo");
-                window.location.href ="../askQuestion/questionDetails?questionId="+$("#questionId").text();
+                window.location.href ="../question/questionDetails?questionId="+$("#questionId").text();
             },
             error: function () {
                 alert('error happened');

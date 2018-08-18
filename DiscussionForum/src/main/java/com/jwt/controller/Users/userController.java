@@ -44,6 +44,7 @@ public class userController {
 	private sessionBean sessionBean;
 	
 	
+	
 	@RequestMapping(value = "/view")
 	public ModelAndView userList(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		//List<Employee> listEmployee = employeeService.getAllEmployees();

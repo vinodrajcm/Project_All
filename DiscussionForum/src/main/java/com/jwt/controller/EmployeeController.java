@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.jwt.model.Employee;
 import com.jwt.model.Questions;
 import com.jwt.service.EmployeeService;
+import com.jwt.service.session.sessionBean;
 
 @Controller
 public class EmployeeController {
@@ -28,8 +29,11 @@ public class EmployeeController {
 		System.out.println("EmployeeController()");
 	}
 
-	@Autowired
+	
+	@Autowired(required = true)
 	private EmployeeService employeeService;
+	
+
 
 	@RequestMapping(value = "/view")
 	public ModelAndView listEmployee(ModelAndView model) throws IOException {
@@ -82,40 +86,6 @@ public class EmployeeController {
 
 		return model;
 	}
-	
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create(HttpServletRequest request) {
-		
-		Employee emp = new Employee();
-		
-		emp.setLoginId("kumarrk");
-		emp.setFirstName("ranjtith");
-		
-		emp.setEmail("");
-		
-		employeeService.addEmployee(emp);
-		
-		return null;
-	}
-	
-	
-	@RequestMapping(value = "/createQue", method = RequestMethod.POST)
-	public ModelAndView createQue(HttpServletRequest request,Questions question) {
-		
-		int employeeId = Integer.parseInt("1");
-		//Employee employee = employeeService.getEmployee(employeeId);
-		
-		Employee employee = new Employee();
-		employee.setUserId(employeeId);
-		Questions qu = new Questions();
-		qu.setQuestionTitle(question.getQuestionTitle());
-		qu.setQuestionDescription(question.getQuestionDescription());
-		qu.setEmp(employee);
-		employeeService.addQuestion(qu);
-		
-		return null;
-	}
-	
 	
 
 }

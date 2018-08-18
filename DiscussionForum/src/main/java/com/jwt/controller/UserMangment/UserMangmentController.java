@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jwt.controller.EmployeeController;
@@ -29,10 +30,10 @@ public class UserMangmentController {
 	public UserMangmentController() {
 		System.out.println("LoginController()"); 
 	}
-	@Autowired
+	@Autowired(required = true)
 	private EmployeeService employeeService;
 	
-	@Autowired
+	@Autowired(required = true)
 	private sessionBean sessionBean;
 	
 	@RequestMapping(value = "/login")
@@ -66,8 +67,9 @@ public class UserMangmentController {
 	}
 
 	@RequestMapping(value = "/auth")
-	public ModelAndView auth(HttpServletRequest request, HttpServletResponse response,Employee employee) throws IOException {
+	public @ResponseBody String auth(HttpServletRequest request, HttpServletResponse response,Employee employee) throws IOException {
 		//List<Employee> listEmployee = employeeService.getAllEmployees();
+		String status="false";
 		ModelAndView model =new ModelAndView();
 		if (sessionBean.setRequest(request)) {
 			// prevent session fixation by reset the sessionId
@@ -75,17 +77,20 @@ public class UserMangmentController {
 			request.getSession(true);
 		}
 		
-		
-		
 			//List<Employee> listEmployee = employeeService.getAllEmployees();
-			Employee demo = employeeService.authUser(employee);
-			
-			sessionBean.setEmp(demo);
+			Employee employeeDetails = employeeService.authUser(employee);
+			if(employeeDetails == null){
+				status = "false";
+			}else{
+				sessionBean.setEmp(employeeDetails);
+				status = "true";
+			}
 			
 			
 			//munirvc
 		
-			return new ModelAndView("redirect:/home/view");
+			
+			return status;
 	}
 	
 	@RequestMapping(value = "/logout")

@@ -194,7 +194,7 @@ text-decoration:none;
 			          <tr>
 			         
 			              <td>
-			                <a href="../askQuestion/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink">${questions.questionTitle}</a>
+			                <a href="../question/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink">${questions.questionTitle}</a>
 					        <div class="started">
 					        <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
 					         <a href="/users/103321/pectoralis-major">${questions.emp.firstName}</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
@@ -220,7 +220,7 @@ text-decoration:none;
 			          <tr>
 			              <td>
 			                
-			                <a href="../askQuestion/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink">${questions.questionTitle}</a>
+			                <a href="../question/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink">${questions.questionTitle}</a>
 					        <div class="started">
 					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
 					            <a href="/users/103321/pectoralis-major">${questions.emp.firstName}</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>

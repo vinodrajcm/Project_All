@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
 <html>
 <head>
 <title>Discussion Forum</title>
@@ -80,16 +80,16 @@
 					</div>
 					<div class="col-sm-8">
 						<ul class="nav justify-content-end">
-							<li class="nav-item"><a class="nav-link headerText" href="../askQuestion/allView">Questions</a>
+							<li class="nav-item"><a class="nav-link headerText" href="../question/allView">Questions</a>
 							</li>
 							<li class="nav-item"><a class="nav-link headerText" href="../user/view">Users</a>
 							</li>
 							<li class="nav-item"><a class="nav-link headerText" href="../tags/view">Tags</a>
 							</li>
-							<li class="nav-item"><a class="nav-link headerText" href="../askQuestion/allView?unaswered=true">Unanswered
+							<li class="nav-item"><a class="nav-link headerText" href="../question/allView?unaswered=true">Unanswered
 									Questions</a></li>
 							<li class="nav-item"><a class="nav-link headerText"
-								href="../askQuestion/view">Ask Questions</a></li>
+								href="../question/view">Ask Questions</a></li>
 						</ul>
 					</div>
 				</div>

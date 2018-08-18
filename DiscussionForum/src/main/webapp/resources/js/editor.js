@@ -740,8 +740,12 @@ You should have received a copy of the GNU General Public License along with thi
 												}
 												$(editorObj).data("editor").find('a[href="'+targetURL+'"]').each(function(){ $(this).attr("target", "_blank"); });
 												$(".alert").alert("close");
-												$("#InsertLink" + _idSuffix).modal("hide");
-												 $(".modal-backdrop").removeClass("show modal-backdrop fade");
+												//$("#InsertLink" + _idSuffix).modal("hide");
+												// $(".modal-backdrop").removeClass("show modal-backdrop fade");
+												 $(".modal").removeClass("in");
+												  $(".modal-backdrop").remove();
+												  $(".modal").hide();
+												  $('body').removeClass('modal-open');
 												$(editorObj).data("editor").focus();
 												return false;
 											}},
@@ -775,8 +779,12 @@ You should have received a copy of the GNU General Public License along with thi
 													methods.showMessage.apply(this,["imgErrMsg" + _idSuffix,"Please select an image"]);
 													return false;
 												}
-												$("#InsertImage" + _idSuffix).modal("hide");
-												 $(".modal-backdrop").removeClass("show modal-backdrop fade");
+												//$("#InsertImage" + _idSuffix).modal("hide");
+												 //$(".modal-backdrop").removeClass("show modal-backdrop fade");
+												  $(".modal").removeClass("in");
+												  $(".modal-backdrop").remove();
+												  $(".modal").hide();
+												  $('body').removeClass('modal-open');
 												$(this).data("editor").focus();
 											}},
 
@@ -849,8 +857,12 @@ You should have received a copy of the GNU General Public License along with thi
 												methods.restoreSelection.apply(this,[htmlTableCntr.html(),'html']);
 												else
 												document.execCommand('insertHTML', false, htmlTableCntr.html());
-												$("#InsertTable" + _idSuffix).modal("hide");
-												 $(".modal-backdrop").removeClass("show modal-backdrop fade");
+												//$("#InsertTable" + _idSuffix).modal("hide");
+												// $(".modal-backdrop").removeClass("show modal-backdrop fade");
+												 $(".modal").removeClass("in");
+												  $(".modal-backdrop").remove();
+												  $(".modal").hide();
+												  $('body').removeClass('modal-open');
 												$(this).data("editor").focus();
 											}},
 
@@ -1194,8 +1206,12 @@ You should have received a copy of the GNU General Public License along with thi
 					    	$("#"+imgId).unwrap();
 					    }
 	       		}	       		
-				$("#imgAttribute").modal("hide");
-				 $(".modal-backdrop").removeClass("show modal-backdrop fade");
+				//$("#imgAttribute").modal("hide");
+				// $(".modal-backdrop").removeClass("show modal-backdrop fade");
+				 $(".modal").removeClass("in");
+				  $(".modal-backdrop").remove();
+				  $(".modal").hide();
+				  $('body').removeClass('modal-open');
 				editorObj.data("editor").focus();
 			};
 			methods.createModal.apply(this,[cModalId,cModalHeader, imgModalBody, onSave]);
@@ -1273,8 +1289,12 @@ You should have received a copy of the GNU General Public License along with thi
 			    $(event.target).closest('table').attr('border',tblBorderEdt);
 			    $(event.target).closest('table').attr('cellspacing',tblCellspacingEdt);
 			    $(event.target).closest('table').attr('cellpadding',tblCellpaddingEdt);
-			    $("#" + modalId).modal("hide");
-			    $(".modal-backdrop").removeClass("show modal-backdrop fade");
+			    //$("#" + modalId).modal("hide");
+			    //$(".modal-backdrop").removeClass("show modal-backdrop fade");
+			    $(".modal").removeClass("in");
+				  $(".modal-backdrop").remove();
+				  $(".modal").hide();
+				  $('body').removeClass('modal-open');
 				editorObj.data("editor").focus();
        		};
        		methods.createModal.apply(this,[modalId,modalHeader, tblModalBody, onSave]);

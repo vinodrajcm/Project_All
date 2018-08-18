@@ -1,5 +1,6 @@
 package com.jwt.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -31,13 +32,16 @@ public class Answers {
 	private String detailAns;
 	
 	@Column(name="ANSWERED_DATE")
-	private String ansDate;
+	private Date ansDate;
 	
 	@Column(name="TOTAL_LIKES")
 	private int total_likes;
 	
 	@Column(name="TOTAL_DISLIKES")
 	private int total_dislikes;
+	
+	@Column(name="APPROVED")
+	private String approve;
 	
 	@Transient
 	private String user_like_status;
@@ -66,11 +70,13 @@ public class Answers {
 		this.detailAns = detailAns;
 	}
 
-	public String getAnsDate() {
+	
+
+	public Date getAnsDate() {
 		return ansDate;
 	}
 
-	public void setAnsDate(String ansDate) {
+	public void setAnsDate(Date ansDate) {
 		this.ansDate = ansDate;
 	}
 
@@ -114,7 +120,14 @@ public class Answers {
 	public void setUser_like_status(String user_like_status) {
 		this.user_like_status = user_like_status;
 	}
-	
+
+	public String getApprove() {
+		return approve;
+	}
+
+	public void setApprove(String approve) {
+		this.approve = approve;
+	}
 	
 	
 }

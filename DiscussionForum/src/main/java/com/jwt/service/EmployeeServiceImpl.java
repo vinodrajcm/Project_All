@@ -12,6 +12,7 @@ import com.jwt.model.Answers;
 import com.jwt.model.Employee;
 import com.jwt.model.Questions;
 import com.jwt.model.Tag;
+import com.jwt.model.likeDislike;
 import com.jwt.service.session.sessionBean;
 
 @Service
@@ -63,30 +64,46 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Override
 	@Transactional
-	public  List<Questions> getQuestions(String unaswered, String tag){
-		return employeeDAO.getQuestions(unaswered,tag);
-	};
-
-	@Transactional
 	public void setEmployeeDAO(EmployeeDAO employeeDAO) {
 		this.employeeDAO = employeeDAO;
 	}
 
+	
+	
+
+	@Override
+	@Transactional
+	public List<Tag> getTagsForUserId(int userId){
+		return this.employeeDAO.getTagsForUserId(userId);
+	};
+
+	@Override
+	@Transactional
+	public List<Questions> getQuestionsForUserID(int UserID){
+		return this.employeeDAO.getQuestionsForUserID(UserID);
+	};
+	
+	@Override
+	@Transactional
+	public void updateLikeDisLike(likeDislike like){
+		this.employeeDAO.updateLikeDisLike(like);
+	};
+	
+	@Override
+	@Transactional
+	public  List<Questions> getQuestions(String unaswered, String tag){
+		return employeeDAO.getQuestions(unaswered,tag);
+	};
+	
 	@Override
 	@Transactional
 	public void addQuestion(Questions que) {
 		// TODO Auto-generated method stub
 		this.employeeDAO.addQuestion(que);
-	}
+	};
 	
 	@Override
 	@Transactional
-	public void postAns(Answers ans){
-		// TODO Auto-generated method stub
-				this.employeeDAO.postAns(ans);
-	}
-	
-	@Override
 	public List<Tag> getTags(String tag){
 		
 		return employeeDAO.getTags(tag);
@@ -104,7 +121,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		tag.setEmp(emp);
 		this.employeeDAO.createTag(tag);
 	};
-	
+
 	@Override
 	@Transactional
 	public Questions questionDetails(int questionId){
@@ -113,20 +130,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Override
 	@Transactional
+	public void postAns(Answers ans){
+		// TODO Auto-generated method stub
+				this.employeeDAO.postAns(ans);
+	};
+	
+	@Override
+	@Transactional
 	public List<Answers> getAnswers(int questionId){
 		return this.employeeDAO.getAnswers(questionId);
-	};
-
-	@Override
-	@Transactional
-	public List<Tag> getTagsForUserId(int userId){
-		return this.employeeDAO.getTagsForUserId(userId);
-	};
-
-	@Override
-	@Transactional
-	public List<Questions> getQuestionsForUserID(int UserID){
-		return this.employeeDAO.getQuestionsForUserID(UserID);
 	};
 	
 	@Override
@@ -134,4 +146,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Answers getAnswer(int answer_id){
 		return this.employeeDAO.getAnswer(answer_id);
 	};
+	
+	
 }

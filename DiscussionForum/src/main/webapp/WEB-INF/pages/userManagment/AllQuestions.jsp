@@ -112,11 +112,11 @@ float: right;
 					</div>
 					<div class="col-sm-10">
 						<div class="summary">				        
-					        <h3><a href="../askQuestion/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink">${questions.questionTitle}</a></h3>
+					        <h3><a href="../question/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink">${questions.questionTitle}</a></h3>
 					        <div class="b">${questions.questionDescription}</div>
 					        <div class="tags t-cards">
 					            <c:forEach var="tags" items="${questions.tags}">
-					                   <a href="../askQuestion/allView?tag=${tags.tagName}" class="post-tag" title="" rel="tag">${tags.tagName}</a> 
+					                   <a href="../question/allView?tag=${tags.tagName}" class="post-tag" title="" rel="tag">${tags.tagName}</a> 
 					            </c:forEach>
 					        </div>
 					        

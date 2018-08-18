@@ -64,11 +64,12 @@
     				user-select: none;
 				}
 
-.queLike .fa:hover {
-  color: #ffd200;
-}
+
 .icon{
-	color: #ffd200;
+	color:#479f37;
+}
+.icon2{
+	color:#479f37;
 }
 .queLike div{
 	    width: 100%;
@@ -89,14 +90,14 @@
 <div class="col-sm-9">
 	<div class="row">
 			<div class="col-sm-1 queLike">
-					<i  id="queLike_${questionDetails.questionId}" class="fa fa-thumbs-up like">${questionDetails.user_like_status}</i>
+			<div style="display:none" id="queLike_${questionDetails.questionId}">${questionDetails.user_like_status}</div>
+					<i class="fa fa-thumbs-up like"></i>
+					
 					<div class="like_count">${questionDetails.likes}</div>
-					<i  id="queDisLike_${questionDetails.questionId}" class="fa fa-thumbs-down dislike"></i>
-					<div class="dislike_count">${questionDetails.dislikes}</div>
 			</div>
 			<div class="col-sm-11">${questionDetails.questionDescription}
 			
-			<div><a href="../askQuestion/view?questionId=${questionDetails.questionId}" id="${questionDetails.questionId}">improve this question</a></div>
+			<div><a href="../question/view?questionId=${questionDetails.questionId}" id="${questionDetails.questionId}">improve this question</a></div>
 				<div>Asked By ${questionDetails.emp.firstName} ${questionDetails.emp.lastName} </div>
 			</div>
 	</div>
@@ -106,14 +107,15 @@
 	<div class="row">
 	<div id="${answers.ansId}" style="display:none">${answers.ansId}</div>
 			<div class="col-sm-1 queLike">
-					<i  id="ansLike_${answers.ansId}" class="fa fa-thumbs-up like">${answers.user_like_status}</i>
+			<div id="ansLikeSatus_${answers.ansId}"  style="display:none" class="ansLike">${answers.user_like_status}</div>
+					<i  id="ansLike_${answers.ansId}" class="fa fa-thumbs-up like"></i>
+					
 					<div class="like-count">${answers.total_likes}</div>
-					<i id="ansDislike_${answers.ansId}"  class="fa fa-thumbs-down dislike"></i>
-					<div class="dislike-count">${answers.total_dislikes}</div>
-			
+					<div id="approveSatus_${answers.ansId}"  style="display:none" class="approved">${answers.approve}</div>
+					<i id="approve_${answers.ansId}" class="fa fa-check-circle approve" style="font-size:36px"></i>
 			</div>
 			<div class="col-sm-11 answerDiv">${answers.detailAns}
-					<div><a href="../askQuestion/editAns?answerId=${answers.ansId}" id="${answers.ansId}">improve this answer</a></div>
+					<div><a href="../answer/editAns?answerId=${answers.ansId}" id="${answers.ansId}">improve this answer</a></div>
 					<div>Answered By ${answers.emp.firstName} ${answers.emp.lastName} </div>
 			</div>
 		
@@ -144,20 +146,6 @@
                 </a>
 
             </li>
-            <li>
-            	<div class="favicon favicon-photo" title="Photography Stack Exchange"></div>
-                <a href="https://scifi.stackexchange.com/questions/192033/were-the-maquis-who-returned-on-voyager-punished-for-having-been-maquis" class="js-gps-track" data-gps-track="site.switch({ item_type:8, target_site:186 }); posts_hot_network.click({ item_type:2, location:8 })">
-                    Were the Maquis who returned on Voyager punished for having been Maquis?
-                </a>
-
-            </li>
-            <li>
-            	<div class="favicon favicon-photo" title="Photography Stack Exchange"></div>
-                <a href="https://academia.stackexchange.com/questions/114404/how-to-query-gender-in-a-multiple-choice-poll-survey" class="js-gps-track" data-gps-track="site.switch({ item_type:8, target_site:415 }); posts_hot_network.click({ item_type:2, location:8 })">
-                    How to query gender in a multiple-choice poll/survey?
-                </a>
-
-            </li>
             </ul>
 	
     
@@ -171,6 +159,40 @@
 <script>
 $(document).ready(function() {
 
+	$(window).on('load',function(){
+		
+		
+		var question = $('#queLike_${questionDetails.questionId}');
+		var status = question[0].innerText;
+			if(status == "true"){
+				question.next().addClass('icon');
+				//votes[i].next().style="color:black";
+			}
+			
+		var ansList = $('.ansLike');		
+		var lengthVotes = $('.ansLike').length;
+		for(var i= 0;i<lengthVotes;i++){
+			var text = ansList[i].innerText;
+			if(text =="true"){
+				var id = ansList[i].id;
+				var id_new = '#'+id;
+				$(id_new).next().addClass('icon');
+			}
+			
+		}
+		
+		var approveAnsList = $('.approved');
+		var lengthOfApprove = $('.approved').length;
+		for(var i=0; i<lengthOfApprove;i++){
+			var text = approveAnsList[i].innerText;
+			if(text =="true"){
+				var id = approveAnsList[i].id;
+				var id_new = '#'+id;
+				$(id_new).next().addClass('icon2');
+			}
+		}
+		
+	});
     // process the form
     $('form').submit(function(event) {
     	var quesId= $("#questionId").text();
@@ -184,59 +206,132 @@ $(document).ready(function() {
         // process the form
         $.ajax({
             type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-            url         : '../askQuestion/postAns', // the url where we want to POST
+            url         : '../answer/postAns', // the url where we want to POST
             data        : formData, // our data object
             //dataType    : 'json', // what type of data do we expect back from the server
             encode          : true,
             success: function (data) {
             	console.log("demo");
-                window.location.href ="../askQuestion/questionDetails?questionId="+$("#questionId").text();
+                window.location.href ="../question/questionDetails?questionId="+$("#questionId").text();
             },
             error: function () {
                 alert('error happened');
             }
         });
-        
-            
 
         // stop the form from submitting the normal way and refreshing the page
         event.preventDefault();
     });
    
     
-    $(".like").click(function () {
-        console.log(this);
 
-    });
-$(".queLike .dislike").click(function () {
-	var input = $(".dislike-count").text();
-	 var input2 = $(".like-count").text();
-    //dislike-count
-    var like = $(".like").attr('class');
-    var dislike = $(".dislike").attr('class');
-    if(dislike.indexOf("icon")>-1){
-    	input = parseInt(input)-1;
-        $(".dislike-count").text(input);
-        /* input2 = parseInt(input2)+1;
-        $(".like-count").text(input2); */
-    	$(".dislike").removeClass("icon");
-    }else{
-    	if((input!="0" || input2!="0") ||  (like.indexOf("icon")>-1)){
-    		input2 = parseInt(input2)-1;
-            $(".like-count").text(input2);
-    	}
-    	$(".dislike").addClass("icon");
-    	input = parseInt(input)+ 1;
-        $(".dislike-count").text(input);
-        
-        $(".like").removeClass("icon");
-    }
-});
+	$(".like").click(function() {
+							var main = this;
+							var classes = $(main).attr('class');
+							var divCount = main.nextElementSibling.innerText;
+							var like = 0;
+							if (classes.indexOf("icon") > -1) {
+							} else {
+								like = 1;
+							}
+							var ansId = 0;
+							//submitting like or dislike for question
+							if (main.id.indexOf("ansLike_") > -1) {
+								ansId = main.id.replace(/ansLike_/g, '');
 
+							}
 
-});
+							var questionId = $("#questionId").text();
+							if (questionId == "") {
+								questionId = 0;
+							}
+							var formData = {
+								'questionId' : questionId,
+								'like' : like,
+								'answerId' : ansId
+							};
 
+							$.ajax({
+								type : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+								url : '../question/updateLikeDisLike', // the url where we want to POST
+								data : formData, // our data object
+								//dataType    : 'json', // what type of data do we expect back from the server
+								encode : true,
+								success : function(data) {
+									//alert("success")
+									if (classes.indexOf("icon") > -1) {
+											divCount = parseInt(divCount) - 1;
+											main.nextElementSibling.innerText = divCount;
+											$(main).removeClass("icon");
+										} else {
+											$(main).addClass("icon");
+											divCount = parseInt(divCount) + 1;
+											main.nextElementSibling.innerText = divCount;
+										}
+								},
+								error : function() {
+									// alert('error happened');
+								}
+							});
 
+							// stop the form from submitting the normal way and refreshing the page
+							event.preventDefault();
 
+						});
+
+						$(".approve").click(function() {
+							var main = this;
+							var classes = $(main).attr('class');
+							var status = "false";
+							if (classes.indexOf("icon2") > -1) {
+
+							} else {
+								status = "true";
+							}
+
+							var ansId = 0;
+							//submitting like or dislike for question
+							if (main.id.indexOf("approve_") > -1) {
+								ansId = main.id.replace(/approve_/g, '');
+
+							}
+
+							var questionId = $("#questionId").text();
+							if (questionId == "") {
+								questionId = 0;
+							}
+							var formData = {
+								'question.questionId' : questionId,
+								'ansId' : ansId,
+								'approve' : status
+							};
+
+							$.ajax({
+								type : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+								url : '../answer/approveAnswer', // the url where we want to POST
+								data : formData, // our data object
+								//dataType    : 'json', // what type of data do we expect back from the server
+								encode : true,
+								success : function(data) {
+									//alert("success")
+									if (classes.indexOf("icon2") > -1) {
+											$(main).removeClass("icon2");
+			
+										} else {
+											$(main).addClass("icon2");
+											status = "true";
+										}
+								},
+								error : function() {
+									// alert('error happened');
+								}
+							});
+
+							// stop the form from submitting the normal way and refreshing the page
+							event.preventDefault();
+
+						});
+
+					});
 </script>
 </html>

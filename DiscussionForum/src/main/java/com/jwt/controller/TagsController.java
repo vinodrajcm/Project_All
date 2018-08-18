@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,10 @@ public class TagsController {
 	}
 	
 
-	@Autowired
+	@Autowired(required = true)
 	private sessionBean sessionBean;
 	
-	@Autowired
+	@Autowired(required = true)
 	private EmployeeService employeeService;
 	
 	@RequestMapping(value = "/view")
@@ -57,8 +58,6 @@ public class TagsController {
 		 List<Tag> tagList = new ArrayList<Tag>();
 		String tagName = tag.getTagName();
 		 tagList = employeeService.getTags(tagName);
-		
-		
 		if(tagList.isEmpty()){
 			
 			employeeService.createTag(tag); 
@@ -67,4 +66,25 @@ public class TagsController {
 			return "already exsits";
 		}
 	}
+	
+	@RequestMapping(value = "/getTags", method = RequestMethod.POST)
+	public @ResponseBody String getTags(HttpServletRequest request, HttpServletResponse response) {
+		String tag = request.getParameter("tag") == null ? "" : request.getParameter("tag");
+		
+		 String Tags = "";
+		 if(tag != ""){
+			 List<Tag> tagList = new ArrayList<Tag>();
+			 tagList = employeeService.getTags("forTypeAhead"+tag);
+			 if(!tagList.isEmpty()){
+					
+				for (Tag tag_name : tagList) {
+					Tags = Tags + tag_name.getTagName()+",";
+				}	
+					
+				}
+		 }
+		
+		 return Tags;
+	}
+	
 }

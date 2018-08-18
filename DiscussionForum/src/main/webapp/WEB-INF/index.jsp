@@ -33,7 +33,7 @@
 				<div class="col-sm-8 explore-tags">
 				
 				<c:forEach var="tagList" items="${tagList}">
-						<a href="../askQuestion/allView?tag=${tagList.tagName}" class="post-tag"
+						<a href="../question/allView?tag=${tagList.tagName}" class="post-tag"
 							title="Show questions relating to usability" rel="tag">${tagList.tagName}</a>
 				</c:forEach>		
 							<a class="more-tags _gps" href="../tags/view">more&nbsp;tags</a>
@@ -45,13 +45,13 @@
 				
 				<c:forEach var="questions" items="${questions}">
 					<div class="question-summary narrow _gps" id="question-summary-119887">
-					    <div onclick="window.location.href='../askQuestion/questionDetails?questionId=${questions.questionId}'" class="cp" style="font-weight: 600;">
+					    <div onclick="window.location.href='../question/questionDetails?questionId=${questions.questionId}'" class="cp" style="font-weight: 600;">
 					        <div class="votes">
-					            <div class="mini-counts"><span title=" ${questions.likes} vote">${questions.likes}</span></div>
-					            <div>vote</div>
+					            <div class="mini-counts"><span title=" ${questions.likes} likes for the question">${questions.likes}</span></div>
+					            <div>Likes</div>
 					        </div>
 					        <div class="status">
-					            <div class="mini-counts"><span title=" ${questions.noAnswers} answer">${questions.noAnswers}</span></div>
+					            <div class="mini-counts"><span title=" ${questions.noAnswers} answers">${questions.noAnswers}</span></div>
 					            <div>answers</div>
 					        </div>
 					        <div class="views">
@@ -60,10 +60,10 @@
 					        </div>
 					    </div>
 					    <div class="summary">				        
-					        <h3><a href="../askQuestion/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink">"${questions.questionTitle}"</a></h3>
+					        <h3><a href="../question/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink">"${questions.questionTitle}"</a></h3>
 					        <div class="tags t-cards">
 					            <c:forEach var="tags" items="${questions.tags}">
-					                   <a href="../askQuestion/allView?tag=${tags.tagName}" class="post-tag" title="" rel="tag">${tags.tagName}</a> 
+					                   <a href="../question/allView?tag=${tags.tagName}" class="post-tag" title="" rel="tag">${tags.tagName}</a> 
 					            </c:forEach>
 					        </div>
 					        <div class="started">
