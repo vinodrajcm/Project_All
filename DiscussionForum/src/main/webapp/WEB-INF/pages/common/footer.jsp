@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <script>
 //process the form
+$(document).ready(function() {
 $('.login_button').click(function(event) {
-
-	
-			 
+	 
     // get the form data
     // there are many ways to get this data using jQuery (you can use the class or id also)
     var formData = {
@@ -20,15 +19,30 @@ $('.login_button').click(function(event) {
         //dataType    : 'json', // what type of data do we expect back from the server
         encode          : true,
         success: function (data) {
-        	//console.log("demo");
-        	if(data == "true"){
-        		 message.messageHandling("Entered user id and password may be wrong / If new user please register.","error");
+        	var status = data.success;
+        	var obj = JSON.parse(data.employee)
+        	if(status == "false"){
+        		 message.messageHandling("Entered user id and password may be wrong / If new user please register.","error","message_log");
+        		 return false;
         	}
+        	$("#loginModel").modal('hide');
+        	$('.login').empty();
+        	
+        	//var user_id = ${userDetails.userId};
+        	
+        	var logout = '<div class="btn-group">'+
+					         	'<div style="padding-top: 5%;padding-right: 15%;color:black">'+
+								'<a style="color:black" href="#" id="userName">'+obj.loginId+'</a></div>'+
+							'<a href="../userMangment/logout" id="Logout" class="btn btn-kenna">Logout</a>'+
+						'</div>';
+        	
+			$('.login').html(logout);
+        	
         	 event.preventDefault();
            // window.location.href ="../home/view";
         },
         error: function () {
-        	 message.messageHandling("Something went wrong while submitting question","error","");
+        	 message.messageHandling("Something went wrong while submitting question","error","message_log");
         }
     });
     
@@ -38,10 +52,50 @@ $('.login_button').click(function(event) {
     event.preventDefault();
 });
 
+});
+
 </script>
 <body>
 
+<!-- The Modal -->
+<div class="modal" id="loginModel">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Login</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+		<div id="message_log"></div>
+      <!-- Modal body -->
+      <div class="modal-body">
+     
+       	<div class="form-group">
+		    <label for="loginId">Login ID</label>
+		    <input type="text" class="form-control" id="loginId" name="loginId" placeholder="Enter Login ID" required>
+		  </div>
+		  <div class="form-group">
+		    <label for="password">Password</label>
+		    <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" required>
+		  </div> 
+		  <button class="btn btn-primary btn-kenna login_button">login</button>
+		  <div class="form-group">
+		    <label>
+		        <span class="psw">Forgot <a href="#">password?</a></span>
+		    </label>
+		  </div> 
+		
+      </div>
+	
+      <!-- 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div> -->
+
+    </div>
+  </div>
+</div>
 
 
 	<div class="container-fluid container-fluid-footer">

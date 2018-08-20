@@ -61,6 +61,9 @@ public class Questions implements Serializable{
 	@Column(name="CREATED_DATE")
 	private Date cratedDate;
 	
+	@Column(name="MODIFIED_DATE")
+	private Date modifiedDate;
+	
 	@ManyToOne
 	@JoinColumn(name="USER_ID")
 	private Employee emp;
@@ -74,6 +77,9 @@ public class Questions implements Serializable{
 	
 	@Transient
 	private String user_like_status;
+	
+	@Transient
+	private String noDaysCreated;
 	
 	public List<Tag> getTags() {
 		return tags;
@@ -187,7 +193,23 @@ public class Questions implements Serializable{
 		this.user_like_status = user_like_status;
 	}
 
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public String getNoDaysCreated() {
+		return noDaysCreated;
+	}
+
+	public void setNoDaysCreated(String noDaysCreated) {
+		this.noDaysCreated = noDaysCreated;
+	}
 
 	
+
 	
 }

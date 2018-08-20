@@ -19,9 +19,9 @@
 	transition: right 0.2s;
 }
 
-.show {
+/* .show {
 	right: 5px;
-}
+} */
 
 .close-tag {
 	font-size: 8px;

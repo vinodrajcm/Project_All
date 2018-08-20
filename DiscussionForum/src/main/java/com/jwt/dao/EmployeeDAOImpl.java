@@ -73,9 +73,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public Employee authUser(Employee employee) {
 		Employee emp = new Employee();
-		 List<Employee> demo =  sessionFactory.getCurrentSession().createQuery("from Employee where loginId='"+employee.getLoginId()+"'").list();
-					;
-		 
+		 List<Employee> demo =  sessionFactory.getCurrentSession().createQuery("from Employee where loginId='"+employee.getLoginId()+"' and password = '"+employee.getPassword()+"'").list();
 		 if(!demo.isEmpty()){
 			 emp = demo.get(0);
 		 }

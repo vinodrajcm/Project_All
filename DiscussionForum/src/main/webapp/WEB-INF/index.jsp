@@ -60,14 +60,14 @@
 					        </div>
 					    </div>
 					    <div class="summary">				        
-					        <h3><a href="../question/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink">"${questions.questionTitle}"</a></h3>
+					        <h3><a href="../question/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink">${questions.questionTitle}</a></h3>
 					        <div class="tags t-cards">
 					            <c:forEach var="tags" items="${questions.tags}">
 					                   <a href="../question/allView?tag=${tags.tagName}" class="post-tag" title="" rel="tag">${tags.tagName}</a> 
 					            </c:forEach>
 					        </div>
 					        <div class="started">
-					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
+					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">asked <span title="${questions.cratedDate}"class="relativetime">${questions.noDaysCreated}</span></a>
 					            <a href="/users/103321/pectoralis-major">${questions.emp.firstName}</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
 					        </div>
 					    </div>
@@ -85,20 +85,6 @@
             	<div class="favicon favicon-photo" title="Photography Stack Exchange"></div>
                 <a href="https://photo.stackexchange.com/questions/100367/why-are-1-3-stop-apertures-uneven-numbers-apart" class="js-gps-track" data-gps-track="site.switch({ item_type:8, target_site:61 }); posts_hot_network.click({ item_type:2, location:8 })">
                     Why are 1/3 stop apertures uneven numbers apart?
-                </a>
-
-            </li>
-            <li>
-            	<div class="favicon favicon-photo" title="Photography Stack Exchange"></div>
-                <a href="https://scifi.stackexchange.com/questions/192033/were-the-maquis-who-returned-on-voyager-punished-for-having-been-maquis" class="js-gps-track" data-gps-track="site.switch({ item_type:8, target_site:186 }); posts_hot_network.click({ item_type:2, location:8 })">
-                    Were the Maquis who returned on Voyager punished for having been Maquis?
-                </a>
-
-            </li>
-            <li>
-            	<div class="favicon favicon-photo" title="Photography Stack Exchange"></div>
-                <a href="https://academia.stackexchange.com/questions/114404/how-to-query-gender-in-a-multiple-choice-poll-survey" class="js-gps-track" data-gps-track="site.switch({ item_type:8, target_site:415 }); posts_hot_network.click({ item_type:2, location:8 })">
-                    How to query gender in a multiple-choice poll/survey?
                 </a>
 
             </li>

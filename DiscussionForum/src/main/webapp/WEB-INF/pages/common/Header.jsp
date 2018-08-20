@@ -51,13 +51,17 @@
 						</form>
 					</div>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-3 login">
 						<c:choose>
 						    <c:when test="${userDetails.loginId!=null}">
+						    	
 						         <div class="btn-group">
-									<a href="#" id="login" class="btn btn-kenna">${userDetails.firstName}</a> <a
-									href="../userMangment/logout" id="Logout" class="btn btn-kenna">Logout</a>
-							</div>
+						         	<div style="padding-top: 5%;padding-right: 15%;color:black">
+						    			
+						    			<a style="color:black" href="#" id="userName">${userDetails.firstName}</a>
+						    		</div>
+									<a href="../userMangment/logout" id="Logout" class="btn btn-kenna">Logout</a>
+								</div>
 						    </c:when>    
 						    <c:otherwise>
 						        <div class="btn-group">

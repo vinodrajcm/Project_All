@@ -74,7 +74,7 @@
 			    		  return false;
 			    	 }
 			    	if($("#questionDescription").Editor("getText") ==""){
-			    		 message.messageHandling(" Please enter discription about question","error"."alert_placeholder");
+			    		 message.messageHandling(" Please enter discription about question","error","alert_placeholder");
 			    		  return false;
 			    	 }
 			    	 if($('#tag-values').val() == ""){

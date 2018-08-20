@@ -1,8 +1,10 @@
 package com.jwt.controller.home;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.jboss.logging.Logger;
@@ -38,16 +40,33 @@ public class HomeController {
 		
 		ModelAndView model2 = new ModelAndView();
 		List<Questions> listOfQuestions = employeeService.getQuestions(null, null);
+		
+		SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+		Date now = new Date();
 		for (Questions questions : listOfQuestions) {
 			String questionTags = questions.getTag();
+			Date createdDate = questions.getCratedDate();
+			long diff = now.getTime() - createdDate.getTime();
+			long diffDays = diff / (24 * 60 * 60 * 1000);
+			long diffHours = diff / (60 * 60 * 1000) % 24;
+			long diffMinutes = diff / (60 * 1000) % 60;
+			long diffSeconds = diff / 1000 % 60;
+			if(diffDays != 0){
+				questions.setNoDaysCreated(diffDays+" days ago");
+			}else if(diffDays == 0 && diffHours <= 23){
+				questions.setNoDaysCreated(diffHours+" hours	ago");
+			}else if(diffDays == 0 && diffHours == 0 && diffMinutes <=59){
+				questions.setNoDaysCreated(diffMinutes+" minutes ago");
+			}else{
+				questions.setNoDaysCreated(diffSeconds+" seconds ago");
+			}
+			
 			if(questionTags != null){
 				java.util.List<String> items = Arrays.asList(questionTags.split("\\s*,\\s*"));
 				List<Tag> tagList = new ArrayList<Tag>();
 				for (String string : items) {
 					if(!string.isEmpty()){
-							
 							tagList.addAll( employeeService.getTags(string));
-							
 					}
 				}
 				questions.setTags(tagList);

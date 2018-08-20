@@ -1,11 +1,14 @@
 package com.jwt.controller.UserMangment;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.hibernate.Session;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,10 +69,16 @@ public class UserMangmentController {
 		return model;
 	}
 
-	@RequestMapping(value = "/auth")
-	public @ResponseBody String auth(HttpServletRequest request, HttpServletResponse response,Employee employee) throws IOException {
+	@RequestMapping(value = "/auth", method = RequestMethod.POST)
+	public @ResponseBody Map<String , Object> auth(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		//List<Employee> listEmployee = employeeService.getAllEmployees();
-		String status="false";
+		Employee employee = new Employee();
+		String userId = request.getParameter("userId") == null ? "" : request.getParameter("userId");
+		String password = request.getParameter("password") == null ? "" : request.getParameter("password");
+		employee.setLoginId(userId);
+		employee.setPassword(password);
+		Map<String, Object> output= new HashMap<String, Object>();
+		String status = "false";
 		ModelAndView model =new ModelAndView();
 		if (sessionBean.setRequest(request)) {
 			// prevent session fixation by reset the sessionId
@@ -79,18 +88,31 @@ public class UserMangmentController {
 		
 			//List<Employee> listEmployee = employeeService.getAllEmployees();
 			Employee employeeDetails = employeeService.authUser(employee);
-			if(employeeDetails == null){
+			if(employeeDetails == null || employeeDetails.getUserId() == 0){
 				status = "false";
 			}else{
 				sessionBean.setEmp(employeeDetails);
 				status = "true";
 			}
 			
+			String jsonStr = null;
+			ObjectMapper mapper = new ObjectMapper();
+			try {
+	            // get Employee object as a json string
+				jsonStr = mapper.writeValueAsString(employeeDetails);
+	            //System.out.println(jsonStr);
+	        } catch (IOException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        }
+			output.put("success",status);
+			
+			output.put("employee", jsonStr);
 			
 			//munirvc
 		
 			
-			return status;
+			return output;
 	}
 	
 	@RequestMapping(value = "/logout")
