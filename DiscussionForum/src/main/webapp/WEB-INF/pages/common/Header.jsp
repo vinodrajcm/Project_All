@@ -90,7 +90,7 @@
 							</li>
 							<li class="nav-item"><a class="nav-link headerText" href="../tags/view">Tags</a>
 							</li>
-							<li class="nav-item"><a class="nav-link headerText" href="../question/allView?unaswered=true">Unanswered
+							<li class="nav-item"><a class="nav-link headerText" href="../question/allView?keywordForSearch=unaswered:true">Unanswered
 									Questions</a></li>
 							<li class="nav-item"><a class="nav-link headerText"
 								href="../question/view">Ask Questions</a></li>

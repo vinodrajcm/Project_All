@@ -26,7 +26,7 @@ public class HomeController {
 			.getLogger(HomeController.class);
 
 	public HomeController() {
-		System.out.println("EmployeeController()");
+		System.out.println("HomeController()");
 	}
 
 	@Autowired
@@ -39,7 +39,7 @@ public class HomeController {
 	public ModelAndView home() throws IOException {
 		
 		ModelAndView model2 = new ModelAndView();
-		List<Questions> listOfQuestions = employeeService.getQuestions(null, null);
+		List<Questions> listOfQuestions = employeeService.getQuestions("home:");
 		
 		SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 		Date now = new Date();
@@ -77,7 +77,11 @@ public class HomeController {
 		if(listOftags.size() >10){
 			listOftags = listOftags.subList(0, 10);
 		}
+		
+		List<Questions> listOfTopViewedQue = employeeService.getQuestions("topView:true");
+		
 		model2.addObject("tagList", listOftags);
+		model2.addObject("topViewQuestion", listOfTopViewedQue);
 		model2.addObject("questions",listOfQuestions);
 		model2.addObject("userDetails", sessionBean.getEmp());
 		model2.setViewName("index");

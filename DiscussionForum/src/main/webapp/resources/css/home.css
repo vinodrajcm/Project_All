@@ -24,17 +24,17 @@ a {
 }
 
 .hiw .question {
-	padding: 0 50px 0 50px;
+	//padding: 0 50px 0 50px;
 	text-align: center;
 }
 
 .hiw .answer {
-	padding: 25px 70px 0 70px;
+	padding: 25px 0 0 0;
 	text-align: center;
 }
 
 .hiw .best-answer {
-	padding: 25px 20px 0 20px;
+	padding: 25px 0 0 0;
 	text-align: center;
 }
 
@@ -219,4 +219,11 @@ a:hover{
     font-size: 12px;
     white-space: normal;
     width: 90%;
+}
+.eoq-hot-q-desc{
+	margin-bottom: 15px;
+}
+
+.eoq-ans{
+	margin-bottom: 10px;
 }

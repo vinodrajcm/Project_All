@@ -26,7 +26,7 @@ public interface EmployeeDAO {
 	
 	public Employee authUser(Employee employee);
 	
-	public  List<Questions> getQuestions(String unaswered, String tag);
+	public  List<Questions> getQuestions(String keywordForSearch);
 	
 	public List<Tag> getTags(String tag);
 	

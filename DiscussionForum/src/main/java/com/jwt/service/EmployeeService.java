@@ -31,7 +31,7 @@ public interface EmployeeService {
 	
 	public void addQuestion(Questions que);
 	
-	public  List<Questions> getQuestions(String unaswered, String tag);
+	public  List<Questions> getQuestions(String keywordForSearch);
 	
 	public List<Tag> getTags(String tag);
 	

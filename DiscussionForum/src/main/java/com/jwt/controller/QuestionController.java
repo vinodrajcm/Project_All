@@ -89,11 +89,10 @@ public class QuestionController {
 	@RequestMapping(value = "/allView",method=RequestMethod.GET)
 	public ModelAndView allQuestion(HttpServletRequest request, HttpServletResponse response,ModelAndView model) throws IOException {
 		//List<Employee> listEmployee = employeeService.getAllEmployees();
-		String unaswered = request.getParameter("unaswered") == null ? "" : request.getParameter("unaswered");
-		String tag = request.getParameter("tag") == null ? "" : request.getParameter("tag");
+		String keywordForSearch = request.getParameter("keywordForSearch") == null ? "" : request.getParameter("keywordForSearch");
 		
 		ModelAndView model_return = new ModelAndView();
-		List<Questions> listOfQuestions = employeeService.getQuestions(unaswered,tag);
+		List<Questions> listOfQuestions = employeeService.getQuestions(keywordForSearch);
 		for (Questions questions : listOfQuestions) {
 			String questionTags = questions.getTag();
 			java.util.List<String> items = Arrays.asList(questionTags.split("\\s*,\\s*"));
@@ -109,7 +108,9 @@ public class QuestionController {
 		if(listOftags.size() >10){
 			listOftags = listOftags.subList(0, 10);
 		}
+		
 		model_return.addObject("tagList", listOftags);
+		
 		model_return.addObject("questions",listOfQuestions);
 		model_return.addObject("userDetails", sessionBean.getEmp());
 		model_return.setViewName("pages/userManagment/AllQuestions");

@@ -91,8 +91,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Override
 	@Transactional
-	public  List<Questions> getQuestions(String unaswered, String tag){
-		return employeeDAO.getQuestions(unaswered,tag);
+	public  List<Questions> getQuestions(String keywordForSearch){
+		return employeeDAO.getQuestions(keywordForSearch);
 	};
 	
 	@Override

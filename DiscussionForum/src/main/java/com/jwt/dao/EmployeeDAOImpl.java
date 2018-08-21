@@ -1,7 +1,10 @@
 package com.jwt.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.xml.crypto.Data;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -82,12 +85,25 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Questions> getQuestions(String unaswered, String tag){
+	public List<Questions> getQuestions(String keywordForSearch){
 		List<Questions> questionList = new ArrayList<Questions>();
-		if(tag != null && tag != "" && unaswered.equals("true")){
+		if(keywordForSearch.contains("unaswered:")){
 			questionList =  sessionFactory.getCurrentSession().createQuery("from Questions where status=null").list();
-		}else if(tag != null && tag != ""){
-			questionList =  sessionFactory.getCurrentSession().createQuery("from Questions where tag like '%"+tag+"%'").list();
+		}else if(keywordForSearch.contains("tag:")){
+			keywordForSearch = keywordForSearch.replace("tag:", "");
+			questionList =  sessionFactory.getCurrentSession().createQuery("from Questions where tag like '%"+keywordForSearch+"%'").list();
+		}else if(keywordForSearch.contains("topView:")){
+			Query query = sessionFactory.getCurrentSession().createQuery("from Questions ORDER BY hitCount DESC");
+			query.setMaxResults(10);
+			questionList = query.list();
+		}else if(keywordForSearch.contains("home:")){
+			Date date = new Date();
+			//questionList =  sessionFactory.getCurrentSession().createQuery("from Questions where cratedDate <= '"+ date +"' and limit 2").list();
+			Query query = sessionFactory.getCurrentSession().createQuery("from Questions where cratedDate <= '"+ date +"' ORDER BY cratedDate DESC");
+			query.setMaxResults(10);
+			questionList = query.list();
+			//sessionFactory.getCurrentSession().
+			
 		}else{
 			questionList =  sessionFactory.getCurrentSession().createQuery("from Questions").list();
 		}
