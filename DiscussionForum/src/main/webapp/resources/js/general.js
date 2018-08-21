@@ -1,22 +1,5 @@
  $(function() {
 	 
-			 window.onscroll = function() {myFunction()};
-		
-			 var header = document.getElementById("toolTip");
-			 var sticky = header.offsetTop;
-		
-			 function myFunction() {
-			   if (window.pageYOffset > sticky) {
-			     header.classList.add("sticky");
-			   } else {
-			     header.classList.remove("sticky");
-			   }
-			 }
-			 
-			 
-		
-			 
-			 
 	 //Tool tip fuctions
            $("#questionTitle").focus(function() {
         	   $('.toolTipHeader').text(""); //emptying the previous data
@@ -62,7 +45,7 @@
 			 
 			   var message_danger = '<div class="alert alert-danger alert-dismissible fade show">'+
 	    	    '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+
-	    	    '<strong>Success!</strong>'+message+
+	    	    '<strong>Error! </strong>'+message+
 	    	    '</div>';
 			    
 			 var message_success= '<div class="alert alert-success alert-dismissible">'+

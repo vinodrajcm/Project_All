@@ -28,7 +28,7 @@ form.search .searchButton {
 	float: left;
     width: 20%;
     padding: 9.2px;
-    background: black;
+    background: rgb(52, 58, 64);
     color: #ffd200;
     font-size: 17px;
     cursor: pointer;
@@ -54,7 +54,7 @@ form.search::after {
 }
 
 .menu{
-	background-color: black;
+	background-color: rgb(52, 58, 64);
 }
 
 
@@ -65,7 +65,7 @@ form.search::after {
 
 .btn-kenna {
 	color: #ffd200;
-	background-color: black;
+	background-color: rgb(52, 58, 64);
 	border-color: #838383;
 }
 
@@ -104,7 +104,7 @@ form.search::after {
 }
 
 .container-fluid-footer {
-	background-color: #000000;
+	background-color: rgb(52, 58, 64);
     padding-top: 2%;
     border-top: 1px solid #ffd200;
     margin-top: 5%;

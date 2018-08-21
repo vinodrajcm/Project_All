@@ -7,26 +7,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 <jsp:include page="../common/Header.jsp" />  
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.bootstrap4.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.colVis.min.js"></script>
-
-	
-	<!-- <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css"> -->
+<script src="${pageContext.request.contextPath}/resources/js/resource/jquery-3.3.1.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/resource/jquery.dataTables.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/resource/dataTables.bootstrap4.min.js"></script>
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet"
-	href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.bootstrap4.min.css">
-
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/home.css">
 <style type="text/css">
 .table-td{
@@ -62,125 +47,154 @@ div.b * {
 	font-size: small !important;
 }
 h3{
-	    font-size: 1em;
+	font-size: 1em;
 }
 .views{
-	    margin-top: 15px;
+	margin-top: 15px;
 }
 .started{
-float: right;
+	float: right;
 }
 .col-sm-8{
-     overflow: hidden ;
-    overflow-x: auto;
+     overflow: hidden;
+     overflow-x: auto;
 }
 </style>
 </head>
 <body>
-<div class="container">
-<div class="headerTitle">All Questions</div>
-<div class="row">
+	<div class="container">
+		<div class="headerTitle">All Questions</div>
+		<div class="row">
+			<div class="col-sm-8">
+				<table id="example" class="table">
+					<thead>
+						<tr>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="questions" items="${questions}">
+							<tr>
+								<td class="table-td">
+									<div class="row quetion-list">
 
-<div class="col-sm-8">
-<table id="example" class="table" >
-        <thead>
-            <tr>
-                <th></th>
-                
-            </tr>
-        </thead>
-        <tbody>
-        <c:forEach var="questions" items="${questions}">
-          <tr>
-             <td class="table-td">
-             <div class="row quetion-list"> 
-				
-					<div class="col-sm-2">
-							<div class="cp">
-					        <div class="votes">
-					            <span title=" ${questions.likes} vote">${questions.likes}</span>
-					            <div>vote</div>
-					        </div>
-					        <div class="status">
-					            <span title=" ${questions.noAnswers} answer">${questions.noAnswers}</span>
-					            <div>answers</div>
-					        </div>
-					        <div class="views">
-					            <div>${questions.hitCount} views</div>
-					        </div>
-					    </div>
-					</div>
-					<div class="col-sm-10">
-						<div class="summary">				        
-					        <h3><a href="../question/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink">${questions.questionTitle}</a></h3>
-					        <div class="b">${questions.questionDescription}</div>
-					        <div class="tags t-cards">
-					            <c:forEach var="tags" items="${questions.tags}">
-					                   <a href="../question/allView?tag=${tags.tagName}" class="post-tag" title="" rel="tag">${tags.tagName}</a> 
-					            </c:forEach>
-					        </div>
-					        
-							<div class="started">
-					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">Asked <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
-					            <a href="/users/103321/pectoralis-major">${questions.emp.firstName}</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
-					        </div>
-							
-							</div>
-						</div>
-					</div>
-			</td>
-          </tr>
-          </c:forEach>
-        </tbody>
-        <tfoot>
-            
-        </tfoot>
-    </table>
-</div>
-<div class="col-sm-4">
-<div class="eoq-hot-q-desc"> Hot Questions</div>
-			<ul>
-            <li>
-            	<div class="favicon favicon-photo" title="Photography Stack Exchange"></div>
-                <a href="https://photo.stackexchange.com/questions/100367/why-are-1-3-stop-apertures-uneven-numbers-apart" class="js-gps-track" data-gps-track="site.switch({ item_type:8, target_site:61 }); posts_hot_network.click({ item_type:2, location:8 })">
-                    Why are 1/3 stop apertures uneven numbers apart?
-                </a>
+										<div class="col-sm-2">
+											<div class="cp">
+												<div class="votes">
+													<span title=" ${questions.likes} vote">${questions.likes}</span>
+													<div>votes</div>
+												</div>
+												<div class="approved" style="display:none">${questions.status}</div>
+												<div class="status">
+													<span title=" ${questions.noAnswers} answer">${questions.noAnswers}</span>
+													<div>answers</div>
+												</div>
+												<div class="views">
+													<div>${questions.hitCount}views</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-10">
+											<div class="summary">
+												<h3>
+													<a
+														href="../question/questionDetails?questionId=${questions.questionId}"
+														id="${questions.questionId}" class="question-hyperlink">${questions.questionTitle}</a>
+												</h3>
+												<div class="b">${questions.questionDescription}</div>
+												<div class="tags t-cards">
+													<c:forEach var="tags" items="${questions.tags}">
+														<a href="../question/allView?tag=${tags.tagName}"
+															class="post-tag" title="" rel="tag">${tags.tagName}</a>
+													</c:forEach>
+												</div>
 
-            </li>
-            <li>
-            	<div class="favicon favicon-photo" title="Photography Stack Exchange"></div>
-                <a href="https://scifi.stackexchange.com/questions/192033/were-the-maquis-who-returned-on-voyager-punished-for-having-been-maquis" class="js-gps-track" data-gps-track="site.switch({ item_type:8, target_site:186 }); posts_hot_network.click({ item_type:2, location:8 })">
-                    Were the Maquis who returned on Voyager punished for having been Maquis?
-                </a>
+												<div class="started">
+													<a
+														href="#"
+														class="started-link">Asked <span
+														title="${questions.cratedDate}" class="relativetime">
+															${questions.noDaysCreated}</span></a> <a href="#">${questions.emp.firstName}</a>
+													<!-- <span class="reputation-score" title="reputation score "
+														dir="ltr">6,896</span> -->
+												</div>
 
-            </li>
-            <li>
-            	<div class="favicon favicon-photo" title="Photography Stack Exchange"></div>
-                <a href="https://academia.stackexchange.com/questions/114404/how-to-query-gender-in-a-multiple-choice-poll-survey" class="js-gps-track" data-gps-track="site.switch({ item_type:8, target_site:415 }); posts_hot_network.click({ item_type:2, location:8 })">
-                    How to query gender in a multiple-choice poll/survey?
-                </a>
+											</div>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+					<tfoot>
 
-            </li>
-            </ul>
-</div>
-</div>
-</div>
+					</tfoot>
+				</table>
+			</div>
+			<div class="col-sm-4 hq">
+				<div class="eoq-hot-q-desc">Most Viewed Questions</div>
+				<c:forEach var="questions" items="${topViewQuestion}">
+					<li class="fa fa-question-circle" title="Question_Icon"></li>
+					<a class="eoq-ans"
+						href="../question/questionDetails?questionId=${questions.questionId}">
+						${questions.questionTitle} </a>
+				</c:forEach>
+			</div>
+		</div>
+	</div>
 
-<script type="text/javascript">
+<script>
 $(document).ready(function() {
     var table = $('#example').DataTable( {
         lengthChange: false,
-        "searching": false,
-        buttons: []
-    } );
- 
+        "searching": false
+    });
     $("#example thead").remove();
     
-    table.buttons().container()
-        .appendTo( '#example_wrapper .col-md-6:eq(0)' );
-} );
-
+    
+    $(window).on('load',function(){
+    	var votes = $('.votes');
+    	var lengthVotes = $('.votes').length;
+    	for(var i= 0;i<lengthVotes;i++){
+    		var count = votes[i].innerText;
+    		if(count.indexOf('0')>-1){
+    			votes[i].style="color:black";
+    			//votes[i].next().style="color:black";
+    		}
+    	}
+    	
+    	var status = $('.status');
+    	var lengthstatus = $('.status').length;
+    	for(var i= 0;i<lengthstatus;i++){
+    		var count = status[i].innerText;
+    		var approve_status = status[i].previousElementSibling.innerText;
+    		if(approve_status == "true"){
+    			status[i].style="color: white;background-color: rgb(104, 179, 104);border-radius: .5em;margin-left: 10%;margin-right: 10%";
+    		}else{
+    			if(count.indexOf('0')>-1){
+    				status[i].style="color:black";
+    				//votes[i].next().style="color:black";
+    			}else{
+    				status[i].style="color:#4ab471";
+    			}
+    		}
+    		
+    	}
+    	
+    	var views = $('.views');
+    	var lengthviews = $('.views').length;
+    	for(var i= 0;i<lengthviews;i++){
+    		var count = views[i].innerText;
+    		if(count.indexOf('0')>-1){
+    			views[i].style="color:black";
+    			//votes[i].next().style="color:black";
+    		}
+    	}
+    	
+    });
+   
+});
 </script>
-<jsp:include page="../common/footer.jsp" />  
+<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

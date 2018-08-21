@@ -53,8 +53,8 @@ public class HomeController {
 			long diffSeconds = diff / 1000 % 60;
 			if(diffDays != 0){
 				questions.setNoDaysCreated(diffDays+" days ago");
-			}else if(diffDays == 0 && diffHours <= 23){
-				questions.setNoDaysCreated(diffHours+" hours	ago");
+			}else if(diffDays == 0 && diffHours != 0  && diffHours <= 23){
+				questions.setNoDaysCreated(diffHours+" hours ago");
 			}else if(diffDays == 0 && diffHours == 0 && diffMinutes <=59){
 				questions.setNoDaysCreated(diffMinutes+" minutes ago");
 			}else{
@@ -87,9 +87,6 @@ public class HomeController {
 		model2.setViewName("index");
 		return model2;
 	}
-	
-	
-	
 	
 	
 }

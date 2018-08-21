@@ -1,5 +1,18 @@
 $(document).ready(function() {
 	
+	window.onscroll = function() {myFunction()};
+	
+	 var header = document.getElementById("toolTip");
+	 var sticky = header.offsetTop;
+
+	 function myFunction() {
+	   if (window.pageYOffset > sticky) {
+	     header.classList.add("sticky");
+	   } else {
+	     header.classList.remove("sticky");
+	   }
+	 }
+	
     $("#tags").keyup(function(){
     	var value = $("#tags").val();
     	var oriValue = $("#tag-values").val();

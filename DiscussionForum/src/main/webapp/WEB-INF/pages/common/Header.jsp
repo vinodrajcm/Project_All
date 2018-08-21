@@ -5,7 +5,7 @@
 <html>
 <head>
 <title>Discussion Forum</title>
-<link rel="shortcut icon" type="image/ico" href="https://www.kennametal.com/etc/designs/kennametal/images/icon.gif">
+<link rel="shortcut icon" type="image/ico" href="${pageContext.request.contextPath}/resources/img/icon.gif">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -25,6 +25,7 @@
 <link href="<c:url value="/resources/css/header.css" />"
 	rel="stylesheet">
 <script src="<c:url value="/resources/js/main.js" />"></script>
+<script src="${pageContext.request.contextPath}/resources/js/general.js"></script>
 </head>
 
 <body>
@@ -36,7 +37,7 @@
 			<div class="row">
 				<div class="col-sm-3" style="">
 					<img class="img-fluid"
-						src="https://konnect.kennametal.com/bridge-x.com~connect_ui/images/logo.png"
+						src="${pageContext.request.contextPath}/resources/img/logo.png"
 						alt="Kenna Logo">
 				</div>
 				<div class="col-sm-6">
@@ -56,10 +57,8 @@
 						    <c:when test="${userDetails.loginId!=null}">
 						    	
 						         <div class="btn-group">
-						         	<div style="padding-top: 5%;padding-right: 15%;color:black">
-						    			
-						    			<a style="color:black" href="#" id="userName">${userDetails.firstName}</a>
-						    		</div>
+						         	<a style="color:black" href="#" id="userName" class="btn" >welcome: ${userDetails.firstName}</a>
+						    		
 									<a href="../userMangment/logout" id="Logout" class="btn btn-kenna">Logout</a>
 								</div>
 						    </c:when>    

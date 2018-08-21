@@ -31,8 +31,7 @@ $('.login_button').click(function(event) {
         	//var user_id = ${userDetails.userId};
         	
         	var logout = '<div class="btn-group">'+
-					         	'<div style="padding-top: 5%;padding-right: 15%;color:black">'+
-								'<a style="color:black" href="#" id="userName">'+obj.loginId+'</a></div>'+
+        					'<a style="color:black" href="#" id="userName" class="btn" >welcome: '+obj.loginId+'</a>'+
 							'<a href="../userMangment/logout" id="Logout" class="btn btn-kenna">Logout</a>'+
 						'</div>';
         	
@@ -79,7 +78,7 @@ $('.login_button').click(function(event) {
 		    <label for="password">Password</label>
 		    <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" required>
 		  </div> 
-		  <button class="btn btn-primary btn-kenna login_button">login</button>
+		  <button class="btn btn-kenna login_button">login</button>
 		  <div class="form-group">
 		    <label>
 		        <span class="psw">Forgot <a href="#">password?</a></span>

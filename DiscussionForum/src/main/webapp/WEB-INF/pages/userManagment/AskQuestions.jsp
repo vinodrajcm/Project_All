@@ -15,7 +15,7 @@
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 	<script src="${pageContext.request.contextPath}/resources/js/editor.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/general.js"></script>
+	
 	<script src="${pageContext.request.contextPath}/resources/js/createQuestion.js"></script>
 	<script>
 				function tagDelete(val){

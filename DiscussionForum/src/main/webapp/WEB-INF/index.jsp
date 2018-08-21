@@ -80,8 +80,8 @@
 					            </c:forEach>
 					        </div>
 					        <div class="started">
-					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">asked <span title="${questions.cratedDate}"class="relativetime">${questions.noDaysCreated}</span></a>
-					            <a href="/users/103321/pectoralis-major">${questions.emp.firstName}</a> <span class="reputation-score" title="reputation score " dir="ltr">6,896</span>
+					            <a href="#" class="started-link">asked <span title="${questions.cratedDate}"class="relativetime">${questions.noDaysCreated}</span></a>
+					            <a href="#">${questions.emp.firstName}</a> <!-- <span class="reputation-score" title="reputation score " dir="ltr">6,896</span> -->
 					        </div>
 					    </div>
 					</div>
@@ -127,7 +127,7 @@ $(window).on('load',function(){
 		var count = status[i].innerText;
 		var approve_status = status[i].previousElementSibling.innerText;
 		if(approve_status == "true"){
-			status[i].style="color: white;background-color: rgb(71, 209, 71);border-radius: 1em";
+			status[i].style="color: white;background-color: rgb(104, 179, 104);border-radius: 1em";
 		}else{
 			if(count.indexOf('0')>-1){
 				status[i].style="color:black";

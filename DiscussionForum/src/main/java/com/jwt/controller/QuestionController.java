@@ -38,7 +38,7 @@ public class QuestionController {
 			.getLogger(QuestionController.class);
 	
 	public QuestionController() {
-		System.out.println("askQuestionController()"); 
+		System.out.println("QuestionController()"); 
 	}
 	
 	@Autowired
@@ -51,7 +51,7 @@ public class QuestionController {
 	
 	@RequestMapping(value = "/view",method=RequestMethod.GET)
 	public ModelAndView askquestion(HttpServletRequest request, HttpServletResponse response,ModelAndView model) throws IOException {
-		//List<Employee> listEmployee = employeeService.getAllEmployees();
+		
 		String questionId = request.getParameter("questionId") == null ? "" : request.getParameter("questionId");
 		Questions question = new Questions();
 		if(!questionId.isEmpty()){
@@ -88,12 +88,30 @@ public class QuestionController {
 	
 	@RequestMapping(value = "/allView",method=RequestMethod.GET)
 	public ModelAndView allQuestion(HttpServletRequest request, HttpServletResponse response,ModelAndView model) throws IOException {
-		//List<Employee> listEmployee = employeeService.getAllEmployees();
+		
 		String keywordForSearch = request.getParameter("keywordForSearch") == null ? "" : request.getParameter("keywordForSearch");
 		
 		ModelAndView model_return = new ModelAndView();
+		Date now = new Date();
 		List<Questions> listOfQuestions = employeeService.getQuestions(keywordForSearch);
 		for (Questions questions : listOfQuestions) {
+			
+			Date createdDate = questions.getCratedDate();
+			long diff = now.getTime() - createdDate.getTime();
+			long diffDays = diff / (24 * 60 * 60 * 1000);
+			long diffHours = diff / (60 * 60 * 1000) % 24;
+			long diffMinutes = diff / (60 * 1000) % 60;
+			long diffSeconds = diff / 1000 % 60;
+			if(diffDays != 0){
+				questions.setNoDaysCreated(diffDays+" days ago");
+			}else if(diffDays == 0 && diffHours != 0 && diffHours <= 23  ){
+				questions.setNoDaysCreated(diffHours+" hours ago");
+			}else if(diffDays == 0 && diffHours == 0 && diffMinutes <=59){
+				questions.setNoDaysCreated(diffMinutes+" minutes ago");
+			}else{
+				questions.setNoDaysCreated(diffSeconds+" seconds ago");
+			}
+			
 			String questionTags = questions.getTag();
 			java.util.List<String> items = Arrays.asList(questionTags.split("\\s*,\\s*"));
 			List<Tag> tagList = new ArrayList<Tag>();
@@ -108,9 +126,10 @@ public class QuestionController {
 		if(listOftags.size() >10){
 			listOftags = listOftags.subList(0, 10);
 		}
+		List<Questions> listOfTopViewedQue = employeeService.getQuestions("topView:true");
 		
 		model_return.addObject("tagList", listOftags);
-		
+		model_return.addObject("topViewQuestion", listOfTopViewedQue);
 		model_return.addObject("questions",listOfQuestions);
 		model_return.addObject("userDetails", sessionBean.getEmp());
 		model_return.setViewName("pages/userManagment/AllQuestions");

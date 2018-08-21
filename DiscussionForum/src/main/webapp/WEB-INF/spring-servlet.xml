@@ -28,7 +28,8 @@
 	
 	<mvc:interceptors>		 	
 		<mvc:interceptor>
-			<mvc:mapping path="/user/**" />			
+			<!--  <mvc:mapping path="/user/**" />	 -->	
+			  <mvc:mapping path="" />	
 			<bean class="com.jwt.interceptor.loginInterceptor"></bean>	
 		</mvc:interceptor>
 	</mvc:interceptors>	
