@@ -29,7 +29,7 @@
 </head>
 
 <body>
-
+<div class="loader" style="display:none"></div>
 <div id="userId" hidden=true>${userDetails.userId}</div>
 <div id="loginId" hidden=true>${userDetails.loginId}</div>
 	<div class="header">

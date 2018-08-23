@@ -42,6 +42,11 @@ public class AnswerController {
 	@RequestMapping(value = "/postAns", method = RequestMethod.POST)
 	public @ResponseBody String postAns(HttpServletRequest request,Answers answers) {
 		
+		
+		if(sessionBean.getEmp() == null){
+			return "login_Failed";
+		}
+		
 		if(answers.getAnsId() != 0){
 			Answers answer_db = new Answers();
 			answer_db = employeeService.getAnswer(answers.getAnsId());
@@ -65,6 +70,19 @@ public class AnswerController {
 	
 	@RequestMapping(value = "/approveAnswer", method = RequestMethod.POST)
 	public @ResponseBody String  approveAnswer(HttpServletRequest request,Answers answer) {
+		Questions question = new Questions();
+		if(sessionBean.getEmp() == null){
+			return "login_Failed";
+			
+		}else{
+			if(answer.getQuestion().getQuestionId() != 0){
+				question = employeeService.questionDetails(answer.getQuestion().getQuestionId());
+				if(!question.getEmp().getLoginId().equals(sessionBean.getEmp().getLoginId())){
+					return "approved_failed";
+				}
+				
+			}
+		}
 		
 		Answers answer_new = new Answers();
 		if(answer.getAnsId() != 0){
@@ -80,8 +98,7 @@ public class AnswerController {
 		}
 		String approve_status ="";
 		if(answer_new.getQuestion().getQuestionId() != 0){
-			Questions question = new Questions();
-			question = employeeService.questionDetails(answer.getQuestion().getQuestionId());
+			
 			List<Answers> answerList = employeeService.getAnswers(question.getQuestionId());
 			if(!answerList.isEmpty()){
 				for (Answers answers : answerList) {
@@ -94,7 +111,7 @@ public class AnswerController {
 			}
 		}
 		
-		return null;
+		return "success";
 		
 	}
 	

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+
 <jsp:include page="../common/Header.jsp" />  
 <script src="${pageContext.request.contextPath}/resources/js/resource/jquery-3.3.1.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/resource/jquery.dataTables.min.js"></script>
@@ -17,12 +17,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.colVis.min.js"></script>-->
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.colVis.min.js"></script> -->
+
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
 
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-<!-- <link rel="stylesheet"
-	href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.bootstrap4.min.css">  -->
+ <link rel="stylesheet"
+	href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.bootstrap4.min.css">
+	
+	<link rel="stylesheet"
+	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/home.css">
 <style type="text/css">
@@ -121,32 +127,29 @@ background-color: #ffd2004a;
 
 <div class="col-sm-12">
 
-<table id="userList" class="table" style="width:100%;border: 1px solid #dee2e6;">
+<table id="userList" class="table display responsive nowrap"  style="width:100%;border: 1px solid #dee2e6;">
         <thead style="background-color: rgb(52, 58, 64);color: #ffffff;">
             <tr class="tr-head">
-                <th style="display:none">User ID</th>
                 <th>Login ID</th>
+                <th class="displayNone">User ID</th>
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Mail ID</th>
                 <th>Department</th>
-                <th style="display:none"></th>
+                <th class="displayNone"></th>
             </tr>
         </thead>
         
         <tbody>
          <c:forEach var="listUsers" items="${listUsers}">
           <tr class="tr-header">
-        
-                <td style="display:none">${listUsers.userId}</td>
                 <td><a href="../user/userDetails?userId=${listUsers.userId}">${listUsers.loginId}</a></td>
+                <td class="displayNone" >${listUsers.userId}</td>
                 <td>${listUsers.firstName}</td>
                 <td>${listUsers.lastName}</td>
                 <td>${listUsers.email}</td>
                 <td>${listUsers.team}</td>
-                <td style="display:none" ><a>Delete</a> <a>Edit</a></td>
-                
-                    
+                <td class="displayNone" ><a>Delete</a> <a>Edit</a></td>
             </tr>
       </c:forEach>
               
@@ -165,11 +168,11 @@ $(document).ready(function(){
 	
     var table = $('#userList').DataTable({
         lengthChange: false,
+        responsive: true,
         fixedHeader: {
             header: false,
             footer: true
         }
-       
     });
  
     //$("#example thead").remove();

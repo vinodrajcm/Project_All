@@ -46,6 +46,9 @@ public class Answers {
 	@Transient
 	private String user_like_status;
 	
+	@Transient
+	private String noDaysAnswered;
+	
 	@ManyToOne
 	@JoinColumn(name="ANSWERED_BY")
 	private Employee emp;
@@ -127,6 +130,14 @@ public class Answers {
 
 	public void setApprove(String approve) {
 		this.approve = approve;
+	}
+
+	public String getNoDaysAnswered() {
+		return noDaysAnswered;
+	}
+
+	public void setNoDaysAnswered(String noDaysAnswered) {
+		this.noDaysAnswered = noDaysAnswered;
 	}
 	
 	

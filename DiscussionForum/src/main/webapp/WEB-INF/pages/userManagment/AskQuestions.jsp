@@ -87,8 +87,6 @@
 		    			  message.messageHandling(" Please enter less than 5 tags per question","error","alert_placeholder"); 
 		    			  return false;
 		    		  }
-			    	 
-			    	 
 			    			 
 			        // get the form data
 			        // there are many ways to get this data using jQuery (you can use the class or id also)

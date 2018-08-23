@@ -1,17 +1,22 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
 <jsp:include page="../common/Header.jsp" />  
 <script src="${pageContext.request.contextPath}/resources/js/resource/jquery-3.3.1.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/resource/jquery.dataTables.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/resource/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet"
+	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">	
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/home.css">
 <style type="text/css">
 .table-td{
@@ -59,13 +64,19 @@ h3{
      overflow: hidden;
      overflow-x: auto;
 }
+
+.tags a{
+	width:auto !important;
+}
+
 </style>
 </head>
 <body>
 	<div class="container">
-		<div class="headerTitle">All Questions</div>
+		
 		<div class="row">
-			<div class="col-sm-8">
+			<div class="col-sm-9">
+			<div class="headerTitle">All Questions</div>
 				<table id="example" class="table">
 					<thead>
 						<tr>
@@ -97,8 +108,7 @@ h3{
 										<div class="col-sm-10">
 											<div class="summary">
 												<h3>
-													<a
-														href="../question/questionDetails?questionId=${questions.questionId}"
+													<a href="../question/questionDetails?questionId=${questions.questionId}"
 														id="${questions.questionId}" class="question-hyperlink">${questions.questionTitle}</a>
 												</h3>
 												<div class="b">${questions.questionDescription}</div>
@@ -131,8 +141,20 @@ h3{
 					</tfoot>
 				</table>
 			</div>
-			<div class="col-sm-4 hq">
-				<div class="eoq-hot-q-desc">Most Viewed Questions</div>
+			<div class="col-sm-3 hq">
+				<div class="title_withoutborder">${fn:length(questions)}</div>
+				<div>questions</div>
+				<div class="title_withoutborder">Tags to Search</div>
+						<c:forEach var="tagList" items="${tagList}">
+						<div class="tags">
+						<a href="../question/allView?keywordForSearch=tag:${tagList.tagName}" class="post-tag"
+							title="Show questions relating to usability" rel="tag">${tagList.tagName}</a>
+						</div>	
+						</c:forEach>
+							
+						<a class="more-tags _gps" href="../tags/view">more&nbsp;tags</a>
+			
+				<div class="eoq-hot-q-desc title_withoutborder">Most Viewed Questions</div>
 				<c:forEach var="questions" items="${topViewQuestion}">
 					<li class="fa fa-question-circle" title="Question_Icon"></li>
 					<a class="eoq-ans"

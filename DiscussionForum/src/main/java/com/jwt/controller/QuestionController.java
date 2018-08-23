@@ -143,15 +143,69 @@ public class QuestionController {
 	
 		//get the question details from data base
 		Questions question = employeeService.questionDetails(qunId);
+		List<Questions> tagsRelatedQues = new ArrayList<Questions>();
+				
+		String questionTags = question.getTag();
+		List<String> items = Arrays.asList(questionTags.split("\\s*,\\s*"));
+		List<Tag> tagList = new ArrayList<Tag>();
+		for (String string : items) {
+			
+			
+			if(!string.isEmpty()){
+					tagsRelatedQues.addAll( employeeService.getQuestions("tag:"+string+""));
+					tagList.addAll( employeeService.getTags(string));
+			}
+		}
+		question.setTags(tagList);
+		
+		Date createdDate = question.getCratedDate();
+		Date now = new Date();
+		long diff = now .getTime() - createdDate.getTime();
+		long diffDays = diff / (24 * 60 * 60 * 1000);
+		long diffHours = diff / (60 * 60 * 1000) % 24;
+		long diffMinutes = diff / (60 * 1000) % 60;
+		long diffSeconds = diff / 1000 % 60;
+		if(diffDays != 0){
+			question.setNoDaysCreated(diffDays+" days ago");
+		}else if(diffDays == 0 && diffHours != 0 && diffHours <= 23  ){
+			question.setNoDaysCreated(diffHours+" hours ago");
+		}else if(diffDays == 0 && diffHours == 0 && diffMinutes <=59){
+			question.setNoDaysCreated(diffMinutes+" minutes ago");
+		}else{
+			question.setNoDaysCreated(diffSeconds+" seconds ago");
+		}
+		
 		//update count in question table 
 		int count = question.getHitCount()+1;
 		question.setHitCount(count);
 		employeeService.addQuestion(question);
 		//get all the related answers from the particular question 
 		List<Answers> ansList = employeeService.getAnswers(qunId);
+		
+		for (Answers answers : ansList) {
+			Date answerdDate = answers.getAnsDate();
+			long diff1 = now .getTime() - answerdDate.getTime();
+			long diffDays1 = diff1 / (24 * 60 * 60 * 1000);
+			long diffHours1 = diff1 / (60 * 60 * 1000) % 24;
+			long diffMinutes1 = diff1 / (60 * 1000) % 60;
+			long diffSeconds1 = diff1 / 1000 % 60;
+			if(diffDays1 != 0){
+				answers.setNoDaysAnswered(diffDays1+" days ago");
+			}else if(diffDays1 == 0 && diffHours1 != 0 && diffHours1 <= 23  ){
+				answers.setNoDaysAnswered(diffHours1+" hours ago");
+			}else if(diffDays1 == 0 && diffHours1 == 0 && diffMinutes1 <=59){
+				answers.setNoDaysAnswered(diffMinutes1+" minutes ago");
+			}else{
+				answers.setNoDaysAnswered(diffSeconds1+" seconds ago");
+			}
+		}
+		List<Questions> listOfTopViewedQue = employeeService.getQuestions("topView:true");
+		
 		model.addObject("questionDetails", question);
 		model.addObject("ansList", ansList);
 		model.addObject("userDetails", sessionBean.getEmp());
+		model.addObject("topViewQuestion", listOfTopViewedQue);
+		model.addObject("tagsRelatedQues", tagsRelatedQues);
 		model.setViewName("pages/userManagment/QuestionDetails");
 		return model;
 	}
@@ -219,6 +273,8 @@ public class QuestionController {
 	
 	@RequestMapping(value = "/updateLikeDisLike", method = RequestMethod.POST)
 	public @ResponseBody String  updateLikeDisLike(HttpServletRequest request,likeDislike likeDislike) {
+		
+		
 		if(sessionBean.getEmp() != null){
 			if(sessionBean.getEmp().getUserId() !=0){
 				
@@ -258,10 +314,11 @@ public class QuestionController {
 				
 			}
 		}else{
-			return "PLease login";
+				return "login_Failed";
+				
 		}
 	
-		return null;
+		return "Sucess";
 		
 	}
 	
