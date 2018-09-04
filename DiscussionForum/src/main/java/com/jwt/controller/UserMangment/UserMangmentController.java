@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.jwt.controller.EmployeeController;
 import com.jwt.model.Employee;
+import com.jwt.model.SystemProperties;
 import com.jwt.service.EmployeeService;
 import com.jwt.service.session.sessionBean;
 
@@ -50,23 +51,36 @@ public class UserMangmentController {
 	@RequestMapping(value = "/register")
 	public ModelAndView register(ModelAndView model) throws IOException {
 		//List<Employee> listEmployee = employeeService.getAllEmployees();
+		
+		List<SystemProperties> listOfDep = employeeService.getValues("department");
+		List<SystemProperties> listOfDesig = employeeService.getValues("designation");
+		
 		model.addObject("listEmployee", "");
+		model.addObject("designation", listOfDesig);
+		model.addObject("department",listOfDep );
 		model.setViewName("pages/userManagment/Register");
 		return model;
 	}
 	
 	@RequestMapping(value = "/registerNewUser", method = RequestMethod.POST)
-	public ModelAndView register(Employee employee) throws IOException {
+	public  @ResponseBody Map<String , Object>  register(HttpServletRequest request, HttpServletResponse response,Employee employee) throws IOException {
+		Map<String, Object> output= new HashMap<String, Object>();
 		if (employee.getUserId() == 0) { // if employee id is 0 then creating the
 			// employee other updating the employee
+			Employee employeeDetails = employeeService.authUser(employee);
+			if(employee.getUserId() != 0){
+				output.put("sucess", "false");
+				output.put("message", "Login id is already in use please you different login Id");
+				return output;
+			}
 			employeeService.addEmployee(employee);
 		} else {
 			employeeService.updateEmployee(employee);
 		}
-		ModelAndView model = new ModelAndView();
-		model .addObject("Success", "Successfully done");
-		model.setViewName("index");
-		return model;
+		
+		output.put("sucess", "true");
+		output.put("message", "User Successfully Registered you can login in now");
+		return output;
 	}
 
 	@RequestMapping(value = "/auth", method = RequestMethod.POST)

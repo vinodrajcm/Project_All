@@ -31,94 +31,7 @@
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/home.css">
-<style type="text/css">
-.table-td{
-	border-top: 1px solid #0000 !important;
-}
-.profileHeader{
 
-    border: 1px solid #7a827ea8;
-    padding: 1%;
-}
-
-.img-profile{
-	   // height: 80%;
-	margin-left:20%;   
-    width: 50%;
-}
-
-.profileDetail{
-margin: 1%;
-}
-.profileName{
-	    //width: 50%;
-    text-align: center;
-}
-
-.profileHeader:hover{
-background-color: #ffd2004a;
-}
-
-#userList_filter input:active, 
-#userList_filter input:focus {
-	
-	 color: #495057;
-    background-color: #fff;
-    border-color: #dcb12e;
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.55);
-     	
-}
-
-/* .page-item.active .page-link {
-    z-index: 1;
-    color: #fff;
-    background-color: #ffd200;
-    border-color: #ffd200;
-}
-.page-link:focus {
-    //z-index: 2;
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(255, 210, 0, 0.35);
-}
-.page-link{
-	color:black;
-}
-
-.page-link:hover {
-    z-index: 2;
-    color: #ffd200;
-    text-decoration: none;
-    background-color: #e9ecef;
-    border-color: #dee2e6;
-} */
-.tr-header{
-    text-align: center;
-}
-/* .tr-header:hover{
-    
-    cursor: pointer;
-    color: white;
-} */
-/* .tr-header a:hover{
-   color: #FFC107;
-    text-decoration-line: none;
-}
-.tr-header a{
-   color: black;
-    text-decoration-line: none;
-} */
-.tr-header:focus {
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(19, 19, 18, 0.44);
-}
-
-.tr-head th{
-    font-weight: 500;
-        text-align: center;
-}
-
-</style>
 </head>
 <body>
 <div class="container">
@@ -128,7 +41,7 @@ background-color: #ffd2004a;
 <div class="col-sm-12">
 
 <table id="userList" class="table display responsive nowrap"  style="width:100%;border: 1px solid #dee2e6;">
-        <thead style="background-color: rgb(52, 58, 64);color: #ffffff;">
+        <thead>
             <tr class="tr-head">
                 <th>Login ID</th>
                 <th class="displayNone">User ID</th>

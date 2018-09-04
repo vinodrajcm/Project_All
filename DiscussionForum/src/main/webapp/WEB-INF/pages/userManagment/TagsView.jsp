@@ -7,25 +7,28 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 <jsp:include page="../common/Header.jsp" />  
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/resource/jquery-3.3.1.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/resource/jquery.dataTables.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/resource/dataTables.bootstrap4.min.js"></script>
+<!-- <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.bootstrap4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.colVis.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.colVis.min.js"></script> -->
 
-	
-	<!-- <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css"> -->
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
+
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet"
+ <link rel="stylesheet"
 	href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.bootstrap4.min.css">
+	
+	<link rel="stylesheet"
+	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/home.css">
 <style type="text/css">
@@ -89,26 +92,7 @@ background-color: #ffd2004a;
     background-color: #e9ecef;
     border-color: #dee2e6;
 }
-.tr-header{
-}
-.tr-header:hover{
-    background-color: #3e3e3e;
-    cursor: pointer;
-    color: white;
-}
-.tr-header a:hover{
-   color: #FFC107;
-    text-decoration-line: none;
-}
-.tr-header a{
-   color: black;
-    text-decoration-line: none;
-}
 
-.tr-header:focus {
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(19, 19, 18, 0.44);
-}
 
 .tr-head th{
     font-weight: 500;
@@ -123,11 +107,12 @@ background-color: #ffd2004a;
 
 <div class="col-sm-12">
 
-<table id="tagList" class="table" style="width:100%;border: 1px solid #dee2e6;">
-        <thead style="background-color: #ffd200;color: #000000;">
-            <tr class="tr-head">
-                <th style="display:none">ID</th>
+<table id="tagList"  class="table display responsive nowrap" style="width:100%;border: 1px solid #dee2e6;">
+        <thead>
+            <tr>
+               
                 <th>Tag Name</th>
+                 <th class="displayNone">ID</th>
                 <th>No Questions Tagged</th>
                 <th>Created By</th>
                 <th>Created Date</th>
@@ -139,8 +124,9 @@ background-color: #ffd2004a;
          <c:forEach var="tags" items="${tags}">
           <tr class="tr-header">
         
-                <td style="display:none">${tags.tagId}</td>
+                
                 <td><a href="../question/allView?tag=${tags.tagName}">${tags.tagName}</a></td>
+                <td class="displayNone">${tags.tagId}</td>
                 <td>${tags.count}</td>
                 <td>${tags.createdBY}</td>
                 <td>${tags.createdDate}</td>
@@ -164,20 +150,20 @@ $(document).ready(function() {
 	
 	
 	 
-    var table = $('#tagList').DataTable( {
-        lengthChange: false,
+    var table = $('#tagList').DataTable({
+    	lengthChange: false,
+        responsive: true,
         fixedHeader: {
             header: false,
             footer: true
-        },
-        buttons: []
-    } );
+        }
+    });
  
     //$("#example thead").remove();
     
-    table.buttons().container()
-        .appendTo( '#example_wrapper .col-md-6:eq(0)' );
-} );
+  /*   table.buttons().container()
+        .appendTo( '#example_wrapper .col-md-6:eq(0)' );*/
+} ); 
 
 </script>
 

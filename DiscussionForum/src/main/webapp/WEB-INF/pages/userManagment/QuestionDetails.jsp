@@ -19,79 +19,14 @@
 		</script>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/home.css">
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/editor.css">
-<style>
-.btn-group a {
-	color: #ffd200;
-}
-
-.btn-group a:HOVER {
-	color: white;
-}
-
-.text-container { //
-	display: inline-block;
-	position: relative; //
-	overflow: hidden;
-}
-
-.clearBtn {
-	position: absolute;
-	top: 0;
-	margin-top: 1%;
-	transition: right 0.2s;
-}
-
-.show {
-	right: 5px;
-}
-
-.close-tag {
-	font-size: 8px;
-	margin-left: 5px;
-}
-
-.tags-textfield {
-	border: none !important;
-	box-shadow: none !important;
-	outline: 0 !important;
-	padding: 0 !important;
-	margin: 5px 3px 0;
-	background-color: transparent !important;
-	height: 25px;
-	width: 100%;
-}
-
-.queLike .fa {
-	font-size: 30px;
-	cursor: pointer;
-	user-select: none;
-}
-
-.icon {
-	color: #479f37;
-}
-
-.icon2 {
-	color: #479f37;
-}
-
-.queLike div {
-	width: 100%;
-	text-align: center;
-}
-
-.answerDiv {
-	border-bottom: 1px solid #ababab;
-	padding-bottom: 5%;
-	margin-bottom: 2%;
-}
-</style>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/queDetails.css">
 <div class="container">
 <form autocomplete="off">
 <div class="headerTitle">${questionDetails.questionTitle}</div>
+<div class="alert_placeholder" id="alert_placeholder"></div>
 <div id="questionId" style="display:none">${questionDetails.questionId}</div>
 <div class="row">
-<div class="alert_placeholder" id="alert_placeholder"></div>
+
 <div class="col-sm-9">
 	<div class="row">
 			<div class="col-sm-1 queLike">
@@ -107,7 +42,7 @@
 			</c:forEach>
 			</div>
 			
-			<div class="started margin-top-2per"><a class="" href="../question/view?questionId=${questionDetails.questionId}" id="${questionDetails.questionId}">improve this question</a></div>
+			<div class="margin-top-2per"><a class="" href="../question/view?questionId=${questionDetails.questionId}" id="${questionDetails.questionId}">improve this question</a></div>
 			
 			<div class="started float-right">
 			<a href="#" class="started-link">Asked <span title="${questionDetails.cratedDate}" class="relativetime">
@@ -131,11 +66,11 @@
 					
 					<div class="like-count">${answers.total_likes}</div>
 					<div id="approveSatus_${answers.ansId}"  style="display:none" class="approved">${answers.approve}</div>
-					<i id="approve_${answers.ansId}" class="fa fa-check-circle approve" style="font-size:36px"></i>
+					<i id="approve_${answers.ansId}" class="fa fa-check-circle approve"></i>
 			</div>
 			
 		     <div class="col-sm-11 answerDiv">${answers.detailAns}
-					<div class="started margin-top-2per"><a href="../answer/editAns?answerId=${answers.ansId}" id="${answers.ansId}">improve this answer</a></div>
+					<div class="margin-top-2per"><a href="../answer/editAns?answerId=${answers.ansId}" id="${answers.ansId}">improve this answer</a></div>
 						<div class="started float-right">
 						<a href="#" class="started-link">Answered <span title="${answers.ansDate}" class="relativetime">
 								${answers.noDaysAnswered}</span></a> <a href="#">by ${answers.emp.firstName} ${answers.emp.lastName} </a>
@@ -167,8 +102,8 @@
   		</div>
   		<div class="eoq-hot-q-desc title_withoutborder">Tags Related Questions</div>
 				<c:forEach var="questions" items="${tagsRelatedQues}">
-					<li class="fa fa-question-circle" title="Question_Icon"></li>
-					<a class="eoq-ans"
+					
+					<a class="fa fa-question-circle eoq-ans"
 						href="../question/questionDetails?questionId=${questions.questionId}">
 						${questions.questionTitle} </a>
 				</c:forEach>
@@ -176,8 +111,7 @@
 				
   		<div class="eoq-hot-q-desc title_withoutborder">Most Viewed Questions</div>
 				<c:forEach var="questions" items="${topViewQuestion}">
-					<li class="fa fa-question-circle" title="Question_Icon"></li>
-					<a class="eoq-ans"
+					<a class="fa fa-question-circle eoq-ans"
 						href="../question/questionDetails?questionId=${questions.questionId}">
 						${questions.questionTitle} </a>
 				</c:forEach>
@@ -229,8 +163,13 @@ $(document).ready(function() {
 	});
     // process the form
     $('form').submit(function(event) {
-    	$(".loader").fadeIn();
+    	
     	var quesId= $("#questionId").text();
+    	
+    	if(quesId == 0 || $("#ansDescription").Editor("getText") == null || $("#ansDescription").Editor("getText") ==""){
+    		message.messageHandling("Answer field should not be empty","error","alert_placeholder");
+    		return false;
+    	}
         // get the form data
         // there are many ways to get this data using jQuery (you can use the class or id also)
         var formData = {
@@ -239,6 +178,7 @@ $(document).ready(function() {
             
         };
         // process the form
+        $(".loader").fadeIn();
         $.ajax({
             type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
             url         : '../answer/postAns', // the url where we want to POST
@@ -247,7 +187,6 @@ $(document).ready(function() {
             encode          : true,
             success: function (data) {
             	$(".loader").fadeOut("slow");
-            	
             	if(data == "login_Failed"){
             		$("#loginModel").modal();
             		 return false;

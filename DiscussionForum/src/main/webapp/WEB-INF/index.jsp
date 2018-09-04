@@ -34,10 +34,10 @@
 		<div class="col-sm-2">
 	</div>
 	</div>
-	<div class="row eoq">
+	<div class="row eoq mar-top-bottom">
 		<div class="col-sm-9">
-			<div class="eoq-desc"> <h1>Explore Our Questions</h1> </div>
-			<div class="row"> 
+			<div class="eoq-desc "> <h1>Explore Our Questions</h1> </div>
+			<div class="row mar-top-bottom"> 
 				<div class="col-sm-8 explore-tags">
 				
 				<c:forEach var="tagList" items="${tagList}">
@@ -53,7 +53,7 @@
 				
 				<c:forEach var="questions" items="${questions}">
 					<div class="question-summary narrow _gps" id="question-summary-119887">
-					    <div onclick="window.location.href='../question/questionDetails?questionId=${questions.questionId}'" class="cp" style="font-weight: 600;">
+					    <div onclick="window.location.href='../question/questionDetails?questionId=${questions.questionId}'" class="cp">
 					       	
 					        <div class="votes">
 					            <div class="mini-counts"><span title=" ${questions.likes} likes for the question">${questions.likes}</span></div>
@@ -73,15 +73,15 @@
 					        </div>
 					    </div>
 					    <div class="summary">				        
-					        <h3><a href="../question/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink">${questions.questionTitle}</a></h3>
+					        <h3><a href="../question/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink ">${questions.questionTitle}</a></h3>
 					        <div class="tags t-cards">
 					            <c:forEach var="tags" items="${questions.tags}">
 					                   <a href="../question/allView?keywordForSearch=tag:${tags.tagName}" class="post-tag" title="" rel="tag">${tags.tagName}</a> 
 					            </c:forEach>
 					        </div>
 					        <div class="started">
-					            <a href="#" class="started-link">asked <span title="${questions.cratedDate}"class="relativetime">${questions.noDaysCreated}</span></a>
-					            <a href="#">${questions.emp.firstName}</a> <!-- <span class="reputation-score" title="reputation score " dir="ltr">6,896</span> -->
+					            <a href="../question/questionDetails?questionId=${questions.questionId}" class="started-link">asked <span title="${questions.cratedDate}"class="relativetime">${questions.noDaysCreated}</span></a>
+					            <a href="../user/userDetails?userId=${questions.emp.userId}">${questions.emp.firstName}</a> <!-- <span class="reputation-score" title="reputation score " dir="ltr">6,896</span> -->
 					        </div>
 					    </div>
 					</div>
@@ -93,10 +93,8 @@
 		</div>
 		<div class="col-sm-3 hq">
 			<div class="eoq-hot-q-desc">Most Viewed Questions</div>
-			
 			<c:forEach var="questions" items="${topViewQuestion}">
-            	<li class="fa fa-question-circle" title="Question_Icon"></li>
-                <a class="eoq-ans" href="../question/questionDetails?questionId=${questions.questionId}" >
+                <a class="fa fa-question-circle eoq-ans" href="../question/questionDetails?questionId=${questions.questionId}" >
                   ${questions.questionTitle}
                 </a>
 			</c:forEach>
@@ -127,7 +125,7 @@ $(window).on('load',function(){
 		var count = status[i].innerText;
 		var approve_status = status[i].previousElementSibling.innerText;
 		if(approve_status == "true"){
-			status[i].style="color: white;background-color: rgb(104, 179, 104);border-radius: 1em";
+			status[i].style="color: white;background-color: rgb(104, 179, 104);border-radius: .5em";
 		}else{
 			if(count.indexOf('0')>-1){
 				status[i].style="color:black";

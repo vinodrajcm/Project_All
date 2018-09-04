@@ -128,7 +128,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   border-top:none;
   line-height:30px;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-      background-color: black;
+      background-color: #343a40;
   }
 .line-control-status-bar .label{
   float:right; 

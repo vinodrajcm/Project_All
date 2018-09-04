@@ -16,7 +16,7 @@ $('.login_button').click(function(event) {
     	'userId' :$('input[name=loginId]').val(),
         'password': $('input[name=password]').val()
     };
-
+    $(".loader").fadeIn();
     // process the form
     $.ajax({
         type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
@@ -26,6 +26,7 @@ $('.login_button').click(function(event) {
         encode          : true,
         success: function (data) {
         	var status = data.success;
+        	$(".loader").fadeOut("slow");
         	var obj = JSON.parse(data.employee)
         	if(status == "false"){
         		 message.messageHandling("Entered user id and password may be wrong / If new user please register.","error","message_log");
@@ -46,6 +47,7 @@ $('.login_button').click(function(event) {
             window.location.href ="../home/view";
         },
         error: function () {
+        	$(".loader").fadeOut("slow");
         	 message.messageHandling("Something went wrong while submitting question","error","message_log");
         }
     });
@@ -81,7 +83,7 @@ $('.login_button').click(function(event) {
 							class="form-control" name="password" id="password_"
 							placeholder="Enter Password">
 					</div>
-					<button type="submit" class="btn btn-kenna login_button">Submit</button>
+					<button type="submit" class="btn btn-kenna login_button" style="width: 100%">Submit</button>
 					<div class="form-group">
 						<label> <span class="psw">Forgot <a href="#">password?</a></span>
 						</label>

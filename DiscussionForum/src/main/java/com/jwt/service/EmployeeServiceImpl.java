@@ -11,6 +11,7 @@ import com.jwt.dao.EmployeeDAO;
 import com.jwt.model.Answers;
 import com.jwt.model.Employee;
 import com.jwt.model.Questions;
+import com.jwt.model.SystemProperties;
 import com.jwt.model.Tag;
 import com.jwt.model.likeDislike;
 import com.jwt.service.session.sessionBean;
@@ -147,5 +148,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return this.employeeDAO.getAnswer(answer_id);
 	};
 	
+	@Override
+	@Transactional
+	public List<SystemProperties> getValues(String key){
+		return this.employeeDAO.getValues(key);
+	};
 	
 }

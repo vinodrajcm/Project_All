@@ -5,6 +5,7 @@ import java.util.List;
 import com.jwt.model.Answers;
 import com.jwt.model.Employee;
 import com.jwt.model.Questions;
+import com.jwt.model.SystemProperties;
 import com.jwt.model.Tag;
 import com.jwt.model.likeDislike;
 
@@ -43,4 +44,6 @@ public interface EmployeeDAO {
 	public Answers getAnswer(int answer_id);
 
 	void updateLikeDisLike(likeDislike like);
+	
+	public List<SystemProperties> getValues(String key);
 }

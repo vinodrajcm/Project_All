@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import com.jwt.model.Answers;
 import com.jwt.model.Employee;
 import com.jwt.model.Questions;
+import com.jwt.model.SystemProperties;
 import com.jwt.model.Tag;
 import com.jwt.model.likeDislike;
 import com.jwt.service.session.sessionBean;
@@ -76,9 +77,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public Employee authUser(Employee employee) {
 		Employee emp = new Employee();
-		 List<Employee> demo =  sessionFactory.getCurrentSession().createQuery("from Employee where loginId='"+employee.getLoginId()+"' and password = '"+employee.getPassword()+"'").list();
-		 if(!demo.isEmpty()){
-			 emp = demo.get(0);
+		 List<Employee> empList =  sessionFactory.getCurrentSession().createQuery("from Employee where loginId='"+employee.getLoginId()+"' and password = '"+employee.getPassword()+"'").list();
+		 if(!empList.isEmpty()){
+			 emp = empList.get(0);
 		 }
 		return emp;
 	};
@@ -272,5 +273,12 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		
 
 	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<SystemProperties> getValues(String key){
+		List<SystemProperties> sysList = sessionFactory.getCurrentSession().createQuery("from SystemProperties where key ='"+key+"'").list();
+		return sysList;
+	};
 
 }

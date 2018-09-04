@@ -24,6 +24,8 @@
 	rel="stylesheet">
 <link href="<c:url value="/resources/css/header.css" />"
 	rel="stylesheet">
+	<link href="<c:url value="/resources/css/table.css" />"
+	rel="stylesheet">
 <script src="<c:url value="/resources/js/main.js" />"></script>
 <script src="${pageContext.request.contextPath}/resources/js/general.js"></script>
 </head>

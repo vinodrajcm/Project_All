@@ -18,58 +18,7 @@
 	<link rel="stylesheet"
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">	
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/home.css">
-<style type="text/css">
-.table-td{
-	   border-bottom: 1px solid #0000003b !important;
-	   border-top:none !important;
-}
-.cp{
-	text-align: center;
-    font-size: smaller;
 
-}
-.votes{
-	font-size: 20px;
-}
-.votes div{
-	font-size: 12px;
-}
-.status{
-	font-size: 20px;
-}
-.status div{
-	font-size: 12px;
-}
-div.b {
-    //white-space: nowrap; 
-    //width: 50px; 
-    overflow: hidden;
-    text-overflow: ellipsis; 
-    //border: 1px solid #000000;
-    font-size: small;
-}
-div.b * {
-	font-size: small !important;
-}
-h3{
-	font-size: 1em;
-}
-.views{
-	margin-top: 15px;
-}
-.started{
-	float: right;
-}
-.col-sm-8{
-     overflow: hidden;
-     overflow-x: auto;
-}
-
-.tags a{
-	width:auto !important;
-}
-
-</style>
 </head>
 <body>
 	<div class="container">
@@ -89,7 +38,7 @@ h3{
 								<td class="table-td">
 									<div class="row quetion-list">
 
-										<div class="col-sm-2">
+										<div class="col-sm-2" style="padding-right: 5%;">
 											<div class="cp">
 												<div class="votes">
 													<span title=" ${questions.likes} vote">${questions.likes}</span>
@@ -111,7 +60,7 @@ h3{
 													<a href="../question/questionDetails?questionId=${questions.questionId}"
 														id="${questions.questionId}" class="question-hyperlink">${questions.questionTitle}</a>
 												</h3>
-												<div class="b">${questions.questionDescription}</div>
+												<div class="b mar-top-bottom">${questions.questionDescription}</div>
 												<div class="tags t-cards">
 													<c:forEach var="tags" items="${questions.tags}">
 														<a href="../question/allView?tag=${tags.tagName}"
@@ -156,8 +105,8 @@ h3{
 			
 				<div class="eoq-hot-q-desc title_withoutborder">Most Viewed Questions</div>
 				<c:forEach var="questions" items="${topViewQuestion}">
-					<li class="fa fa-question-circle" title="Question_Icon"></li>
-					<a class="eoq-ans"
+					
+					<a class="fa fa-question-circle eoq-ans"
 						href="../question/questionDetails?questionId=${questions.questionId}">
 						${questions.questionTitle} </a>
 				</c:forEach>
