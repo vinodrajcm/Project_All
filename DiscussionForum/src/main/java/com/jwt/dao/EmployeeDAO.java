@@ -46,4 +46,6 @@ public interface EmployeeDAO {
 	void updateLikeDisLike(likeDislike like);
 	
 	public List<SystemProperties> getValues(String key);
+	
+	public Employee getUserBasedOnEmail(String email);
 }

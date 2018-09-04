@@ -1,6 +1,7 @@
 package com.jwt.controller.UserMangment;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,13 +69,23 @@ public class UserMangmentController {
 		if (employee.getUserId() == 0) { // if employee id is 0 then creating the
 			// employee other updating the employee
 			Employee employeeDetails = employeeService.authUser(employee);
-			if(employee.getUserId() != 0){
+			if(employeeDetails.getUserId() != 0){
 				output.put("sucess", "false");
 				output.put("message", "Login id is already in use please you different login Id");
 				return output;
+			}else{
+				Employee emplyeeDe = employeeService.getUserBasedOnEmail(employee.getEmail());
+				if(emplyeeDe.getUserId() != 0){
+					output.put("sucess", "false");
+					output.put("message", "Email already registered please use diferent email ID");
+					return output;
+				}
+				
 			}
+			employee.setCreatedDate(new Date());
 			employeeService.addEmployee(employee);
 		} else {
+			employee.setModifiedDate(new Date());
 			employeeService.updateEmployee(employee);
 		}
 		
@@ -106,6 +117,8 @@ public class UserMangmentController {
 				status = "false";
 			}else{
 				sessionBean.setEmp(employeeDetails);
+				employeeDetails.setLastLoggedIn(new Date());
+				employeeService.updateEmployee(employeeDetails);
 				status = "true";
 			}
 			

@@ -154,4 +154,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return this.employeeDAO.getValues(key);
 	};
 	
+	@Override
+	@Transactional
+	public Employee getUserBasedOnEmail(String email){
+		return this.employeeDAO.getUserBasedOnEmail(email);
+	};
+	
 }

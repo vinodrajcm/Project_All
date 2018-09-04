@@ -50,4 +50,7 @@ public interface EmployeeService {
 	
 	public List<SystemProperties> getValues(String key);
 
+	public Employee getUserBasedOnEmail(String email);
+	
+	
 }

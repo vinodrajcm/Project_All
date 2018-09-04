@@ -2,6 +2,7 @@ package com.jwt.controller.Users;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -117,6 +118,26 @@ public class userController {
 		//get the user Details from the data base 
 		Employee user = new Employee();
 		user = employeeService.getEmployee(user_Id);
+		
+		
+		Date createdDate = user.getLastLoggedIn();
+		Date now = new Date();
+		String lastLoggedIn = "";
+		long diff = now .getTime() - createdDate.getTime();
+		long diffDays = diff / (24 * 60 * 60 * 1000);
+		long diffHours = diff / (60 * 60 * 1000) % 24;
+		long diffMinutes = diff / (60 * 1000) % 60;
+		long diffSeconds = diff / 1000 % 60;
+		if(diffDays != 0){
+			lastLoggedIn = lastLoggedIn+ diffDays +" days ago";
+		}else if(diffHours != 0   ){
+			lastLoggedIn = lastLoggedIn + diffHours+" hours ago";
+		}else if(diffMinutes !=0){
+			lastLoggedIn = lastLoggedIn + diffMinutes+" minutes ago";
+		}else{
+			lastLoggedIn = lastLoggedIn +diffSeconds+" seconds ago";
+		}
+		
 		//update count in question table 
 		int count = user.getCount() +1;
 		user.setCount(count);
@@ -133,12 +154,86 @@ public class userController {
 		List<Tag> tags = employeeService.getTagsForUserId(user_Id);
 		//tags = user.getTagList();
 		List<Questions> Questions = employeeService.getQuestionsForUserID(user_Id);
+		
+		int totalPoints = 0;
+		int totalGold = 0;
+		int totalSilver =0;
+		int totalBroze = 0;
+		if(!Questions.isEmpty()){
+			totalPoints = totalPoints + Questions.size() * 1;
+		}
+		if(!QuestionForAnswers.isEmpty()){
+			totalPoints = totalPoints + QuestionForAnswers.size() * 1;
+		}
+		List<String> Goldbadges = new ArrayList<String>();
+		List<String> sliverbadges = new ArrayList<String>();
+		List<String> bronzebadges = new ArrayList<String>();
+ 		for (Questions questions2 : Questions) {
+				int totalView = questions2.getHitCount();
+				if(totalView > 15){
+					Goldbadges.add("Famous Question");
+					totalGold = totalGold +1;
+				}else if(totalView > 10){
+					sliverbadges.add("Notable Question");
+					totalSilver = totalSilver +1;
+				}else if(totalView > 5){
+					bronzebadges.add("Popular Question");
+					totalBroze = totalBroze +1;
+				}
+				
+				int Likes = questions2.getLikes();
+				
+				totalPoints = totalPoints + Likes * 2;
+				
+				if(Likes > 3){
+					Goldbadges.add("Great Question");
+					totalGold = totalGold +1;
+				}else if(Likes > 2){
+					sliverbadges.add("Good Question");
+					totalSilver = totalSilver +1;
+				}else if(Likes > 1){
+					bronzebadges.add("Nice Question");
+					totalBroze = totalBroze +1;
+				}
+				
+		}
+		
+		for (Answers answers : ansList) {
+			int Likes = answers.getTotal_likes();
+			totalPoints = totalPoints + Likes * 2;
+			
+			String approve = answers.getApprove();
+			
+			if(approve == "true"){
+				totalPoints = totalPoints + 20;
+			}
+			
+			if(Likes > 3){
+				Goldbadges.add("Great Answer");
+				totalGold = totalGold +1;
+			}else if(Likes > 2){
+				sliverbadges.add("Good Answer");
+				totalSilver = totalSilver +1;
+			}else if(Likes > 1){
+				bronzebadges.add("Nice Answer");
+				totalBroze = totalBroze +1;
+			}
+		}
+		
 		//Questions =user.getQuestionList();
 		//get all the related answers from the particular question
 		model.addObject("selectedUser", user);
 		model.addObject("questions", Questions);
 		model.addObject("tags", tags);
 		model.addObject("QuestionForAnswers", QuestionForAnswers);
+		model.addObject("totalPoint", totalPoints);
+		model.addObject("totalGold", totalGold);
+		model.addObject("totalSliver", totalSilver);
+		model.addObject("totalBronze", totalBroze);
+		model.addObject("goldMedal", Goldbadges);
+		model.addObject("silverMedal", sliverbadges);
+		model.addObject("bronzeMedal", bronzebadges);
+		model.addObject("lastLoggedIn", lastLoggedIn);
 		model.addObject("userDetails", sessionBean.getEmp());
 		model.setViewName("pages/userManagment/userDetails");
 		return model;

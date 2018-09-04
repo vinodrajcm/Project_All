@@ -280,5 +280,17 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		List<SystemProperties> sysList = sessionFactory.getCurrentSession().createQuery("from SystemProperties where key ='"+key+"'").list();
 		return sysList;
 	};
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public Employee getUserBasedOnEmail(String email){
+		Employee employee = new Employee();
+		List<Employee> employeeList=   sessionFactory.getCurrentSession().createQuery("from Employee where email ='"+email+"'").list();
+		if(!employeeList.isEmpty()){
+			employee = employeeList.get(0);
+		}
+		
+		return employee;
+	};
 
 }

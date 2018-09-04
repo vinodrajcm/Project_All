@@ -1,6 +1,7 @@
 package com.jwt.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -54,7 +55,7 @@ public class Employee implements Serializable {
 	private String password;
 	
 	@Column(name="CREATED_DATE")
-	private String createdDate;
+	private Date createdDate;
 	
 	@Column(name="CREATED_BY")
 	private String createdBy;
@@ -66,7 +67,7 @@ public class Employee implements Serializable {
 	private String modifiedBy;
 	
 	@Column(name="MODIFIED_DATE")
-	private String modifiedDate;
+	private Date modifiedDate;
 	
 	@Column(name="MANAGER")
 	private String manager;
@@ -77,7 +78,8 @@ public class Employee implements Serializable {
 	@Column(name="VIEW_COUNT")
 	private int count;
 	
-	
+	@Column(name="LAST_LOGGED_IN")
+	private Date lastLoggedIn;
 	
 	public int getCount() {
 		return count;
@@ -170,14 +172,6 @@ public class Employee implements Serializable {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public String getModifiedDate() {
-		return modifiedDate;
-	}
-
-	public void setModifiedDate(String modifiedDate) {
-		this.modifiedDate = modifiedDate;
-	}
-
 	public String getLoginId() {
 		return loginId;
 	}
@@ -234,13 +228,6 @@ public class Employee implements Serializable {
 		this.password = password;
 	}
 
-	public String getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(String createdDate) {
-		this.createdDate = createdDate;
-	}
 
 	public String getActivationFlag() {
 		return activationFlag;
@@ -250,130 +237,31 @@ public class Employee implements Serializable {
 		this.activationFlag = activationFlag;
 	}
 
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((activationFlag == null) ? 0 : activationFlag.hashCode());
-		result = prime * result + ((answerList == null) ? 0 : answerList.hashCode());
-		result = prime * result + ((createdBy == null) ? 0 : createdBy.hashCode());
-		result = prime * result + ((createdDate == null) ? 0 : createdDate.hashCode());
-		result = prime * result + ((designation == null) ? 0 : designation.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((loginId == null) ? 0 : loginId.hashCode());
-		result = prime * result + ((manager == null) ? 0 : manager.hashCode());
-		result = prime * result + ((modifiedBy == null) ? 0 : modifiedBy.hashCode());
-		result = prime * result + ((modifiedDate == null) ? 0 : modifiedDate.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((questionList == null) ? 0 : questionList.hashCode());
-		result = prime * result + ((tagList == null) ? 0 : tagList.hashCode());
-		result = prime * result + ((team == null) ? 0 : team.hashCode());
-		result = prime * result + userId;
-		result = prime * result + ((userRole == null) ? 0 : userRole.hashCode());
-		return result;
+	public Date getCreatedDate() {
+		return createdDate;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Employee other = (Employee) obj;
-		if (activationFlag == null) {
-			if (other.activationFlag != null)
-				return false;
-		} else if (!activationFlag.equals(other.activationFlag))
-			return false;
-		if (answerList == null) {
-			if (other.answerList != null)
-				return false;
-		} else if (!answerList.equals(other.answerList))
-			return false;
-		if (createdBy == null) {
-			if (other.createdBy != null)
-				return false;
-		} else if (!createdBy.equals(other.createdBy))
-			return false;
-		if (createdDate == null) {
-			if (other.createdDate != null)
-				return false;
-		} else if (!createdDate.equals(other.createdDate))
-			return false;
-		if (designation == null) {
-			if (other.designation != null)
-				return false;
-		} else if (!designation.equals(other.designation))
-			return false;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (firstName == null) {
-			if (other.firstName != null)
-				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
-				return false;
-		} else if (!lastName.equals(other.lastName))
-			return false;
-		if (loginId == null) {
-			if (other.loginId != null)
-				return false;
-		} else if (!loginId.equals(other.loginId))
-			return false;
-		if (manager == null) {
-			if (other.manager != null)
-				return false;
-		} else if (!manager.equals(other.manager))
-			return false;
-		if (modifiedBy == null) {
-			if (other.modifiedBy != null)
-				return false;
-		} else if (!modifiedBy.equals(other.modifiedBy))
-			return false;
-		if (modifiedDate == null) {
-			if (other.modifiedDate != null)
-				return false;
-		} else if (!modifiedDate.equals(other.modifiedDate))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		if (questionList == null) {
-			if (other.questionList != null)
-				return false;
-		} else if (!questionList.equals(other.questionList))
-			return false;
-		if (tagList == null) {
-			if (other.tagList != null)
-				return false;
-		} else if (!tagList.equals(other.tagList))
-			return false;
-		if (team == null) {
-			if (other.team != null)
-				return false;
-		} else if (!team.equals(other.team))
-			return false;
-		if (userId != other.userId)
-			return false;
-		if (userRole == null) {
-			if (other.userRole != null)
-				return false;
-		} else if (!userRole.equals(other.userRole))
-			return false;
-		return true;
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public Date getLastLoggedIn() {
+		return lastLoggedIn;
+	}
+
+	public void setLastLoggedIn(Date lastLoggedIn) {
+		this.lastLoggedIn = lastLoggedIn;
+	}
+
+	
 
 	@Override
 	public String toString() {
