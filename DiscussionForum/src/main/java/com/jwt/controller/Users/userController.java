@@ -119,24 +119,30 @@ public class userController {
 		Employee user = new Employee();
 		user = employeeService.getEmployee(user_Id);
 		
-		
-		Date createdDate = user.getLastLoggedIn();
-		Date now = new Date();
 		String lastLoggedIn = "";
-		long diff = now .getTime() - createdDate.getTime();
-		long diffDays = diff / (24 * 60 * 60 * 1000);
-		long diffHours = diff / (60 * 60 * 1000) % 24;
-		long diffMinutes = diff / (60 * 1000) % 60;
-		long diffSeconds = diff / 1000 % 60;
-		if(diffDays != 0){
-			lastLoggedIn = lastLoggedIn+ diffDays +" days ago";
-		}else if(diffHours != 0   ){
-			lastLoggedIn = lastLoggedIn + diffHours+" hours ago";
-		}else if(diffMinutes !=0){
-			lastLoggedIn = lastLoggedIn + diffMinutes+" minutes ago";
+		Date createdDate = user.getLastLoggedIn();
+		
+		if(createdDate ==null){
+			lastLoggedIn = "No login Records";
 		}else{
-			lastLoggedIn = lastLoggedIn +diffSeconds+" seconds ago";
+			Date now = new Date();
+			
+			long diff = now .getTime() - createdDate.getTime();
+			long diffDays = diff / (24 * 60 * 60 * 1000);
+			long diffHours = diff / (60 * 60 * 1000) % 24;
+			long diffMinutes = diff / (60 * 1000) % 60;
+			long diffSeconds = diff / 1000 % 60;
+			if(diffDays != 0){
+				lastLoggedIn = lastLoggedIn+ diffDays +" days ago";
+			}else if(diffHours != 0   ){
+				lastLoggedIn = lastLoggedIn + diffHours+" hours ago";
+			}else if(diffMinutes !=0){
+				lastLoggedIn = lastLoggedIn + diffMinutes+" minutes ago";
+			}else{
+				lastLoggedIn = lastLoggedIn +diffSeconds+" seconds ago";
+			}
 		}
+		
 		
 		//update count in question table 
 		int count = user.getCount() +1;
