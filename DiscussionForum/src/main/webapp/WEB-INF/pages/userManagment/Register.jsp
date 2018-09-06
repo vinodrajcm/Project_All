@@ -151,7 +151,7 @@ $(document).ready(function() {
 		   	  }
 		    }
 		    
-		    var department = document.forms["register"]["department"].value;
+		    var department = document.forms["register"]["team"].value;
 		    if (department == "") {
 		    	 message.messageHandling("Please select deparment","error","message_log");
 		        return false;
