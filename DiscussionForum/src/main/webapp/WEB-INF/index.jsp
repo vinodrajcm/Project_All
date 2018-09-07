@@ -1,14 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<jsp:include page="../WEB-INF/pages/common/Header.jsp" />  
 	<link href="<c:url value="/resources/css/home.css" />" rel="stylesheet">
 </head>
-
 <body>
-<jsp:include page="../WEB-INF/pages/common/Header.jsp" />  
+
 <div class="container">
 	
 	<div class="row">
@@ -18,6 +17,8 @@
 		  <div class="row hiw">
 			<div class="col-md-4 about-df">
 				User Experience Discussion Forum is a question and answer site for user experience researchers and experts.
+				<br>
+				<a href="../reward/tour" id="Logout" class="btn btn-kenna-green" style="margin-left: 15%; margin-top: 4%;">Take the 2 minute tour </a>
 			</div>
 			<div class="col-md-3 question"> 
 				<span class="desc"><b>Here's how it works:</b> </span>

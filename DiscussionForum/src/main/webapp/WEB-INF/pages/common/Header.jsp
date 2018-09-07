@@ -20,6 +20,8 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">	
 <link href="<c:url value="/resources/css/DiscussionForum.css" />"
 	rel="stylesheet">
 <link href="<c:url value="/resources/css/header.css" />"
@@ -55,6 +57,8 @@
 					</div>
 				</div>
 				<div class="col-sm-3 login">
+				
+						
 						<c:choose>
 						    <c:when test="${userDetails.loginId!=null}">
 						    	
@@ -91,8 +95,9 @@
 							</li>
 							<li class="nav-item"><a class="nav-link headerText" href="../tags/view">Tags</a>
 							</li>
-							<li class="nav-item"><a class="nav-link headerText" href="../question/allView?keywordForSearch=unaswered:true">Unanswered
-									Questions</a></li>
+							<li class="nav-item"><a class="nav-link headerText" href="../reward/view">Badges</a>
+							</li>
+							<li class="nav-item"><a class="nav-link headerText" href="../question/allView?keywordForSearch=unaswered:true">Unanswered</a></li>
 							<li class="nav-item"><a class="nav-link headerText"
 								href="../question/view">Ask Questions</a></li>
 						</ul>

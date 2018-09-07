@@ -86,7 +86,15 @@ form.search::after {
 .btn-kenna {
 	color: #ffd200;
 	background-color: rgb(52, 58, 64);
+	
 	border-color: #838383;
+}
+
+.btn-kenna-green{
+	color: #ffffff;
+    background-color: rgb(104, 179, 104);
+	border-color: #838383;
+	
 }
 
 .btn-kenna:hover {

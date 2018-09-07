@@ -158,3 +158,10 @@ a{
     margin-bottom: 1%;
      padding-bottom: 2%;
 }
+
+.badges{
+	font-size: 24px;
+    margin-top: 4%;
+    margin-left: 2%;
+    float: right;
+}
