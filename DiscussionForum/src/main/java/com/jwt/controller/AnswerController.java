@@ -107,8 +107,11 @@ public class AnswerController {
 			}
 			if(approve_status.equals("true")){
 				question.setStatus("true");
-				employeeService.addQuestion(question);
+				
+			}else{
+				question.setStatus("");
 			}
+			employeeService.addQuestion(question);
 		}
 		
 		return "success";

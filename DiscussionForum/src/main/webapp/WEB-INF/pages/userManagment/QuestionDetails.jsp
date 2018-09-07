@@ -314,7 +314,7 @@ $(document).ready(function() {
 					            	}
 									
 									if(data == "approved_failed"){
-										 message.messageHandling("Something went wrong while submitting question","error","alert_placeholder");
+										 message.messageHandling("Only User who posted the Question can approve answers, Like if you think answer is useful to you","error","alert_placeholder");
 					            		 return false;
 										
 									}

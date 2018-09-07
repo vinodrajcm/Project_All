@@ -27,12 +27,12 @@ $('.login_button').click(function(event) {
         success: function (data) {
         	var status = data.success;
         	$(".loader").fadeOut("slow");
-        	var obj = JSON.parse(data.employee)
+        	var obj = $.parseJSON(data.employee);
         	if(status == "false"){
         		 message.messageHandling("Entered user id and password may be wrong / If new user please register.","error","message_log");
         		 return false;
         	}
-        	$("#loginModel").modal('hide');
+        	//$("#loginModel").modal('hide');
         	$('.login').empty();
         	
         	//var user_id = ${userDetails.userId};

@@ -108,13 +108,16 @@
 <script>
 
 $(document).ready(function() {
+
+
+});
 $(window).on('load',function(){
 	var votes = $('.votes');
 	var lengthVotes = $('.votes').length;
 	for(var i= 0;i<lengthVotes;i++){
 		var count = votes[i].innerText;
 		if(count.indexOf('0')>-1){
-			votes[i].style="color:black";
+			votes[i].style.color="black";
 			//votes[i].next().style="color:black";
 		}
 	}
@@ -125,13 +128,14 @@ $(window).on('load',function(){
 		var count = status[i].innerText;
 		var approve_status = status[i].previousElementSibling.innerText;
 		if(approve_status == "true"){
-			status[i].style="color: white;background-color: rgb(104, 179, 104);border-radius: .5em";
+			status[i].style.color="white";
+			status[i].style.backgroundColor="rgb(104, 179, 104)";
+			status[i].style.borderRadius= ".5em";
 		}else{
 			if(count.indexOf('0')>-1){
-				status[i].style="color:black";
-				//votes[i].next().style="color:black";
+				status[i].style.color="black";
 			}else{
-				status[i].style="color:#4ab471";
+				status[i].style.color="#4ab471";
 			}
 		}
 		
@@ -142,15 +146,12 @@ $(window).on('load',function(){
 	for(var i= 0;i<lengthviews;i++){
 		var count = views[i].innerText;
 		if(count.indexOf('0')>-1){
-			views[i].style="color:black";
+			views[i].style.color="black";
 			//votes[i].next().style="color:black";
 		}
 	}
 	
 });
-
-});
-
 
 </script>
 </html>
