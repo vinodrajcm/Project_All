@@ -58,8 +58,8 @@
 	
 	<div class="headerTitle"> Answers </div>
 	<c:forEach var="answers" items="${ansList}">
-	<div class="row">
-	<div id="${answers.ansId}" style="display:none">${answers.ansId}</div>
+	<div class="row" id="${answers.ansId}" >
+	<div style="display:none">${answers.ansId}</div>
 			<div class="col-sm-1 queLike">
 			<div id="ansLikeSatus_${answers.ansId}"  style="display:none" class="ansLike">${answers.user_like_status}</div>
 					<i  id="ansLike_${answers.ansId}" class="fa fa-thumbs-up like"></i>

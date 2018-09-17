@@ -11,9 +11,8 @@
 <div class="container">
 	
 	<div class="row">
-	<div class="col-sm-1">
-	</div>
-		<div class="col-sm-9">
+	
+		<div class="col-sm-12">
 		  <div class="row hiw">
 			<div class="col-md-4 about-df">
 				User Experience Discussion Forum is a question and answer site for user experience researchers and experts.
@@ -32,8 +31,7 @@
 			</div>
 			</div>	
 		</div>	
-		<div class="col-sm-2">
-	</div>
+		
 	</div>
 	<div class="row eoq mar-top-bottom">
 		<div class="col-sm-9">

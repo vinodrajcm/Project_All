@@ -6,55 +6,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <jsp:include page="../common/Header.jsp" /> 
 
-<style>
-.sub-header{
-	    	font-weight: 500;
-	        margin-top: 1em;
-    		clear: both;
-    		margin-bottom: 1em;
-    		font-size: medium;
-			}
-
-.points{
-	float: left;
-    padding: 8px;
-    border: 1px solid;
-    background-color: #212529;
-    color: white;
-    margin: 5px;
-    text-align: center;
-    font-size: small;
-    border-radius: 5px;
-    width: 100%;
-}
-.description{
-margin:5px;
- padding: 5px;
- font-size: small;
-}
-
-.gold{
-
-background-color: gold;
-}
-.silver{
-
-background-color: silver;
-}
-.bronze{
-
-background-color: #c87b08;
-
-}
-.material-icons{
-	font-size: small;
-    margin-right: 5px;
-    font-style: unset;
-    padding: 2px;
-    border-radius: 10px;
-    color: black;
-}
-</style>
 </head>
 <body>
 <div class="container">

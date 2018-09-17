@@ -224,6 +224,15 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public List<Tag> getTagsForUserId(int userId){
 		List<Tag> tagList =  sessionFactory.getCurrentSession().createQuery("from Tag where emp='"+userId+"'").list();
+		if(tagList != null){
+			for (Tag tags : tagList) {
+				Query query = sessionFactory.getCurrentSession().createQuery("select count(id) from Questions where tag like '%"+tags.getTagName()+"%'");
+				Long i;
+				i =   (Long) query.uniqueResult();
+				Integer count = (int) (long) i;
+				tags.setCount(count);
+			}
+		}
 		return tagList;
 	};
 	

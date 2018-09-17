@@ -31,34 +31,9 @@
 <style>
 .img-profile{
 	text-align:center;
+	    margin-left: 26%;
 }
-.points{
-	text-align:center;
-}
-.gold{
-	padding: 5px;
-    color: gold;
-    background-color:rgb(52, 58, 64);
-    border: 1px solid #a9a4a4;
-    margin-left: 5px;
-    text-align: center;
-}
-.sliver{
-	    padding: 5px;
-	    background-color:rgb(52, 58, 64);
-    color: #f1f1f1;
-    border: 1px solid #a9a4a4;
-    margin-left: 5px;
-    text-align: center;
-}
-.bronze{
-	    padding: 5px;
-	    background-color:rgb(52, 58, 64);
-    color: #ad8c8c;
-    border: 1px solid #a9a4a4;
-        margin-left: 5px;
-        text-align: center;
-}
+
 .img{
 	border: 1px solid;
     padding: 10px;
@@ -106,7 +81,7 @@ td{
 .active_1{
 color:black;
 margin-right:12px;
-
+margin-left:12px;
 }
 
 
@@ -124,7 +99,21 @@ ul{ list-style-type: none; }
     width: 79%;
     margin-bottom: 0;
 }
-.answer{
+.question_approved{
+	float:left;
+    border: 1px solid #b0b5b9;
+    border-radius: 10px;
+    padding: 2px;
+    font-size: 12px;
+    margin-right:10px;
+    padding-left: 5px;
+    padding-right: 5px;
+     padding-top: 2px;
+    padding-bottom: 2px;
+    color:#b0b5b9;
+}
+
+.answer_approved{
 	float:left;
     border: 1px solid #b0b5b9;
     border-radius: 10px;
@@ -160,23 +149,23 @@ ul{ list-style-type: none; }
 .gold-header{
 	text-align: center;
     padding: 10px;
-    border: 1px solid gold;
     margin-bottom: 5%;
     background-color:gold;
+        border: 1px solid;
 }
 
 .silver-header{
 	text-align: center;
     padding: 10px;
-    border: 1px solid #f1f1f1;
     margin-bottom: 5%;
     background-color:#f1f1f1;
+        border: 1px solid;
 }
 
 .bronze-header{
 	text-align: center;
     padding: 10px;
-    border: 1px solid #ad8c8c;
+        border: 1px solid;
     margin-bottom: 5%;
     background-color:#ad8c8c;
 }
@@ -200,18 +189,18 @@ ul{ list-style-type: none; }
     <div class="col-sm-3">
       <div class="img-profile">
       	<img alt="user_profile" src="../resources/img/02th-egg-person.png" width="100%">
-      	
+      	 <div class="">${totalPoint} Points</div>
       </div>
-      <div class="points">${totalPoint} Points</div>
+     
       <div>
 			<div class="row">
 				<div class="col-sm-2"></div>
-				<div class="col-sm-9">
-						<div class="gold float_left"> &#x2606; ${totalGold}</div>
-						<div class="sliver float_left">&#x2606; ${totalSliver}</div>
-						<div class="bronze float_left">&#x2606; ${totalBronze}</div>
+				<div class="col-sm-8">
+						<div class="points float_left"><i class="material-icons gold">star</i>${totalGold}</div>
+						<div class="points float_left"><i class="material-icons silver">star</i>${totalSliver}</div>
+						<div class="points float_left"><i class="material-icons bronze">star</i>${totalBronze}</div>
 				</div>
-				<div class="col-sm-1"></div>
+				<div class="col-sm-2"></div>
 			</div>
 	  </div>
     </div>
@@ -222,7 +211,7 @@ ul{ list-style-type: none; }
 		  <li><h4>User Name : ${selectedUser.firstName} ${selectedUser.lastName}</h4></li>
 		  <li>Designation : ${selectedUser.designation}</li>
 		  <li>Team : ${selectedUser.team}</li>
-		  <li>Team Lead : ${selectedUser.manager}</li>
+		  <li>Email ID : ${selectedUser.email}</li>
 		
 		</ul>
       
@@ -260,7 +249,7 @@ ul{ list-style-type: none; }
       		<div class="explore-tags">
       			<a href="../question/allView?keywordForSearch=tag:${tags.tagName}" class="post-tag"
 							title="Show questions relating to usability" rel="tag">${tags.tagName}</a>
-				<div class="NoQues">No of Questions Tagged :</div>			
+				<div class="NoQues">No of Questions Tagged : ${tags.count}</div>			
       		</div>
       </c:forEach>		
     </div>
@@ -275,10 +264,10 @@ ul{ list-style-type: none; }
 		   		
 		   		 <ul class="nav nav-tabs">
 		    		<li class="nav-item">
-		     		 <a class="active_1" href="#questions">Questions</a>
+		     		 <a class="active_1" id="questions" href="#question">Questions</a>
 		    		</li>
 		    		<li class="nav-item">
-		      			<a class="" href="#answers">Answers</a>
+		      			<a class="" id="answers" href="#answer">Answers</a>
 		    		</li>
 		    
 		  		</ul>
@@ -289,7 +278,7 @@ ul{ list-style-type: none; }
 		
 		  <!-- Tab panes -->
 		  <div class="tab-content">
-		    <div id="questions" class="container tab-pane active">
+		    <div id="question" class="container tab-pane active">
 		       <table id="questionList" class="table" style="width:100%;">
 			        <thead style="display:none">
 			            <tr>
@@ -301,15 +290,16 @@ ul{ list-style-type: none; }
 			          <tr>
 			         
 			              <td>
-			              	<div class="answer" title="Approved or not">A</div>
-			              	<div class="approved"></div>
-			              	<div class="view" title="Number of Views">0</div>
-			              	<div class="mar-top-2">
+			              <div class="approved"  style="display:none">${questions.status}</div>
+			              	<div class="question_approved" title="Green-approved else not approved">A</div>
+			              	
+			              	<div class="view" title="Number of Views">${questions.hitCount}</div>
+			              	<div class="mar-top-2 float-left">
 			                <a href="../question/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink">${questions.questionTitle}</a>
 					        </div>
 					        <div class="started">
-					        <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
-					         <a href="/users/103321/pectoralis-major">${questions.emp.firstName}</a>
+					          <a href="#" class="started-link">Asked <span title="${questions.cratedDate}" class="relativetime">
+								${questions.noDaysCreated}</span></a>
 			               </div>
 			               </td>
 			              
@@ -320,7 +310,7 @@ ul{ list-style-type: none; }
 			        </tfoot>
 			    </table>
 		    </div>
-		    <div id="answers" class="container tab-pane fade">
+		    <div id="answer" class="container tab-pane fade">
 		       <table id="answersList" class="table" style="width:100%;">
 			        <thead style="display:none">
 			            <tr>
@@ -328,17 +318,20 @@ ul{ list-style-type: none; }
 			            </tr>
 			        </thead>
 			        <tbody>
-			         <c:forEach var="questions" items="${QuestionForAnswers}">
+			         <c:forEach var="ansList" items="${QuestionForAnswers}">
 			          <tr>
 			              <td>
-			                <div class="answer">A</div>
-			              	<div class="approved"></div>
-			              	<div class="view">0</div>
-			                <a href="../question/questionDetails?questionId=${questions.questionId}" id="${questions.questionId}" class="question-hyperlink">${questions.questionTitle}</a>
-					        <div class="started">
-					            <a href="/questions/119887/can-a-card-have-lozenges/?lastactivity" class="started-link">answered <span title="2018-07-30 07:42:05Z" class="relativetime">6 hours ago</span></a>
-					            <a href="/users/103321/pectoralis-major">${questions.emp.firstName}</a>
+			              	<div class="approved" style="display:none">${ansList.approve}</div>
+			                <div class="answer_approved" title="Green-approved else not approved">A</div>
+			              	 <div class="view" title="Number of Views">${ansList.question.hitCount}</div>
+			              	<div class="mar-top-2 float-left">
+			                <a href="../question/questionDetails?questionId=${ansList.question.questionId}#${ansList.ansId}" id="${ansList.ansId}" class="question-hyperlink">${ansList.question.questionTitle}</a>
 					        </div>
+					        <div class="started">
+					            <a href="#" class="started-link">Answered <span title="${ansList.ansDate}" class="relativetime">
+								${ansList.noDaysAnswered}</span></a>
+					            
+					        </div> 
 			               </td>
 			            </tr>
 			            </c:forEach>
@@ -362,20 +355,47 @@ ul{ list-style-type: none; }
     <div class="row">
     <div class="col-sm-4 border-right">
       <div class="gold-header">Gold <br> ${totalGold}</div>
-      <c:forEach var="goldMedal" items="${goldMedal}">
-      		<a href="/help/badges/88/informed?userid=62099" title="Gold badge: Read the entire tour page" class="gold">&#x2606;${goldMedal}</a> 
+      <c:forEach var="popularQuestion" items="${popularQuestion}">
+      		<a href="../question/questionDetails?questionId=${popularQuestion.questionId}" title="Gold badge: Read the entire tour page" >
+			<div class="points"> <i class="material-icons gold">star</i>Famous Question</div></a> 
+      </c:forEach>
+       <c:forEach var="GreatQuestion" items="${GreatQuestion}">
+      		<a href="../question/questionDetails?questionId=${GreatQuestion.questionId}" title="Gold badge: Read the entire tour page" >
+			<div class="points"> <i class="material-icons gold">star</i>Great Question</div></a> 
+      </c:forEach>
+       <c:forEach var="greatAns" items="${greatAns}">
+      		<a href="../question/questionDetails?questionId=${greatAns.question.questionId}#${greatAns.ansId}" title="Gold badge: Read the entire tour page" >
+			<div class="points"> <i class="material-icons gold">star</i>Great Answer</div></a> 
       </c:forEach>
     </div>
     <div class="col-sm-4 border-right">
       <div class="silver-header">Silver <br> ${totalSliver}</div>
-      <c:forEach var="silverMedal" items="${silverMedal}">
-      		<a href="/help/badges/88/informed?userid=62099" title="Silver badge: Read the entire tour page" class="sliver">&#x2606;${silverMedal}</a>
+      <c:forEach var="notableQuestion" items="${notableQuestion}">
+      		<a href="../question/questionDetails?questionId=${notableQuestion.questionId}" title="Silver badge: Read the entire tour page">
+      		<div class="points">  <i class="material-icons silver">star</i>Notable Question</div></a>
+      </c:forEach>
+       <c:forEach var="goodQuestion" items="${goodQuestion}">
+      		<a href="../question/questionDetails?questionId=${goodQuestion.questionId}" title="Silver badge: Read the entire tour page">
+      		<div class="points">  <i class="material-icons silver">star</i>Good Question</div></a>
+      </c:forEach>
+       <c:forEach var="goodAns" items="${goodAns}">
+      		<a href="../question/questionDetails?questionId=${goodAns.question.questionId}#${goodAns.ansId}" title="Silver badge: Read the entire tour page">
+      		<div class="points">  <i class="material-icons silver">star</i>Good Answer</div></a>
       </c:forEach>
     </div>
     <div class="col-sm-4">
       <div class="bronze-header">Bronze <br> ${totalBronze}</div>
-      <c:forEach var="bronzeMedal" items="${bronzeMedal}">
-      			<a href="/help/badges/88/informed?userid=62099" title="bronze badge: Read the entire tour page" class="bronze">&#x2606;${bronzeMedal}</a>
+      <c:forEach var="famousQuestion" items="${famousQuestion}">
+      			<a href="../question/questionDetails?questionId=${famousQuestion.questionId}"  title="bronze badge: Read the entire tour page" >
+      			<div class="points"> <i class="material-icons bronze">star</i>Popular Question</div></a>
+      </c:forEach>
+      <c:forEach var="niceQuestion" items="${niceQuestion}">
+      			<a href="../question/questionDetails?questionId=${niceQuestion.questionId}"  title="bronze badge: Read the entire tour page" >
+      			<div class="points"> <i class="material-icons bronze">star</i>Nice Question</div></a>
+      </c:forEach>
+       <c:forEach var="niceAns" items="${niceAns}">
+      			<a href="../question/questionDetails?questionId=${niceAns.question.questionId}#${niceAns.ansId}"  title="bronze badge: Read the entire tour page">
+      			<div class="points"> <i class="material-icons bronze">star</i>Nice Answer</div></a>
       </c:forEach>
     </div>
     
@@ -386,6 +406,20 @@ ul{ list-style-type: none; }
 </div>
 <script>
 $(document).ready(function(){
+	$(".nav .nav-item").click(function(){
+		
+		var que_class = $('#questions').attr('class');
+		if(que_class == "active_1"){
+			$("#questions").removeClass("active_1");
+			   $("#answers").addClass("active_1");
+		}else{
+			$("#questions").addClass("active_1");
+			   $("#answers").removeClass("active_1");
+		}
+		
+	});
+	
+	
     $(".nav-tabs a").click(function(){
         $(this).tab('show');
     });
@@ -411,6 +445,35 @@ $(document).ready(function(){
     
     table.buttons().container()
         .appendTo( '#example_wrapper .col-md-6:eq(0)' );
+});
+
+
+$(window).on('load',function(){
+	var votes = $('.question_approved');
+	var lengthVotes = votes.length;
+	for(var i= 0;i<lengthVotes;i++){
+		var approve_status = votes[i].previousElementSibling.innerText;
+		if(approve_status == "true"){
+			votes[i].style.backgroundColor="rgb(104, 179, 104)";
+			votes[i].style.color="#ffffff";
+			
+		}
+	}
+	
+	var votes = $('.answer_approved');
+	var lengthVotes = votes.length;
+	for(var i= 0;i<lengthVotes;i++){
+		var approve_status = votes[i].previousElementSibling.innerText;
+		if(approve_status == "true"){
+			votes[i].style.backgroundColor="rgb(104, 179, 104)";
+			votes[i].style.color="#ffffff";
+			
+		}
+	}
+	
+	
+	
+	
 });
 </script>
 

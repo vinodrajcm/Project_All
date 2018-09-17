@@ -2,8 +2,11 @@ package com.jwt.controller.Users;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -154,12 +157,53 @@ public class userController {
 		ansList = user.getAnswerList();
 		for (Answers answers : ansList) {
 			Questions que = new Questions();
+			Date createdDate1 = answers.getAnsDate();
+			Date now = new Date();
+			long diff = now .getTime() - createdDate1.getTime();
+			long diffDays = diff / (24 * 60 * 60 * 1000);
+			long diffHours = diff / (60 * 60 * 1000) % 24;
+			long diffMinutes = diff / (60 * 1000) % 60;
+			long diffSeconds = diff / 1000 % 60;
+			if(diffDays != 0){
+				answers.setNoDaysAnswered(diffDays+" days ago");
+			}else if(diffDays == 0 && diffHours != 0 && diffHours <= 23  ){
+				answers.setNoDaysAnswered(diffHours+" hours ago");
+			}else if(diffDays == 0 && diffHours == 0 && diffMinutes <=59){
+				answers.setNoDaysAnswered(diffMinutes+" minutes ago");
+			}else{
+				answers.setNoDaysAnswered(diffSeconds+" seconds ago");
+			}
+			
 			que = employeeService.questionDetails(answers.getQuestion().getQuestionId());
-			QuestionForAnswers.add(que);
+			
+			answers.setQuestion(que);
+			//QuestionForAnswers.add(que);
 		}
 		List<Tag> tags = employeeService.getTagsForUserId(user_Id);
 		//tags = user.getTagList();
 		List<Questions> Questions = employeeService.getQuestionsForUserID(user_Id);
+		
+		for (Questions questions : Questions) {
+			
+			Date createdDate1 = questions.getCratedDate();
+			Date now = new Date();
+			long diff = now .getTime() - createdDate1.getTime();
+			long diffDays = diff / (24 * 60 * 60 * 1000);
+			long diffHours = diff / (60 * 60 * 1000) % 24;
+			long diffMinutes = diff / (60 * 1000) % 60;
+			long diffSeconds = diff / 1000 % 60;
+			if(diffDays != 0){
+				questions.setNoDaysCreated(diffDays+" days ago");
+			}else if(diffDays == 0 && diffHours != 0 && diffHours <= 23  ){
+				questions.setNoDaysCreated(diffHours+" hours ago");
+			}else if(diffDays == 0 && diffHours == 0 && diffMinutes <=59){
+				questions.setNoDaysCreated(diffMinutes+" minutes ago");
+			}else{
+				questions.setNoDaysCreated(diffSeconds+" seconds ago");
+			}
+			
+	
+		}
 		
 		int totalPoints = 0;
 		int totalGold = 0;
@@ -171,19 +215,31 @@ public class userController {
 		if(!QuestionForAnswers.isEmpty()){
 			totalPoints = totalPoints + QuestionForAnswers.size() * 1;
 		}
-		List<String> Goldbadges = new ArrayList<String>();
-		List<String> sliverbadges = new ArrayList<String>();
-		List<String> bronzebadges = new ArrayList<String>();
+		List<Object> gold_Question_Goldbadges = new ArrayList<Object>();
+		List<Object> notable_Question_sliverbadges = new ArrayList<Object>();
+		List<Object> bronze_Question_bronzebadges = new ArrayList<Object>();
+		
+		List<Object> Great_Question_Goldbadges = new ArrayList<Object>();
+		List<Object> Good_Question_sliverbadges = new ArrayList<Object>();
+		List<Object> Nice_Question_bronzebadges = new ArrayList<Object>();
+		
+		List<Object> Great_Answer_Goldbadges = new ArrayList<Object>();
+		List<Object> Good_Answer_sliverbadges = new ArrayList<Object>();
+		List<Object> Nice_Answer_bronzebadges = new ArrayList<Object>();
+		
  		for (Questions questions2 : Questions) {
 				int totalView = questions2.getHitCount();
 				if(totalView > 15){
-					Goldbadges.add("Famous Question");
+					
+					gold_Question_Goldbadges.add(questions2);
 					totalGold = totalGold +1;
 				}else if(totalView > 10){
-					sliverbadges.add("Notable Question");
+					
+					notable_Question_sliverbadges.add(questions2);
 					totalSilver = totalSilver +1;
 				}else if(totalView > 5){
-					bronzebadges.add("Popular Question");
+					//bronzebadges.add("Popular Question");
+					bronze_Question_bronzebadges.add(questions2);
 					totalBroze = totalBroze +1;
 				}
 				
@@ -192,13 +248,13 @@ public class userController {
 				totalPoints = totalPoints + Likes * 2;
 				
 				if(Likes > 3){
-					Goldbadges.add("Great Question");
+					Great_Question_Goldbadges.add(questions2);
 					totalGold = totalGold +1;
 				}else if(Likes > 2){
-					sliverbadges.add("Good Question");
+					Good_Question_sliverbadges.add(questions2);
 					totalSilver = totalSilver +1;
 				}else if(Likes > 1){
-					bronzebadges.add("Nice Question");
+					Nice_Question_bronzebadges.add(questions2);
 					totalBroze = totalBroze +1;
 				}
 				
@@ -215,13 +271,13 @@ public class userController {
 			}
 			
 			if(Likes > 3){
-				Goldbadges.add("Great Answer");
+				Great_Answer_Goldbadges.add(answers);
 				totalGold = totalGold +1;
 			}else if(Likes > 2){
-				sliverbadges.add("Good Answer");
+				Good_Answer_sliverbadges.add(answers);
 				totalSilver = totalSilver +1;
 			}else if(Likes > 1){
-				bronzebadges.add("Nice Answer");
+				Nice_Answer_bronzebadges.add(answers);
 				totalBroze = totalBroze +1;
 			}
 		}
@@ -231,14 +287,20 @@ public class userController {
 		model.addObject("selectedUser", user);
 		model.addObject("questions", Questions);
 		model.addObject("tags", tags);
-		model.addObject("QuestionForAnswers", QuestionForAnswers);
+		model.addObject("QuestionForAnswers", ansList);
 		model.addObject("totalPoint", totalPoints);
 		model.addObject("totalGold", totalGold);
 		model.addObject("totalSliver", totalSilver);
 		model.addObject("totalBronze", totalBroze);
-		model.addObject("goldMedal", Goldbadges);
-		model.addObject("silverMedal", sliverbadges);
-		model.addObject("bronzeMedal", bronzebadges);
+		model.addObject("popularQuestion",gold_Question_Goldbadges);
+		model.addObject("notableQuestion",notable_Question_sliverbadges);
+		model.addObject("famousQuestion", bronze_Question_bronzebadges);
+		model.addObject("GreatQuestion", Great_Question_Goldbadges);
+		model.addObject("goodQuestion", Good_Question_sliverbadges);
+		model.addObject("niceQuestion",Nice_Question_bronzebadges);
+	    model.addObject("greatAns",Great_Answer_Goldbadges);
+		model.addObject("goodAns",Good_Answer_sliverbadges);
+		model.addObject("niceAns",Nice_Answer_bronzebadges);
 		model.addObject("lastLoggedIn", lastLoggedIn);
 		model.addObject("userDetails", sessionBean.getEmp());
 		model.setViewName("pages/userManagment/userDetails");
