@@ -31,7 +31,7 @@ public class AnswerController {
 	}
 	
 
-	@Autowired(required = true)
+	@Autowired
 	private sessionBean sessionBean;
 	
 	@Autowired(required = true)

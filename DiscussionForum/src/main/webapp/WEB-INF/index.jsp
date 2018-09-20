@@ -92,14 +92,12 @@
 		</div>
 		<div class="col-sm-3 hq">
 			<div class="eoq-hot-q-desc">Most Viewed Questions</div>
-			<ul>
 			<c:forEach var="questions" items="${topViewQuestion}">
-                <li><a href="../question/questionDetails?questionId=${questions.questionId}" >
+                <a class="fa fa-question-circle eoq-ans" href="../question/questionDetails?questionId=${questions.questionId}" >
                   ${questions.questionTitle}
                 </a>
-                </li>
 			</c:forEach>
-           </ul>
+           
 		</div>
 	</div>
 	

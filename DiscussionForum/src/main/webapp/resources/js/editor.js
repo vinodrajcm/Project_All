@@ -151,7 +151,7 @@ You should have received a copy of the GNU General Public License along with thi
 				var output = [];
 				for (var i = 0, f; f = files[i]; i++) {
 					//Loop thorugh all the files
-					if(!f.type.match('image.*') || !f.name.match(/(?:gif|jpg|png|jpeg|GIF|JPG|PNG|JPEG)$/)){ //Process only Images
+					if(!f.type.match('image.*') || !f.name.match(/(?:gif|jpg|png|jpeg)$/)){ //Process only Images
 						methods.showMessage.apply(this,["imgErrMsg_" + _idSuffix,"Invalid file type"]);
 						continue;
 					}

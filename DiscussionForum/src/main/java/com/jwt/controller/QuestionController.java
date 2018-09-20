@@ -1,6 +1,7 @@
 package com.jwt.controller;
 
 import java.io.IOException;
+import java.lang.ProcessBuilder.Redirect;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,25 +9,25 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
+import com.jwt.controller.UserMangment.UserMangmentController;
 import com.jwt.model.Answers;
 import com.jwt.model.Employee;
-import com.jwt.model.Mail;
 import com.jwt.model.Questions;
 import com.jwt.model.Tag;
 import com.jwt.model.likeDislike;
-import com.jwt.service.EmailUtil;
 import com.jwt.service.EmployeeService;
-
 import com.jwt.service.session.sessionBean;
+import com.mysql.jdbc.StringUtils;
+import com.sun.javafx.collections.MappingChange.Map;
 
 
 @Controller
@@ -45,9 +46,6 @@ public class QuestionController {
 	
 	@Autowired
 	private sessionBean sessionBean;
-	
-	/*@Autowired
-	private MailService mailService;*/
 	
 	
 	
@@ -262,38 +260,11 @@ public class QuestionController {
 			employeeService.addQuestion(question);
 		}
 		
-		/*Mail mail = new Mail();
-        mail.setMailFrom("vinodrajcm@gmail.com");
-        mail.setMailTo("vinodraj.muniraju@kennametal.com");
-        mail.setMailSubject("Spring 4 - Email");
-        mail.setMailContent("Learn how to send email using Spring 4!!!\n\nThanks\nwww.technicalkeeda.com");
-       
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(25);
-        mailSender.setUsername("vinodrajcm@gmail.com");
-        mailSender.setPassword("1ac08ec054@123");
-        
-        Properties javaMailProperties = new Properties();
-        javaMailProperties.put("mail.smtp.starttls.enable", "true");
-        javaMailProperties.put("mail.smtp.auth", "true");
-        javaMailProperties.put("mail.transport.protocol", "smtp");
-        javaMailProperties.put("mail.debug", "true");
- 
-        mailSender.setJavaMailProperties(javaMailProperties);
-    	
-    	SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(mail.getMailFrom());
-        message.setTo(mail.getMailTo());
-        message.setSubject(mail.getMailSubject());
-        message.setText(mail.getMailContent());
-        mailSender.send(message);*/
-		String[] myArray= new String[1];
-		myArray[0] = "vinodraj.muniraju@kennametal.com";
 		
 		
-		EmailUtil.sendEmail(myArray, "demo", "demo", "demo");
 		return "success";
+		
+		
 	}
 	
 	

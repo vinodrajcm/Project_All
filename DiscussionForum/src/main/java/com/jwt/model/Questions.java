@@ -17,6 +17,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Type;
+import org.junit.Ignore;
+
 @Entity
 @Table(name = "QUESTION_MASTER")
 public class Questions implements Serializable{

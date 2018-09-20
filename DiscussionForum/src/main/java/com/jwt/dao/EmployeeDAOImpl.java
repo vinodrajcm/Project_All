@@ -8,6 +8,8 @@ import javax.xml.crypto.Data;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.collection.internal.PersistentBag;
+import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
