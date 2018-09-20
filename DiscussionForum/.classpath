@@ -61,5 +61,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/NWDSWorkspace.jdi/0/DCs/bridge-x.com/connect_ui_libraries/_comp/gen/default/public/api/lib/java/org.springframework.context.support-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

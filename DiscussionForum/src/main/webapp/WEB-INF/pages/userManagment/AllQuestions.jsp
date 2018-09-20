@@ -104,12 +104,15 @@
 						<a class="more-tags _gps" href="../tags/view">more&nbsp;tags</a>
 			
 				<div class="eoq-hot-q-desc title_withoutborder">Most Viewed Questions</div>
+				<ul>
 				<c:forEach var="questions" items="${topViewQuestion}">
-					
-					<a class="fa fa-question-circle eoq-ans"
+					<li>
+					<a 
 						href="../question/questionDetails?questionId=${questions.questionId}">
 						${questions.questionTitle} </a>
+					</li>
 				</c:forEach>
+				</ul>
 			</div>
 		</div>
 	</div>
