@@ -1,4 +1,4 @@
-package com.jwt.controller.Users;
+package com.jwt.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jwt.controller.UserMangment.UserMangmentController;
 import com.jwt.model.Answers;
 import com.jwt.model.Employee;
 import com.jwt.model.Questions;
@@ -41,10 +40,10 @@ public class userController {
 		System.out.println("userController()"); 
 		
 	}
-	@Autowired
+	@Autowired(required = true)
 	private EmployeeService employeeService;
 	
-	@Autowired
+	@Autowired(required = true)
 	private sessionBean sessionBean;
 	
 	

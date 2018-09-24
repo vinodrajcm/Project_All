@@ -1,4 +1,4 @@
-package com.jwt.controller.home;
+package com.jwt.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -7,16 +7,25 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+
+import com.jwt.config.ApplicationConfig;
 import com.jwt.model.Employee;
+import com.jwt.model.Mail;
 import com.jwt.model.Questions;
 import com.jwt.model.Tag;
 import com.jwt.service.EmployeeService;
+import com.jwt.service.MailService;
 import com.jwt.service.session.sessionBean;
 
 @Controller
@@ -29,11 +38,14 @@ public class HomeController {
 		System.out.println("HomeController()");
 	}
 
-	@Autowired
+	@Autowired(required = true)
 	private sessionBean sessionBean;
 	
-	@Autowired
+	@Autowired(required = true)
 	private EmployeeService employeeService;
+	
+	@Autowired(required = true)
+	private MailService mailService;
 	
 	@RequestMapping(value = "/view")
 	public ModelAndView home() throws IOException {
@@ -88,5 +100,22 @@ public class HomeController {
 		return model2;
 	}
 	
+	@RequestMapping(value = "/mail")
+	public void mail(){
+		
+			/*Mail mail = new Mail();
+	        mail.setMailFrom("vinodrajcm@gmail.com");
+	        mail.setMailTo("vinodraj.muniraju@kennametal.com");
+	        mail.setMailSubject("Spring 4 - Email");
+	        mail.setMailContent("Learn how to send email using Spring 4!!!\n\nThanks\nwww.technicalkeeda.com");
+	 
+	        AbstractApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
+	        MailService mailService = (MailService) context.getBean("mailService");
+	        mailService.sendEmail(mail);*/
+		
+			com.jwt.config.EmailUtility.sendEmail("vinodraj.muniraju@kennametal.com", "demo", "demo", "");
+	        //context.close();
+	
+	}
 	
 }

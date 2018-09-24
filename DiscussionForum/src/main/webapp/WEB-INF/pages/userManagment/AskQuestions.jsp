@@ -96,7 +96,7 @@
 			            'questionDescription': $("#questionDescription").Editor("getText"),
 			            'tag':$('#tag-values').val()
 			        };
-
+			        $(".loader").fadeIn();
 			        // process the form
 			        $.ajax({
 			            type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
@@ -106,13 +106,18 @@
 			            encode          : true,
 			            success: function (data) {
 			            	//console.log("demo");
+			            	$(".loader").fadeOut("slow");
 			            	if(data == "login_Failed"){
 			            		$("#loginModel").modal();
 			            		 return false;
 			            	}
+			            	if(data == "email_failed"){
+			            		message.messageHandling("sending mail Failed","error","alert_placeholder");
+			            	}
 			                window.location.href ="../home/view";
 			            },
 			            error: function () {
+			            	 $(".loader").fadeOut("slow");
 			            	 message.messageHandling("Something went wrong while submitting question","error","alert_placeholder");
 			            }
 			        });

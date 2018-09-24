@@ -31,7 +31,7 @@ public class AnswerController {
 	}
 	
 
-	@Autowired
+	@Autowired(required = true)
 	private sessionBean sessionBean;
 	
 	@Autowired(required = true)
@@ -60,10 +60,25 @@ public class AnswerController {
 			answers.setEmp(emp);
 			answers.setAnsDate(new Date());
 			employeeService.postAns(answers);
+			
+			Questions question = employeeService.questionDetails(answers.getQuestion().getQuestionId());
+			String[] To = {question.getEmp().getEmail()};
+			String loggedInMail = sessionBean.getEmp().getEmail() ;
+			String[]  bcc = {loggedInMail,"Kakarla.Murali@kennametal.com","vinodraj.muniraju@kennametal.com"};
+			
+			String mailBody = "<html><head></head><body>Hello Team <br><br>";
+			mailBody = mailBody + "Please find the Posted Answer in Kennametal Discussion Forum <br><br> please click the link below to see the Answer";
+			mailBody = mailBody +"<br> http://10.253.2.15:8080/DiscussionForum/question/questionDetails?questionId="+question.getQuestionId();
+			mailBody = mailBody + " <br><br>Thanks <br>Team Disscusion Forum</body></html>";
+			if(To.length != 0){
+				try {
+					com.jwt.config.EmailUtility.sendEmail(To,bcc, sessionBean.getEmp().getFirstName()+" Answered your Posted Question", mailBody, "");
+				} catch (Exception e) {
+					// TODO: handle exception
+					return "email_failed";
+				}
+			}
 		}
-		
-		
-		
 		return "success";
 	}
 	

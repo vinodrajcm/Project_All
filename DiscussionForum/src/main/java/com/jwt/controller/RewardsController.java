@@ -31,7 +31,7 @@ public class RewardsController {
 	}
 	
 
-	@Autowired
+	@Autowired(required = true)
 	private sessionBean sessionBean;
 	
 	@Autowired(required = true)

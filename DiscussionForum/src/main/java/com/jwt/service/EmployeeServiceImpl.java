@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -159,5 +161,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Employee getUserBasedOnEmail(String email){
 		return this.employeeDAO.getUserBasedOnEmail(email);
 	};
+	
 	
 }

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.jwt.controller.UserMangment.UserMangmentController;
 import com.jwt.model.Answers;
 import com.jwt.model.Employee;
 import com.jwt.model.Questions;
@@ -41,10 +40,10 @@ public class QuestionController {
 		System.out.println("QuestionController()"); 
 	}
 	
-	@Autowired
+	@Autowired(required = true)
 	private EmployeeService employeeService;
 	
-	@Autowired
+	@Autowired(required = true)
 	private sessionBean sessionBean;
 	
 	
@@ -259,8 +258,17 @@ public class QuestionController {
 			question.setCratedDate(new Date());
 			employeeService.addQuestion(question);
 		}
-		
-		
+		String mailBody = "<html><head></head><body>Hello Team <br><br>";
+		mailBody = mailBody + "Please find the new Question Posted in Kennametal Discussion Forum and be helpful <br><br> please click the link below to see the Question Details";
+		mailBody = mailBody +"<br> http://10.253.2.15:8080/DiscussionForum/question/questionDetails?questionId="+question.getQuestionId();
+		mailBody = mailBody + "<br><br> Question Title -- " + question.getQuestionTitle()+" <br><br>Thanks <br>Team Disscusion Forum</body></html>";
+		try {
+			String[] to = {"aditi.jakhar@kennametal.com"," Kakarla.Murali@kennametal.com","manjunath.gangadharappa@kennametal.com","manojkumar.venkataswamy@kennametal.com","nikita.upadhyay@kennametal.com","raja.s@kennametal.com","ranjith.kumar@kennametal.com","Sujitha.Kollipara@kennametal.com","vanishree.gunderao@kennametal.com","vijitha.reddyvari@kennametal.com","vinodraj.muniraju@kennametal.com","aswani.mangannagari@kennametal.com","Banala.TaneeshBabu@kennametal.com","Debashis.Panda@kennametal.com","Dnyaneshwar.Kawtikwar@kennametal.com","Ebinezar.Munnangi@kennametal.com","Jagadeeswar.kamisetty@kennametal.com","Langanuru.Balakrishna@kennametal.com","Nikhil.VA@kennametal.com","Pattapu.SaiKrishna@kennametal.com","Pattipati.Devanandini@kennametal.com","Rasmita.Sahoo@kennametal.com","Sohit.Jain1@kennametal.com","vijetha.kola@kennametal.com","vikram.gopalkrishna@kennametal.com"};
+			com.jwt.config.EmailUtility.sendEmail(to, null,"New Question Posted on Kennametal Discussion Forum", mailBody, "");
+		} catch (Exception e) {
+			// TODO: handle exception
+			return "email_failed";
+		}
 		
 		return "success";
 		

@@ -8,8 +8,13 @@
 
 	<!-- Specifying base package of the Components like Controller, Service, 
 		DAO -->
-	<context:component-scan base-package="com.jwt" />
-
+	<!-- <context:component-scan base-package="com.jwt" /> -->
+	<context:component-scan base-package="com.jwt.controller" />
+	<context:component-scan base-package="com.jwt.config" />
+	<context:component-scan base-package="com.jwt.model" />
+	<context:component-scan base-package="com.jwt.service" />
+	<context:component-scan base-package="com.jwt.dao" />
+	<context:component-scan base-package="com.jwt.model" />
 	<!-- Getting Database properties -->
 	<context:property-placeholder location="classpath:application.properties" />
 
@@ -57,11 +62,12 @@
 		<property name="packagesToScan" value="com.jwt.model"></property>
 	</bean>
 
+	
 	<!-- Transaction -->
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-
+	<bean id = "emailSender" class="com.jwt.config.EmailUtility"></bean>
 	<tx:annotation-driven transaction-manager="transactionManager" />
 </beans>
