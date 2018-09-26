@@ -54,6 +54,40 @@ public class userController {
 		ModelAndView model =new ModelAndView();
 		
 			List<Employee> listEmployee = employeeService.getAllEmployees();
+			
+			List<Employee> listEmployee_new = new ArrayList<Employee>();
+			
+			for (Employee employee2 : listEmployee) {
+				Employee user = new Employee();
+				user = employeeService.getEmployee(employee2.getUserId());
+				int totalPoints = 0;
+				List<Questions> Questions = employeeService.getQuestionsForUserID(employee2.getUserId());
+				List<Answers> ansList = new ArrayList<Answers>();
+				
+				ansList = user.getAnswerList();
+				if(!Questions.isEmpty()){
+					totalPoints = totalPoints + Questions.size() * 1;
+				}
+				if(!ansList.isEmpty()){
+					totalPoints = totalPoints + ansList.size() * 1;
+				}
+				for (Questions questions2 : Questions) {
+					int Likes = questions2.getLikes();
+					totalPoints = totalPoints + Likes * 2;
+				}
+				
+				for (Answers answers : ansList) {
+				int Likes = answers.getTotal_likes();
+				totalPoints = totalPoints + Likes * 5;
+				String approve = answers.getApprove();
+				
+				if(approve != null && approve.equals("true")){
+					totalPoints = totalPoints + 20;
+				}
+			}
+			employee2.setPoint(String.valueOf(totalPoints));
+			listEmployee_new.add(employee2);
+			}
 			/*int i=0;
 			List<List<Employee>> listEmployeeNew = new ArrayList<List<Employee>>();
 			List<Employee> temp =  new ArrayList<Employee>();
@@ -88,7 +122,7 @@ public class userController {
 			System.out.println(jsonInString);
 			model.addObject("listUsersJson", jsonInString);
 			
-			model.addObject("listUsers", listEmployee);
+			model.addObject("listUsers", listEmployee_new);
 			model.setViewName("pages/userManagment/viewUsers");
 			//sessionBean.setEmp(demo);
 			
@@ -103,6 +137,33 @@ public class userController {
 		
 		
 			List<Employee> listEmployee = employeeService.getAllEmployees();
+			
+			for (Employee employee2 : listEmployee) {
+				Employee user = new Employee();
+				user = employeeService.getEmployee(employee2.getUserId());
+				int totalPoints = 0;
+				List<Questions> Questions = employeeService.getQuestionsForUserID(employee2.getUserId());
+				for (Questions questions2 : Questions) {
+					int Likes = questions2.getLikes();
+					
+					totalPoints = totalPoints + Likes * 2;
+					
+			}
+				List<Answers> ansList = new ArrayList<Answers>();
+				
+				ansList = user.getAnswerList();
+			for (Answers answers : ansList) {
+				int Likes = answers.getTotal_likes();
+				totalPoints = totalPoints + Likes * 5;
+				
+				String approve = answers.getApprove();
+				
+				if(approve != null && approve.equals("true")){
+					totalPoints = totalPoints + 20;
+				}
+			}
+			employee2.setPoint(String.valueOf(totalPoints));
+			}
 			//Employee demo = employeeService.authUser(employee);
 			model.addObject("listEmployee", listEmployee);
 			model.setViewName("pages/home");
@@ -211,8 +272,8 @@ public class userController {
 		if(!Questions.isEmpty()){
 			totalPoints = totalPoints + Questions.size() * 1;
 		}
-		if(!QuestionForAnswers.isEmpty()){
-			totalPoints = totalPoints + QuestionForAnswers.size() * 1;
+		if(!ansList.isEmpty()){
+			totalPoints = totalPoints + ansList.size() * 1;
 		}
 		List<Object> gold_Question_Goldbadges = new ArrayList<Object>();
 		List<Object> notable_Question_sliverbadges = new ArrayList<Object>();
@@ -228,15 +289,15 @@ public class userController {
 		
  		for (Questions questions2 : Questions) {
 				int totalView = questions2.getHitCount();
-				if(totalView > 15){
+				if(totalView > 100){
 					
 					gold_Question_Goldbadges.add(questions2);
 					totalGold = totalGold +1;
-				}else if(totalView > 10){
+				}else if(totalView > 75){
 					
 					notable_Question_sliverbadges.add(questions2);
 					totalSilver = totalSilver +1;
-				}else if(totalView > 5){
+				}else if(totalView > 50){
 					//bronzebadges.add("Popular Question");
 					bronze_Question_bronzebadges.add(questions2);
 					totalBroze = totalBroze +1;
@@ -246,13 +307,13 @@ public class userController {
 				
 				totalPoints = totalPoints + Likes * 2;
 				
-				if(Likes > 3){
+				if(Likes > 20){
 					Great_Question_Goldbadges.add(questions2);
 					totalGold = totalGold +1;
-				}else if(Likes > 2){
+				}else if(Likes > 15){
 					Good_Question_sliverbadges.add(questions2);
 					totalSilver = totalSilver +1;
-				}else if(Likes > 1){
+				}else if(Likes > 10){
 					Nice_Question_bronzebadges.add(questions2);
 					totalBroze = totalBroze +1;
 				}
@@ -261,21 +322,21 @@ public class userController {
 		
 		for (Answers answers : ansList) {
 			int Likes = answers.getTotal_likes();
-			totalPoints = totalPoints + Likes * 2;
+			totalPoints = totalPoints + Likes * 5;
 			
 			String approve = answers.getApprove();
 			
-			if(approve == "true"){
+			if(approve != null &&  approve.equals("true")){
 				totalPoints = totalPoints + 20;
 			}
 			
-			if(Likes > 3){
+			if(Likes > 15){
 				Great_Answer_Goldbadges.add(answers);
 				totalGold = totalGold +1;
-			}else if(Likes > 2){
+			}else if(Likes > 10){
 				Good_Answer_sliverbadges.add(answers);
 				totalSilver = totalSilver +1;
-			}else if(Likes > 1){
+			}else if(Likes > 5){
 				Nice_Answer_bronzebadges.add(answers);
 				totalBroze = totalBroze +1;
 			}

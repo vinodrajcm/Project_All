@@ -125,7 +125,7 @@ background-color: #ffd2004a;
           <tr class="tr-header">
         
                 
-                <td><a href="../question/allView?tag=${tags.tagName}">${tags.tagName}</a></td>
+                <td><a href="../question/allView?keywordForSearch=tag:${tags.tagName}">${tags.tagName}</a></td>
                 <td class="displayNone">${tags.tagId}</td>
                 <td>${tags.count}</td>
                 <td>${tags.createdBY}</td>

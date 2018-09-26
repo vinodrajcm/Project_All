@@ -78,6 +78,8 @@ public class Employee implements Serializable {
 	@Column(name="VIEW_COUNT")
 	private int count;
 	
+	private String point;
+	
 	@Column(name="LAST_LOGGED_IN")
 	private Date lastLoggedIn;
 	
@@ -261,7 +263,13 @@ public class Employee implements Serializable {
 		this.lastLoggedIn = lastLoggedIn;
 	}
 
-	
+	public String getPoint() {
+		return point;
+	}
+
+	public void setPoint(String point) {
+		this.point = point;
+	}
 
 	@Override
 	public String toString() {

@@ -49,6 +49,7 @@
                 <th>Last Name</th>
                 <th>Mail ID</th>
                 <th>Department</th>
+                <th>Points</th>
                 <th class="displayNone"></th>
             </tr>
         </thead>
@@ -62,6 +63,7 @@
                 <td>${listUsers.lastName}</td>
                 <td>${listUsers.email}</td>
                 <td>${listUsers.team}</td>
+                <td>${listUsers.point}</td>
                 <td class="displayNone" ><a>Delete</a> <a>Edit</a></td>
             </tr>
       </c:forEach>

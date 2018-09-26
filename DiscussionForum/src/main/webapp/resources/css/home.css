@@ -15,8 +15,7 @@ a {
 .hiw .about-df {
  	 padding: 10px 0 0 10px;
     /* margin: 2%; */
-    margin-top: 3%;
-        font-weight: 500;
+     font-weight: 500;
  }
  
 .hiw .desc {
@@ -230,4 +229,7 @@ a:hover{
 .eoq-ans{
 	margin-bottom: 10px;
 }
-
+.red{
+	text-align: center;
+    color: red;
+}

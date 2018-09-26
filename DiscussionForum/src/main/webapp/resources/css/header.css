@@ -34,7 +34,7 @@
 	border: 1px solid grey;
 	border-radius: 0.25rem;
 }
-form.search .searchText {
+div.search .searchText {
 	padding: 5px;
 	font-size: 17px;
 	border: none;
@@ -44,7 +44,7 @@ form.search .searchText {
 	
 }
 
-form.search .searchButton {
+div.search .searchButton {
 	float: left;
     width: 20%;
     padding: 9.2px;
@@ -55,19 +55,19 @@ form.search .searchButton {
     border: none;
 }
 
-form.search .searchButton:hover {
+div.search .searchButton:hover {
 	background: #343a40b8;
 }
 
-form.search .searchButton:focus {
+div.search .searchButton:focus {
 	outline: none !important;
 }
 
-form.search .searchText:focus {
+div.search .searchText:focus {
 	outline: none !important;
 }
 
-form.search::after {
+div.search::after {
 	content: "";
 	clear: both;
 	display: table;

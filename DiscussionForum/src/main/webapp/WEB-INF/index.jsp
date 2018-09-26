@@ -15,6 +15,7 @@
 		<div class="col-sm-12">
 		  <div class="row hiw">
 			<div class="col-md-4 about-df">
+				<div class="red"><span title="Search in header is working">****new changes</span></div>
 				User Experience Discussion Forum is a question and answer site for user experience researchers and experts.
 				<br>
 				<a href="../reward/tour" id="Logout" class="btn btn-kenna-green" style="margin-left: 15%; margin-top: 4%;">Take the 2 minute tour </a>
@@ -28,14 +29,16 @@
 			</div>
 			<div class="col-md-3 best-answer">
 				<div> The best answers are voted</div>
+				
 			</div>
+			
 			</div>	
 		</div>	
 		
 	</div>
 	<div class="row eoq mar-top-bottom">
 		<div class="col-sm-9">
-			<div class="eoq-desc "> <h1>Explore Our Questions</h1> </div>
+			<div class="eoq-desc "> <h1>Explore our 10 recently added Questions</h1> </div>
 			<div class="row mar-top-bottom"> 
 				<div class="col-sm-8 explore-tags">
 				
@@ -89,9 +92,10 @@
 					
 				</div>
 			</div>
+				<div> <h3 class="sub-header"><a  href="../question/allView">.....See All Question</a> </h3> </div>
 		</div>
 		<div class="col-sm-3 hq">
-			<div class="eoq-hot-q-desc">Most Viewed Questions</div>
+			<div class="eoq-hot-q-desc">Top 10 Most Viewed Questions</div>
 			<c:forEach var="questions" items="${topViewQuestion}">
                 <a class="fa fa-question-circle eoq-ans" href="../question/questionDetails?questionId=${questions.questionId}" >
                   ${questions.questionTitle}
@@ -108,6 +112,28 @@
 
 $(document).ready(function() {
 
+	$(".searchButton").click(function(){
+		
+		$.ajax({
+            type        : 'GET', // define the type of HTTP verb we want to use (POST for our form)
+            url         : '../question/allView', // the url where we want to POST
+            //data        : formData, // our data object
+            //dataType    : 'json', // what type of data do we expect back from the server
+            encode          : true,
+            success: function (data) {
+            	//console.log("demo");
+            	$(".loader").fadeOut("slow");
+            	var table = $('#example').DataTable();
+            	 table.search( $('.searchText').val() ).draw();
+                window.location.href ="../question/allView";
+            },
+            error: function () {
+            	 $(".loader").fadeOut("slow");
+            	 message.messageHandling("Something went wrong while submitting question","error","alert_placeholder");
+            }
+        });
+        
+	});
 
 });
 $(window).on('load',function(){

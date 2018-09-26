@@ -49,14 +49,14 @@
 				</div>
 				<div class="col-sm-6">
 					<div class="search1">
-						<form class="search" action="/action_page.php"
+						<div class="search"
 							style="margin: auto">
 							<input class="searchText" type="" placeholder="Search.."
 								name="search2">
-							<button class="searchButton" type="submit">
+							<button class="searchButton">
 								<i class="fa fa-search"></i>
 							</button>
-						</form>
+						</div>
 					</div>
 				</div>
 				<div class="col-sm-3 login">
@@ -109,6 +109,33 @@
 			</div>
 		</div>
 	</div>
+	
 
 </body>
+<script>
+$(document).ready(function() {
+
+	$(".searchButton").click(function(){
+		var val = $('.searchText').val();
+		window.location.href ="../question/allView?HeaderSearch="+val;
+		
+		
+	});
+$(window).on('load',function(){
+		var searchValue  = window.location.href;
+		searchValue =  searchValue.replace(new RegExp('%20', 'g')," ");
+		if(searchValue.indexOf("HeaderSearch") > 0){
+			searchValue  = searchValue .substring(searchValue.indexOf("=") + 1);
+		}else{
+			searchValue ="";
+		}
+		if(document.getElementById("example") != null){
+			var table = $('#example').DataTable();
+		 	table.search(searchValue).draw();
+		}
+		
+	});
+});
+
+</script>
 </html>

@@ -18,7 +18,26 @@
 	<link rel="stylesheet"
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">	
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/home.css">
+<style>
+div.dataTables_wrapper div.dataTables_filter label{
+	font-weight: bold;
+    white-space: nowrap;
+    /* text-align: left; */
+    width: 90%;
+    margin-top: 10px;
+    margin-bottom: 10px;
 
+}
+div.dataTables_wrapper div.dataTables_filter {
+text-align:left;
+}
+div.dataTables_wrapper div.dataTables_filter input {
+    margin-left: 0.5em;
+    display: inline-block;
+     width: 100%;
+}
+
+</style>
 </head>
 <body>
 	<div class="container">
@@ -63,7 +82,7 @@
 												<div class="b mar-top-bottom">${questions.questionDescription}</div>
 												<div class="tags t-cards">
 													<c:forEach var="tags" items="${questions.tags}">
-														<a href="../question/allView?tag=${tags.tagName}"
+														<a href="../question/allView?keywordForSearch=tag:${tags.tagName}"
 															class="post-tag" title="" rel="tag">${tags.tagName}</a>
 													</c:forEach>
 												</div>
@@ -118,7 +137,7 @@
 $(document).ready(function() {
     var table = $('#example').DataTable( {
         lengthChange: false,
-        "searching": false
+        //"searching": false
     });
     $("#example thead").remove();
     

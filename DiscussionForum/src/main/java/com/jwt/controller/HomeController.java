@@ -100,22 +100,5 @@ public class HomeController {
 		return model2;
 	}
 	
-	@RequestMapping(value = "/mail")
-	public void mail(){
-		
-			/*Mail mail = new Mail();
-	        mail.setMailFrom("vinodrajcm@gmail.com");
-	        mail.setMailTo("vinodraj.muniraju@kennametal.com");
-	        mail.setMailSubject("Spring 4 - Email");
-	        mail.setMailContent("Learn how to send email using Spring 4!!!\n\nThanks\nwww.technicalkeeda.com");
-	 
-	        AbstractApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
-	        MailService mailService = (MailService) context.getBean("mailService");
-	        mailService.sendEmail(mail);*/
-		
-			com.jwt.config.EmailUtility.sendEmail("vinodraj.muniraju@kennametal.com", "demo", "demo", "");
-	        //context.close();
-	
-	}
 	
 }
