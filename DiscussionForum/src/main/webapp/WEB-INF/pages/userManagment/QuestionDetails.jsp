@@ -160,6 +160,8 @@ $(document).ready(function() {
 			}
 		}
 		
+		$("img").css("width","100%");
+		
 	});
     // process the form
     $('form').submit(function(event) {
