@@ -86,7 +86,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	public List<Questions> getQuestions(String keywordForSearch){
 		List<Questions> questionList = new ArrayList<Questions>();
 		if(keywordForSearch.contains("unaswered:")){
-			questionList =  sessionFactory.getCurrentSession().createQuery("from Questions where status=null").list();
+			questionList =  sessionFactory.getCurrentSession().createQuery("from Questions where status=null or status=''").list();
 		}else if(keywordForSearch.contains("tag:")){
 			keywordForSearch = keywordForSearch.replace("tag:", "");
 			questionList =  sessionFactory.getCurrentSession().createQuery("from Questions where tag like '%"+keywordForSearch+"%'").list();
