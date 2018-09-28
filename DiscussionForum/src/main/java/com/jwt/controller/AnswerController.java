@@ -61,7 +61,7 @@ public class AnswerController {
 			answers.setAnsDate(new Date());
 			employeeService.postAns(answers);
 			
-			Questions question = employeeService.questionDetails(answers.getQuestion().getQuestionId());
+			/*Questions question = employeeService.questionDetails(answers.getQuestion().getQuestionId());
 			String[] To = {question.getEmp().getEmail()};
 			String loggedInMail = sessionBean.getEmp().getEmail() ;
 			String[]  bcc = {loggedInMail,"Kakarla.Murali@kennametal.com","vinodraj.muniraju@kennametal.com"};
@@ -77,7 +77,7 @@ public class AnswerController {
 					// TODO: handle exception
 					return "email_failed";
 				}
-			}
+			}*/
 		}
 		return "success";
 	}
@@ -92,9 +92,12 @@ public class AnswerController {
 		}else{
 			if(answer.getQuestion().getQuestionId() != 0){
 				question = employeeService.questionDetails(answer.getQuestion().getQuestionId());
-				if(!question.getEmp().getLoginId().equals(sessionBean.getEmp().getLoginId())){
-					return "approved_failed";
+				if(!sessionBean.getEmp().getUserRole().equals("admin")){
+					if(!question.getEmp().getLoginId().equals(sessionBean.getEmp().getLoginId())){
+						return "approved_failed";
+					}
 				}
+				
 				
 			}
 		}
@@ -103,6 +106,7 @@ public class AnswerController {
 		if(answer.getAnsId() != 0){
 			
 			answer_new = employeeService.getAnswer(answer.getAnsId());
+			answer_new.setPoints(answer.getPoints());
 			if(answer.getApprove().equals("true")){
 				answer_new.setApprove("true");
 			}else{

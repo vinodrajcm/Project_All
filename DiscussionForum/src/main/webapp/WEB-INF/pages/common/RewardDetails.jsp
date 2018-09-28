@@ -33,9 +33,9 @@
 	<div class="col-sm-8 description">  If any registered one likes your Answer.<br></div>
 	</div>
 	<div class="row">
-	<div class="col-sm-3"><div class="points"> 20 Points</div></div>
+	<div class="col-sm-3"><div class="points"> Selected Points</div></div>
 	<div class="col-sm-8 description"> If your Answer gets approval from Question posted User.<br></div>
-	</div>
+	</div> 
 	
 	
 	<h3 class="sub-header">Question Badges</h3>

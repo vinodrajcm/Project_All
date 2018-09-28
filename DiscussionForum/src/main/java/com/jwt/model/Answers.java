@@ -43,11 +43,16 @@ public class Answers {
 	@Column(name="APPROVED")
 	private String approve;
 	
+	@Column(name="POINTS")
+	private int points;
+	
 	@Transient
 	private String user_like_status;
 	
 	@Transient
 	private String noDaysAnswered;
+	
+	
 	
 	@ManyToOne
 	@JoinColumn(name="ANSWERED_BY")
@@ -138,6 +143,14 @@ public class Answers {
 
 	public void setNoDaysAnswered(String noDaysAnswered) {
 		this.noDaysAnswered = noDaysAnswered;
+	}
+
+	public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
 	}
 	
 	

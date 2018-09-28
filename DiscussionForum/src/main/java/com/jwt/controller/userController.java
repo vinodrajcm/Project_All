@@ -82,7 +82,7 @@ public class userController {
 				String approve = answers.getApprove();
 				
 				if(approve != null && approve.equals("true")){
-					totalPoints = totalPoints + 20;
+					totalPoints = totalPoints + answers.getPoints();
 				}
 			}
 			employee2.setPoint(String.valueOf(totalPoints));
@@ -130,40 +130,12 @@ public class userController {
 		return model ;
 	}
 	
-	@RequestMapping(value = "/userList")
-	public ModelAndView auth(HttpServletRequest request, HttpServletResponse response,Employee employee) throws IOException {
+	@RequestMapping(value = "/userEdit")
+	public ModelAndView userEdit(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		//List<Employee> listEmployee = employeeService.getAllEmployees();
 		ModelAndView model =new ModelAndView();
 		
-		
 			List<Employee> listEmployee = employeeService.getAllEmployees();
-			
-			for (Employee employee2 : listEmployee) {
-				Employee user = new Employee();
-				user = employeeService.getEmployee(employee2.getUserId());
-				int totalPoints = 0;
-				List<Questions> Questions = employeeService.getQuestionsForUserID(employee2.getUserId());
-				for (Questions questions2 : Questions) {
-					int Likes = questions2.getLikes();
-					
-					totalPoints = totalPoints + Likes * 2;
-					
-			}
-				List<Answers> ansList = new ArrayList<Answers>();
-				
-				ansList = user.getAnswerList();
-			for (Answers answers : ansList) {
-				int Likes = answers.getTotal_likes();
-				totalPoints = totalPoints + Likes * 5;
-				
-				String approve = answers.getApprove();
-				
-				if(approve != null && approve.equals("true")){
-					totalPoints = totalPoints + 20;
-				}
-			}
-			employee2.setPoint(String.valueOf(totalPoints));
-			}
 			//Employee demo = employeeService.authUser(employee);
 			model.addObject("listEmployee", listEmployee);
 			model.setViewName("pages/home");
@@ -327,7 +299,7 @@ public class userController {
 			String approve = answers.getApprove();
 			
 			if(approve != null &&  approve.equals("true")){
-				totalPoints = totalPoints + 20;
+				totalPoints = totalPoints + answers.getPoints();
 			}
 			
 			if(Likes > 15){

@@ -64,9 +64,10 @@
 			<div id="ansLikeSatus_${answers.ansId}"  style="display:none" class="ansLike">${answers.user_like_status}</div>
 					<i  id="ansLike_${answers.ansId}" class="fa fa-thumbs-up like"></i>
 					
-					<div class="like-count">${answers.total_likes}</div>
+					<div class="like-count"  title="likes">${answers.total_likes}</div>
 					<div id="approveSatus_${answers.ansId}"  style="display:none" class="approved">${answers.approve}</div>
 					<i id="approve_${answers.ansId}" class="fa fa-check-circle approve"></i>
+					<div class=""  title="Points">${answers.points}</div>
 			</div>
 			
 		     <div class="col-sm-11 answerDiv">${answers.detailAns}
@@ -122,224 +123,84 @@
 </div>
 </form>
 </div>
+
+<!-- The Modal -->
+<div class="modal" id="approveModel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Approve</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+		<div id="message_log"></div>
+      <!-- Modal body -->
+      <div class="modal-body">
+     
+       	<div class="form-group">
+       		<div id=""></div>
+       		<input type="text" id="answer_approveId" style="display: none;" value="">
+		    <label for="points">Number of Points to give for this Answer:</label>
+ 				 <select class="form-control" id="points">
+  					  <option>5</option>
+  					  <option>10</option>
+  					  <option>15</option>
+   					  <option>20</option>
+  				</select>
+		  </div>
+		  
+		  <button class="btn btn-kenna approve_button">Approve</button>
+      </div>
+	
+      <!-- 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div> -->
+
+    </div>
+  </div>
+</div>
 <jsp:include page="../common/footer.jsp" />  
 </body>
+<script src="${pageContext.request.contextPath}/resources/js/Question.js"></script>
 <script>
-$(document).ready(function() {
-
-	$(window).on('load',function(){
-		
-		
-		var question = $('#queLike_${questionDetails.questionId}');
-		var status = question[0].innerText;
-			if(status == "true"){
-				question.next().addClass('icon');
-				//votes[i].next().style="color:black";
-			}
-			
-		var ansList = $('.ansLike');		
-		var lengthVotes = $('.ansLike').length;
-		for(var i= 0;i<lengthVotes;i++){
-			var text = ansList[i].innerText;
-			if(text =="true"){
-				var id = ansList[i].id;
-				var id_new = '#'+id;
-				$(id_new).next().addClass('icon');
-			}
-			
+$(window).on('load',function(){
+	
+	
+	var question = $('#queLike_${questionDetails.questionId}');
+	var status = question[0].innerText;
+		if(status == "true"){
+			question.next().addClass('icon');
+			//votes[i].next().style="color:black";
 		}
 		
-		var approveAnsList = $('.approved');
-		var lengthOfApprove = $('.approved').length;
-		for(var i=0; i<lengthOfApprove;i++){
-			var text = approveAnsList[i].innerText;
-			if(text =="true"){
-				var id = approveAnsList[i].id;
-				var id_new = '#'+id;
-				$(id_new).next().addClass('icon2');
-			}
+	var ansList = $('.ansLike');		
+	var lengthVotes = $('.ansLike').length;
+	for(var i= 0;i<lengthVotes;i++){
+		var text = ansList[i].innerText;
+		if(text =="true"){
+			var id = ansList[i].id;
+			var id_new = '#'+id;
+			$(id_new).next().addClass('icon');
 		}
 		
-		$("img").css("width","100%");
-		
-	});
-    // process the form
-    $('form').submit(function(event) {
-    	
-    	var quesId= $("#questionId").text();
-    	
-    	if(quesId == 0 || $("#ansDescription").Editor("getText") == null || $("#ansDescription").Editor("getText") ==""){
-    		message.messageHandling("Answer field should not be empty","error","alert_placeholder");
-    		return false;
-    	}
-        // get the form data
-        // there are many ways to get this data using jQuery (you can use the class or id also)
-        var formData = {
-            'question.questionId'   : quesId,
-            'detailAns'             : $("#ansDescription").Editor("getText")
-            
-        };
-        // process the form
-        $(".loader").fadeIn();
-        $.ajax({
-            type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-            url         : '../answer/postAns', // the url where we want to POST
-            data        : formData, // our data object
-            //dataType    : 'json', // what type of data do we expect back from the server
-            encode          : true,
-            success: function (data) {
-            	$(".loader").fadeOut("slow");
-            	if(data == "login_Failed"){
-            		$("#loginModel").modal();
-            		 return false;
-            	}
-                window.location.href ="../question/questionDetails?questionId="+$("#questionId").text();
-            },
-            error: function () {
-            	$(".loader").fadeOut("slow");
-            	 message.messageHandling("Something went wrong while submitting question","error","alert_placeholder");
-            }
-        });
+	}
+	
+	var approveAnsList = $('.approved');
+	var lengthOfApprove = $('.approved').length;
+	for(var i=0; i<lengthOfApprove;i++){
+		var text = approveAnsList[i].innerText;
+		if(text =="true"){
+			var id = approveAnsList[i].id;
+			var id_new = '#'+id;
+			$(id_new).next().addClass('icon2');
+		}
+	}
+	
+	$("img").css("width","100%");
+	
+});
 
-        // stop the form from submitting the normal way and refreshing the page
-        event.preventDefault();
-    });
-   
-    
-
-	$(".like").click(function() {
-							$(".loader").fadeIn();
-							var main = this;
-							var classes = $(main).attr('class');
-							var divCount = main.nextElementSibling.innerText;
-							var like = 0;
-							if (classes.indexOf("icon") > -1) {
-							} else {
-								like = 1;
-							}
-							var ansId = 0;
-							//submitting like or dislike for question
-							if (main.id.indexOf("ansLike_") > -1) {
-								ansId = main.id.replace(/ansLike_/g, '');
-
-							}
-
-							var questionId = $("#questionId").text();
-							
-							if (questionId == "") {
-								questionId = 0;
-							}
-							var formData = {
-								'questionId' : questionId,
-								'like' : like,
-								'answerId' : ansId
-							};
-
-							$.ajax({
-								type : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-								url : '../question/updateLikeDisLike', // the url where we want to POST
-								data : formData, // our data object
-								//dataType    : 'json', // what type of data do we expect back from the server
-								encode : true,
-								success : function(data) {
-									//alert("success")
-									$(".loader").fadeOut("slow");
-									if(data == "login_Failed"){
-					            		$("#loginModel").modal();
-					            		 return false;
-					            	}
-									
-									if (classes.indexOf("icon") > -1) {
-											divCount = parseInt(divCount) - 1;
-											main.nextElementSibling.innerText = divCount;
-											$(main).removeClass("icon");
-										} else {
-											$(main).addClass("icon");
-											divCount = parseInt(divCount) + 1;
-											main.nextElementSibling.innerText = divCount;
-										}
-								},
-								error : function() {
-									// alert('error happened');
-									$(".loader").fadeOut("slow");
-									 message.messageHandling("Something went wrong while submitting question","error","alert_placeholder");
-								}
-							});
-
-							// stop the form from submitting the normal way and refreshing the page
-							event.preventDefault();
-
-						});
-
-						$(".approve").click(function() {
-							
-							$(".loader").fadeIn();
-							
-							var main = this;
-							var classes = $(main).attr('class');
-							var status = "false";
-							if (classes.indexOf("icon2") > -1) {
-
-							} else {
-								status = "true";
-							}
-
-							var ansId = 0;
-							//submitting like or dislike for question
-							if (main.id.indexOf("approve_") > -1) {
-								ansId = main.id.replace(/approve_/g, '');
-
-							}
-
-							var questionId = $("#questionId").text();
-							if (questionId == "") {
-								questionId = 0;
-							}
-							var formData = {
-								'question.questionId' : questionId,
-								'ansId' : ansId,
-								'approve' : status
-							};
-
-							$.ajax({
-								type : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-								url : '../answer/approveAnswer', // the url where we want to POST
-								data : formData, // our data object
-								//dataType    : 'json', // what type of data do we expect back from the server
-								encode : true,
-								success : function(data) {
-									//alert("success")
-									$(".loader").fadeOut("slow");
-									if(data == "login_Failed"){
-					            		$("#loginModel").modal();
-					            		 return false;
-					            	}
-									
-									if(data == "approved_failed"){
-										 message.messageHandling("Only User who posted the Question can approve answers, Like if you think answer is useful to you","error","alert_placeholder");
-					            		 return false;
-										
-									}
-									
-									if (classes.indexOf("icon2") > -1) {
-											$(main).removeClass("icon2");
-			
-										} else {
-											$(main).addClass("icon2");
-											status = "true";
-										}
-								},
-								error : function() {
-									$(".loader").fadeOut("slow");
-									// alert('error happened');
-								}
-							});
-
-							// stop the form from submitting the normal way and refreshing the page
-							event.preventDefault();
-
-						});
-
-					});
 </script>
 </html>

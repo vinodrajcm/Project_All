@@ -31,7 +31,7 @@ $('.login_button').click(function(event) {
         	//var user_id = ${userDetails.userId};
         	
         	var logout = '<div class="btn-group">'+
-        					'<a style="color:black" href="#" id="userName" class="btn" >welcome: '+obj.loginId+'</a>'+
+        					'<a style="color:black" href="#" id="userName" class="btn" >'+obj.loginId+'</a>'+
 							'<a href="../userMangment/logout" id="Logout" class="btn btn-kenna">Logout</a>'+
 						'</div>';
         	

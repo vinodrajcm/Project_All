@@ -66,7 +66,7 @@
 						    <c:when test="${userDetails.loginId!=null}">
 						    	
 						         <div class="btn-group">
-						         	<a style="color:black" href="#" id="userName" class="btn" >welcome: ${userDetails.firstName}</a>
+						         	<a style="color:black" href="#" id="userName" class="btn" > ${userDetails.firstName}</a>
 						    		
 									<a href="../userMangment/logout" id="Logout" class="btn btn-kenna">Logout</a>
 								</div>

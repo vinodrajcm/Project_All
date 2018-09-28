@@ -270,6 +270,7 @@ public class Employee implements Serializable {
 	public void setPoint(String point) {
 		this.point = point;
 	}
+	
 
 	@Override
 	public String toString() {
