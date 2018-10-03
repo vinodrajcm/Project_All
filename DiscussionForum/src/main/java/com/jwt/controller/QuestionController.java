@@ -258,7 +258,7 @@ public class QuestionController {
 			question.setCratedDate(new Date());
 			employeeService.addQuestion(question);
 		}
-		/*String mailBody = "<html><head></head><body>Hello Team <br><br>";
+		String mailBody = "<html><head></head><body>Hello Team <br><br>";
 		mailBody = mailBody + "Please find the new Question Posted in Kennametal Discussion Forum and be helpful <br><br> please click the link below to see the Question Details";
 		mailBody = mailBody +"<br> http://10.253.2.15:8080/DiscussionForum/question/questionDetails?questionId="+question.getQuestionId();
 		mailBody = mailBody + "<br><br> Question Title -- " + question.getQuestionTitle()+" <br><br>Thanks <br>Team Disscusion Forum</body></html>";
@@ -268,7 +268,7 @@ public class QuestionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			return "email_failed";
-		}*/
+		}
 		
 		return "success";
 		

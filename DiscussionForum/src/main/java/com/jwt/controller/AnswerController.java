@@ -61,7 +61,7 @@ public class AnswerController {
 			answers.setAnsDate(new Date());
 			employeeService.postAns(answers);
 			
-			/*Questions question = employeeService.questionDetails(answers.getQuestion().getQuestionId());
+			Questions question = employeeService.questionDetails(answers.getQuestion().getQuestionId());
 			String[] To = {question.getEmp().getEmail()};
 			String loggedInMail = sessionBean.getEmp().getEmail() ;
 			String[]  bcc = {loggedInMail,"Kakarla.Murali@kennametal.com","vinodraj.muniraju@kennametal.com"};
@@ -77,7 +77,7 @@ public class AnswerController {
 					// TODO: handle exception
 					return "email_failed";
 				}
-			}*/
+			}
 		}
 		return "success";
 	}

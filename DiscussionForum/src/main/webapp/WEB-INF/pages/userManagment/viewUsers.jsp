@@ -83,6 +83,7 @@ $(document).ready(function(){
 	
     var table = $('#userList').DataTable({
         lengthChange: false,
+        "autoWidth": true,
         responsive: true,
         fixedHeader: {
             header: false,
