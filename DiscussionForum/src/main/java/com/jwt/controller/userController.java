@@ -24,6 +24,7 @@ import com.google.gson.GsonBuilder;
 import com.jwt.model.Answers;
 import com.jwt.model.Employee;
 import com.jwt.model.Questions;
+import com.jwt.model.SystemProperties;
 import com.jwt.model.Tag;
 import com.jwt.service.EmployeeService;
 import com.jwt.service.session.sessionBean;
@@ -138,6 +139,7 @@ public class userController {
 			List<Employee> listEmployee = employeeService.getAllEmployees();
 			//Employee demo = employeeService.authUser(employee);
 			model.addObject("listEmployee", listEmployee);
+			model.setViewName("pages/userManagment/EditUser");
 			model.setViewName("pages/home");
 			//sessionBean.setEmp(demo);
 			
@@ -336,7 +338,32 @@ public class userController {
 		model.addObject("lastLoggedIn", lastLoggedIn);
 		model.addObject("userDetails", sessionBean.getEmp());
 		model.setViewName("pages/userManagment/userDetails");
+		model.setViewName("pages/userManagment/EditUser");
 		return model;
+	}
+	
+	@RequestMapping(value = "/editUser")
+	public ModelAndView editUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		//List<Employee> listEmployee = employeeService.getAllEmployees();
+		ModelAndView model =new ModelAndView();
+		
+		List<SystemProperties> listOfDep = employeeService.getValues("department");
+		List<SystemProperties> listOfDesig = employeeService.getValues("designation");
+		
+		String strUserId = request.getParameter("userId");
+		int userId = Integer.parseInt(strUserId);
+		
+		Employee user = new Employee();
+		user = employeeService.getEmployee(userId);
+		model.addObject("editUser", user);
+		model.addObject("designation", listOfDesig);
+		model.addObject("department",listOfDep );
+		model.addObject("userDetails", sessionBean.getEmp());
+		model.setViewName("pages/userManagment/EditUser");
+			//sessionBean.setEmp(demo);
+			
+		
+		return model ;
 	}
 	
 

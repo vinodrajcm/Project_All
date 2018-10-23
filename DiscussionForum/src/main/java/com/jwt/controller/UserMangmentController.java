@@ -83,14 +83,21 @@ public class UserMangmentController {
 			}
 			employee.setCreatedDate(new Date());
 			employeeService.addEmployee(employee);
+			
+			
+			output.put("sucess", "true");
+			output.put("message", "User Successfully Registered you can login in now");
+			return output;
 		} else {
 			employee.setModifiedDate(new Date());
 			employeeService.updateEmployee(employee);
+			
+			output.put("sucess", "true");
+			output.put("message", "User Successfully updated");
+			return output;
 		}
 		
-		output.put("sucess", "true");
-		output.put("message", "User Successfully Registered you can login in now");
-		return output;
+		
 	}
 
 	@RequestMapping(value = "/auth", method = RequestMethod.POST)
@@ -148,6 +155,21 @@ public class UserMangmentController {
 		request.getSession().invalidate();
 		
 		return new ModelAndView("redirect:/userMangment/login") ;
+	}
+	
+	
+	@RequestMapping(value = "/ediuser")
+	public ModelAndView ediuser(ModelAndView model) throws IOException {
+		//List<Employee> listEmployee = employeeService.getAllEmployees();
+		
+		List<SystemProperties> listOfDep = employeeService.getValues("department");
+		List<SystemProperties> listOfDesig = employeeService.getValues("designation");
+		
+		model.addObject("listEmployee", "");
+		model.addObject("designation", listOfDesig);
+		model.addObject("department",listOfDep );
+		model.setViewName("pages/userManagment/EditUser");
+		return model;
 	}
 	
 	
