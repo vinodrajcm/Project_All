@@ -1,7 +1,14 @@
 package com.jwt.service;
 
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
+
+import javax.naming.Context;
+import javax.naming.NamingException;
+import javax.naming.directory.DirContext;
+import javax.naming.directory.InitialDirContext;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
@@ -9,12 +16,16 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import com.jwt.dao.EmployeeDAO;
 import com.jwt.model.Answers;
 import com.jwt.model.Employee;
 import com.jwt.model.Questions;
 import com.jwt.model.SystemProperties;
 import com.jwt.model.Tag;
+import com.jwt.model.TicketHistory;
+import com.jwt.model.TicketResult;
+import com.jwt.model.TicketsData;
 import com.jwt.model.likeDislike;
 import com.jwt.service.session.sessionBean;
 
@@ -22,6 +33,26 @@ import com.jwt.service.session.sessionBean;
 @Transactional
 public class EmployeeServiceImpl implements EmployeeService {
 
+	private static final String			LOCATION	= "LDAPUtility";
+	public static String				CONTEXT		= "com.sun.jndi.ldap.LdapCtxFactory";
+	static String						LDAP_HOST;
+	static String						LDAP_BASE;
+	static String						LDAP_AUTH_TYPE;
+	static String						LDAP_SEC_PRINCIPAL;
+	static String						LDAP_SEC_CREDENTIAL;
+	static String						LDAP_ATTRIBUTES_STRING;
+	static String						LDAP_ATTRIBUTES_PROPERTY;
+	static String 						LDAP_DOMAIN;
+	
+	
+	public static void initializeProperties() {
+		LDAP_BASE = "DC=kmt,DC=kmtl,DC=com";
+		LDAP_AUTH_TYPE = "simple";
+		LDAP_ATTRIBUTES_STRING = "givenName,sn,mail,distinguishedName,sAMAccountName";
+		LDAP_ATTRIBUTES_PROPERTY = "setFirstName,setLastName,setEmail,setDistinguishedAttribute,setLoginId";
+		LDAP_DOMAIN = "KMT";
+	}
+	
 	@Autowired
 	private EmployeeDAO employeeDAO;
 	
@@ -162,5 +193,75 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return this.employeeDAO.getUserBasedOnEmail(email);
 	};
 	
+	@Override
+	@Transactional
+	public boolean getUserAuthenticated(String userId, String password){
+		
+		try {
+			
+			initializeProperties();
+			
+			return getUserAuthenticated(userId, password, "ldap://naldap.kmt.kmtl.com", LDAP_AUTH_TYPE);
+			
+		} catch (Exception e) {
+			
+			return false;
+		}
+		
+	};
 	
+	
+	@SuppressWarnings("unchecked") 
+	public static boolean getUserAuthenticated(String userID, String password, String ldapHost, String ldapAuthType) {
+		
+		boolean objReturn = false;
+		
+		try {
+			
+			initializeProperties();
+			
+			Hashtable env = new Hashtable(11);
+			env.put(Context.INITIAL_CONTEXT_FACTORY , CONTEXT);
+			env.put(Context.PROVIDER_URL , ldapHost);
+			env.put(Context.SECURITY_AUTHENTICATION , ldapAuthType);
+			userID = LDAP_DOMAIN + "\\" + userID;
+			env.put(Context.SECURITY_PRINCIPAL , userID);
+			env.put(Context.SECURITY_CREDENTIALS , password);
+			
+			DirContext ctx = new InitialDirContext(env);
+			
+			objReturn = true;
+			
+			ctx.close();
+			
+		} catch (NamingException e) {
+			//ErrorProcessor.processAppError(e ,LOCATION , "getUserAuthenticated : userID : " + userID);
+			
+			System.out.println("Exception" + e.toString());
+			objReturn = false;
+		} catch (Exception e) {
+			//ErrorProcessor.processAppError(e ,LOCATION , "getUserAuthenticated : userID : " + userID);
+			System.out.println("Exception" + e.toString());
+			objReturn = false;
+		}
+		return objReturn;
+	}
+	@Override
+	@Transactional
+	public List<TicketsData> updateTicketsDataBase(List<TicketsData> ticketList){
+		return this.employeeDAO.updateTicketsDataBase(ticketList);
+		
+	};
+	
+	@Override
+	@Transactional
+	public String updateTicketPlanDate(TicketHistory ticket){
+		return this.employeeDAO.updateTicketPlanDate(ticket);
+	};
+	
+	@Override
+	@Transactional
+	public List<TicketsData> getTicketsBasedOnUsers(String userId){
+		return this.employeeDAO.getTicketsBasedOnUsers(userId);
+	};
 }

@@ -15,6 +15,9 @@ import com.jwt.model.Employee;
 import com.jwt.model.Questions;
 import com.jwt.model.SystemProperties;
 import com.jwt.model.Tag;
+import com.jwt.model.TicketHistory;
+import com.jwt.model.TicketResult;
+import com.jwt.model.TicketsData;
 import com.jwt.model.likeDislike;
 import com.jwt.service.session.sessionBean;
 
@@ -298,5 +301,78 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		
 		return employee;
 	};
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<TicketsData> updateTicketsDataBase(List<TicketsData> ticketList){
+		List<TicketsData> ticketListDB=   sessionFactory.getCurrentSession().createQuery("from TicketsData where updateBY ='"+sessionBean.getEmp().getLoginId()+"'").list();
+		
+		boolean deleteOldTicket = true;
+		for (TicketsData ticketsData : ticketList) {
+			String ticketAPI = ticketsData.getTicket();
+			boolean newTicket = true;
+			for (TicketsData ticketsDataDB : ticketListDB) {
+				String ticketNumberDB = ticketsDataDB.getTicket();
+				if(ticketAPI.equals(ticketNumberDB)){
+					newTicket = false;
+				}
+			}
+			if(newTicket == true){
+				sessionFactory.getCurrentSession().save(ticketsData);
+			}
+		}
+		
+		for (TicketsData ticketsDataDB : ticketListDB) {
+			String ticketNumberDB = ticketsDataDB.getTicket();
+			boolean newTicket = true;
+			for (TicketsData ticketsData : ticketList) {
+				String ticketAPI = ticketsData.getTicket();
+				if(ticketAPI.equals(ticketNumberDB)){
+					newTicket = false;
+				}
+			}
+			if(newTicket == true){
+				this.sessionFactory.getCurrentSession().createQuery("delete from TicketsData where ticket='"+ticketNumberDB).executeUpdate();
+				
+			}
+		}
+		
+		List<TicketsData> ticketListDBLatest=   sessionFactory.getCurrentSession().createQuery("from TicketsData where updateBY ='"+sessionBean.getEmp().getLoginId()+"'").list();
+		
+		return ticketListDBLatest;
+		
+	};
 
+	@Override
+	@SuppressWarnings("unchecked")
+	public String updateTicketPlanDate(TicketHistory ticket){
+		
+		List<TicketsData> ticketList = new ArrayList<TicketsData>();
+		TicketsData ticketListDB = new TicketsData();
+		ticketList =  sessionFactory.getCurrentSession().createQuery("from TicketsData where ticket ='"+ticket.getTicket()+"'").list();
+		if(!ticketList.isEmpty()){
+			ticketListDB = ticketList.get(0);
+			ticketListDB.setPlanStartDate(ticket.getPlanStartDate());
+			ticketListDB.setCreatedDate(new Date());
+			ticketListDB.setPlanEndDate(ticket.getPlanEndDate());
+			ticketListDB.setNoHours(ticket.getNoHours());
+			sessionFactory.getCurrentSession().update(ticketListDB);
+			sessionFactory.getCurrentSession().save(ticket);
+			return "true";
+		 }else{
+			 return "false";
+		 }
+		
+		
+	};
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<TicketsData> getTicketsBasedOnUsers(String userId){
+		List<TicketsData> ticketList = new ArrayList<TicketsData>();
+		TicketsData ticketListDB = new TicketsData();
+		ticketList =  sessionFactory.getCurrentSession().createQuery("from TicketsData where updateBY ='"+userId+"'").list();
+		
+		return ticketList;
+	};
 }

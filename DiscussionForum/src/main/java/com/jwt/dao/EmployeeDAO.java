@@ -7,6 +7,9 @@ import com.jwt.model.Employee;
 import com.jwt.model.Questions;
 import com.jwt.model.SystemProperties;
 import com.jwt.model.Tag;
+import com.jwt.model.TicketHistory;
+import com.jwt.model.TicketResult;
+import com.jwt.model.TicketsData;
 import com.jwt.model.likeDislike;
 
 public interface EmployeeDAO {
@@ -48,4 +51,10 @@ public interface EmployeeDAO {
 	public List<SystemProperties> getValues(String key);
 	
 	public Employee getUserBasedOnEmail(String email);
+	
+	public List<TicketsData> updateTicketsDataBase(List<TicketsData> ticketList);
+	
+	public String updateTicketPlanDate(TicketHistory ticket);
+	
+	public List<TicketsData> getTicketsBasedOnUsers(String userId);
 }
