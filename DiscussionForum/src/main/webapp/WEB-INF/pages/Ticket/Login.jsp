@@ -86,6 +86,7 @@ $('.login_button').click(function(event) {
 				
 				<div class="col-sm-4"></div>
 				<div class="col-sm-4">
+				<b>*** Use Windows credentials to login ***</br></b>
 					<div class="form-group">
 						<label for="loginId">Login ID</label> <input type="text"
 							class="form-control" id="login_Id" name="loginId"
