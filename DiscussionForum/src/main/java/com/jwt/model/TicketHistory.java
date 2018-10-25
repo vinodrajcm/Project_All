@@ -37,6 +37,9 @@ private static final long serialVersionUID = -3465813074586302847L;
 	
 	@Column(name="CREATED_DATE")
 	private Date createdDate;
+	
+	@Column(name="COMMENTS")
+	private String comments;
 
 	public int getTicketId() {
 		return ticketId;
@@ -94,9 +97,14 @@ private static final long serialVersionUID = -3465813074586302847L;
 		this.createdDate = createdDate;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public String getComments() {
+		return comments;
 	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+
 	
 	
 	

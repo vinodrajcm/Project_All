@@ -162,7 +162,7 @@ input[type=submit] {
 		
 		<button id="submit" type="button">Submit</button>
 		</form>
-		<div style="margin-top: 2%;"> ABAP: <input type="checkbox" id="myCheck" > </div>
+		<div style="margin-top: 2%;"> If you need to check change request due date check this: <input type="checkbox" id="myCheck" > </div>
 		
     </div>
    
@@ -225,6 +225,7 @@ input[type=submit] {
         <th id="description">description</th>
         <th id="createdDate">Updated On</th>
         <th id="noHours">No Days</th>
+        <th id="comments">Comments</th>
       </tr>
     </thead>
     <tbody>
@@ -445,6 +446,7 @@ if(len >1){
 		row.insertCell(6).innerHTML=popUpList[i].description;
 		row.insertCell(7).innerHTML=popUpList[i].createdDate;
 		row.insertCell(8).innerHTML=popUpList[i].noHours;
+		row.insertCell(9).innerHTML=popUpList[i].comments;
 		
 		
 	}

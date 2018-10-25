@@ -356,6 +356,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			ticketListDB.setCreatedDate(new Date());
 			ticketListDB.setPlanEndDate(ticket.getPlanEndDate());
 			ticketListDB.setNoHours(ticket.getNoHours());
+			ticketListDB.setComments(ticket.getComments());
 			sessionFactory.getCurrentSession().update(ticketListDB);
 			sessionFactory.getCurrentSession().save(ticket);
 			return "true";

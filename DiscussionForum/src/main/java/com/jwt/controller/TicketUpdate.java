@@ -332,16 +332,6 @@ public class TicketUpdate {
 	         
 	            for (Tickets tickets : cars2) {
 	            	TicketsData ticket_dataTable = new TicketsData();
-					String incidentState = tickets.getIncident_state();
-					
-					List<SystemProperties> listOfStatus = employeeService.getValues("ticketStatus");
-					
-					for (SystemProperties systemProperties : listOfStatus) {
-						
-						if(incidentState.equals(systemProperties.getName())){
-							tickets.setIncident_state(systemProperties.getDescription());
-						}
-					}
 					ticket_dataTable.setTicket(tickets.getNumber());
 					ticket_dataTable.setCreatedDate(new Date());
 					ticket_dataTable.setUpdateBY(sessionBean.getEmp().getLoginId());
@@ -352,6 +342,19 @@ public class TicketUpdate {
 				}
 	            
 	            tickets_dataTable =   employeeService.updateTicketsDataBase(tickets_dataTable);
+	            List<SystemProperties> listOfStatus = employeeService.getValues("ticketStatus");
+				for (TicketsData tickets : tickets_dataTable) {
+					
+					String incidentState = tickets.getStatus();
+					for (SystemProperties systemProperties : listOfStatus) {
+						
+						if(incidentState.equals(systemProperties.getName())){
+							tickets.setStatus(systemProperties.getDescription());
+						}
+					}
+				}
+	           
+				
 				
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
@@ -381,12 +384,14 @@ public class TicketUpdate {
 		String planEndDate = null;
 		Date createdDate = new Date();
 		String noHours = null;
+		String comments = null;
 		String createdBy = sessionBean.getEmp().getLoginId();
 	
 		ticket = request.getParameter("ticket") != null ? request.getParameter("ticket") : null;
 		planStartDate = request.getParameter("planStartDate") != null ?  request.getParameter("planStartDate") : null;
 		planEndDate = request.getParameter("planEndDate") != null ? request.getParameter("planEndDate") : null;
 		noHours = request.getParameter("noHours") != null ?  request.getParameter("noHours") : null;
+		comments = request.getParameter("comments") != null ?  request.getParameter("comments") : null;
 		
 		SimpleDateFormat formate = new SimpleDateFormat("MM/dd/yyyy");
 		Date startDate = null;
@@ -405,6 +410,7 @@ public class TicketUpdate {
 		ticket_db.setNoHours(noHours);
 		ticket_db.setPlanEndDate(endDate);
 		ticket_db.setPlanStartDate(startDate);
+		ticket_db.setComments(comments);
 		output = employeeService.updateTicketPlanDate(ticket_db);
 		
 		return output;

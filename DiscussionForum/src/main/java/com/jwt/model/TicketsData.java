@@ -46,6 +46,9 @@ public class TicketsData {
 	
 	@Column(name="TICKET_CREATED_DATE")
 	private String ticketCratedDate;
+	
+	@Column(name="COMMENTS")
+	private String comments;
 
 	public int getTicketId() {
 		return ticketId;
@@ -125,6 +128,14 @@ public class TicketsData {
 
 	public void setTicketCratedDate(String ticketCratedDate) {
 		this.ticketCratedDate = ticketCratedDate;
+	}
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
 	}
 	
 	

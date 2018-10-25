@@ -45,11 +45,8 @@
 </head>
 <body>
 <div class="loader" style="display:none"></div>
-<div class="container">
-<h1>Ticket List</h1>
-<div class="row">
 
-<div class="col-sm-12">
+<h1>Ticket List</h1>
 
 <table id="userList" class="table display responsive "  style="width:100%;border: 1px solid #dee2e6;">
         <thead>
@@ -61,7 +58,7 @@
                 <th>Start Date(yyyy-mm-dd)</th>
                 <th>End Date(yyyy-mm-dd)</th>
                 <th>Effort (In Days)</th>
-                <th>Edit BY</th>
+                <th>Edit BY</th><th>Comments</th>
                 <th>Edit</th>
             </tr>
         </thead>
@@ -77,6 +74,7 @@
                 <td>${TicketsData.planEndDate}</td>
                 <td>${TicketsData.noHours}</td>
                 <td>${TicketsData.updateBY}</td>
+                <td>${TicketsData.comments}</td>
                 <td><button type="button"  class="btn btn-danger" onclick="openModal(this)">Edit</button></td>
                 
             </tr>
@@ -88,10 +86,9 @@
             
         </tfoot>
     </table>
-</div>
 
-</div>
-</div>
+
+
 
 <!-- The Modal -->
 <div class="modal" id="vinodModal">
@@ -145,6 +142,11 @@
     <label for="noHours">Effort (In Days)</label>
       <input type="text" class="form-control" id="noHours">
   </div>
+  
+  <div class="form-group">
+  	<label for="exampleFormControlTextarea2">Small textarea</label>
+  	<textarea class="form-control rounded-0" id="comments" rows="3"></textarea>
+	</div>
   
   <div class="form-group ">
     <div class="col-sm-10">
@@ -205,6 +207,7 @@ function openModal(val){
  	$("#planStartDate").val(startDate);
  	$("#planEndDate").val(endDate);
  	$("#noHours").val(child[6].innerHTML);
+ 	$("#comments").val(child[8].innerHTML);
  };
  
 
@@ -229,7 +232,8 @@ $(document).ready(function(){
 	    	'ticket' :$("#ticketNo").val(),
 	        'planStartDate': $('#planStartDate').val(),
 	        'planEndDate' : $('#planEndDate').val(),
-	       	'noHours': $('#noHours').val()
+	       	'noHours': $('#noHours').val(),
+	       	'comments':$('#comments').val()
 	    };
 	    $(".loader").fadeIn();
 	    // process the form
@@ -249,6 +253,7 @@ $(document).ready(function(){
 	        	child[4].innerHTML=$('#planStartDate').val();
 	         	child[5].innerHTML=$('#planEndDate').val();
 	         	child[6].innerHTML=$('#noHours').val();
+	         	child[8].innerHTML=$('#comments').val();
 	        	$('#vinodModal').modal('hide');
 	        },
 	        error: function () {
