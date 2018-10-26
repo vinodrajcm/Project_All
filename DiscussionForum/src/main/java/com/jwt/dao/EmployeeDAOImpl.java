@@ -332,7 +332,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 				}
 			}
 			if(newTicket == true){
-				this.sessionFactory.getCurrentSession().createQuery("delete from TicketsData where ticket='"+ticketNumberDB).executeUpdate();
+				this.sessionFactory.getCurrentSession().createQuery("delete from TicketsData where ticket='"+ticketNumberDB+"'").executeUpdate();
 				
 			}
 		}
