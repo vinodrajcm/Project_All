@@ -488,15 +488,15 @@ $(document).ready(function() {
 	           	console.log(data.data);
 	           	user_ticket =JSON.stringify(data.data);
 	           	$.cookie('tickets', user_ticket);
-	           	$("#perviousheader").text("Pervious Week \n Before -"+formatDate (data.data[0].previousDate));
-	           	$("#week1header").text("Week 1 \n"+formatDate (data.data[0].previousDate) +'-'+formatDate (data.data[0].week1Date));
-	           	$("#week2header").text("Week 2 \n"+formatDate (data.data[0].week1Date)+'-'+formatDate (data.data[0].week2Date));
-	           	$("#week3header").text("Week 3 \n"+formatDate (data.data[0].week2Date)+'-'+formatDate (data.data[0].week3Date));
-	           	$("#week4header").text("Week 4 \n"+formatDate (data.data[0].week3Date)+'-'+formatDate (data.data[0].week4Date));
-	           	$("#week5header").text("Week 5 \n"+formatDate (data.data[0].week4Date)+'-'+formatDate (data.data[0].week5Date));
-	           	$("#week6header").text("Week 6 \n"+formatDate (data.data[0].week5Date)+'-'+formatDate (data.data[0].week6Date));
-	           	$("#week7header").text("Week 7 \n"+formatDate (data.data[0].week6Date)+'-'+formatDate (data.data[0].week7Date));
-           		$("#week8header").text("Week 8 \n"+formatDate (data.data[0].week7Date)+'-'+formatDate (data.data[0].week8Date));
+	           	$("#perviousheader").text("Pervious Week : \n Before -"+new Date(data.data[0].previousDate).toDateString().replace("Sun",""));
+	           	$("#week1header").text("Week 1 : \n"+new Date(data.data[0].previousDate).toDateString().replace("Sun","") +' - '+new Date(data.data[0].week1Date).toDateString().replace("Sun",""));
+	           	$("#week2header").text("Week 2 :\n"+new Date(data.data[0].week1Date).toDateString().replace("Sun","")+' - '+new Date(data.data[0].week2Date).toDateString().replace("Sun",""));
+	           	$("#week3header").text("Week 3 :\n"+new Date(data.data[0].week2Date).toDateString().replace("Sun","")+' - '+new Date(data.data[0].week3Date).toDateString().replace("Sun",""));
+	           	$("#week4header").text("Week 4 :\n"+new Date(data.data[0].week3Date).toDateString().replace("Sun","")+' - '+new Date(data.data[0].week4Date).toDateString().replace("Sun",""));
+	           	$("#week5header").text("Week 5 :\n"+new Date(data.data[0].week4Date).toDateString().replace("Sun","")+' - '+new Date(data.data[0].week5Date).toDateString().replace("Sun",""));
+	           	$("#week6header").text("Week 6 :\n"+new Date(data.data[0].week5Date).toDateString().replace("Sun","")+' - '+new Date(data.data[0].week6Date).toDateString().replace("Sun",""));
+	           	$("#week7header").text("Week 7 :\n"+new Date(data.data[0].week6Date).toDateString().replace("Sun","")+' - '+new Date(data.data[0].week7Date).toDateString().replace("Sun",""));
+           		$("#week8header").text("Week 8 :\n"+new Date(data.data[0].week7Date).toDateString().replace("Sun","")+' - '+new Date(data.data[0].week8Date).toDateString().replace("Sun",""));
            		$("#week9header").text("No Date Tickets");
            		var table = document.getElementById("myTable");
 	           	for(var i=0;i<data.data.length;i++){
