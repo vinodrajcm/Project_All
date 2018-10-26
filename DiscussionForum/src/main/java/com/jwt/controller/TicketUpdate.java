@@ -416,7 +416,61 @@ public class TicketUpdate {
 		return output;
 	}
 	
-	
+	public Map<String,String> getState(String changeNumber){
+		Map<String,String> output = new HashMap<String,String>();
+		try {
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+		String url1 = "https://kennametal.service-now.com/api/now/table/change_request?sysparm_query=number="+changeNumber+"&sysparm_fields=state%2Csys_created_on&sysparm_limit=1";
+		url1 = url1.replaceAll(" ", "%20");
+		HttpGet getRequest1 = new HttpGet(
+				url1);
+		getRequest1.addHeader("accept", "application/xml");
+		getRequest1.addHeader("Authorization", "Basic bXVuaXJ2YzpTYW1zdW5nQHM0");
+		HttpResponse response1 = httpClient.execute(getRequest1);
+		if (response1.getStatusLine().getStatusCode() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : "
+					+ response1.getStatusLine().getStatusCode());
+		}
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+				(response1.getEntity().getContent())));
+
+		String output1 = "";
+		String output2 = "";
+		System.out.println("Output from Server .... \n");
+		while ((output1 = br.readLine()) != null) {
+			System.out.println(output1);
+			output2 = output1;
+		}
+
+			try {
+				JSONObject xmlJSONObj = XML.toJSONObject(output2);
+				
+				JSONObject xmlJSONObj2 = xmlJSONObj.getJSONObject("response");
+				JSONObject xmlJSONObj3 = xmlJSONObj2.getJSONObject("result");
+				String createdDate = xmlJSONObj3.getString("sys_created_on");
+				String state =  xmlJSONObj3.getString("state");
+				output.put("created_date", createdDate);
+				output.put("state", state);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+		httpClient.getConnectionManager().shutdown();
+
+	} catch (ClientProtocolException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+		
+		return output;
+		
+	}
 	
 	public List<TicketsData> getChangeBysystemId(String sysId,String userId){
 		JSONObject xmlJSONObj = null;
@@ -424,7 +478,8 @@ public class TicketUpdate {
 		List<TicketsData> tickets_dataTable = new ArrayList<TicketsData>();
 		try {
 			DefaultHttpClient httpClient = new DefaultHttpClient();
-		String url1 = "https://kennametal.service-now.com/api/now/table/change_request?sysparm_query=assigned_to="+sysId+"%5Estate!%3D3%5Estate!%3D8&sysparm_fields=number%2Cassigned_to%2Cassignment_group%2Cparent%2Csys_created_on%2Cshort_description%2Cstart_date%2Cend_date&sysparm_limit=100";
+			//https://kennametal.service-now.com/api/now/table/change_request?sysparm_query=assigned_to=e455f6f3554ef580e05bccaab938ef95%5Estate!%3D3%5Estate!%3D8&sysparm_fields=number%2Cassigned_to%2Cassignment_group%2Cparent%2Csys_created_on%2Cshort_description%2Cstart_date%2Cstate%2Cend_date&sysparm_limit=100
+		String url1 = "https://kennametal.service-now.com/api/now/table/change_request?sysparm_query=assigned_to="+sysId+"%5Estate!%3D3%5Estate!%3D8&sysparm_fields=number%2Cassigned_to%2Cassignment_group%2Cparent%2Csys_created_on%2Cshort_description%2Cstart_date%2Cstate%2Cend_date&sysparm_limit=100";
 		url1 = url1.replaceAll(" ", "%20");
 		HttpGet getRequest1 = new HttpGet(
 				url1);
@@ -451,8 +506,15 @@ public class TicketUpdate {
 				xmlJSONObj = XML.toJSONObject(output2);
 				
 				JSONObject xmlJSONObj2 = xmlJSONObj.getJSONObject("response");
-				JSONArray  xmlJSONObjresult1 = null;
-				xmlJSONObjresult1 =  xmlJSONObj2.getJSONArray("result");
+				Object result = xmlJSONObj2.get("result");
+				JSONArray jsonArray = new JSONArray();
+				 if (result instanceof JSONObject) {
+				    // It's an object
+					 jsonArray.put(result);
+					 xmlJSONObj2.remove("result");
+					 xmlJSONObj2.append("result", result);
+					 
+				}
 				ObjectMapper objectMapper = new ObjectMapper();
 				TicketResult car =objectMapper.readValue(xmlJSONObj2.toString(), TicketResult.class);
 				cars2 = car.getResult();
@@ -461,16 +523,38 @@ public class TicketUpdate {
 		            	TicketsData ticket_dataTable = new TicketsData();
 						
 						ticket_dataTable.setTicket(tickets.getNumber());
+						
+						/*Map<String , String> state = getState(tickets.getNumber());
+						String createdDate = state.get("created_date");
+						String state_change = state.get("state");*/
+						
+						String state  = tickets.getState();
+						
+						List<SystemProperties> listOfStatus = employeeService.getValues("changeState");
+						
+							for (SystemProperties systemProperties : listOfStatus) {
+								
+								if(state.equals(systemProperties.getName())){
+									tickets.setState(systemProperties.getDescription());
+								}
+							}
+						
 						DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 						Date startDate = null;
 						Date endDate = null;
 						try {
-							startDate = inputFormat.parse(tickets.getStart_date());
-							endDate = inputFormat.parse(tickets.getEnd_date());
+							
+							if(!tickets.getStart_date().isEmpty() && !tickets.getEnd_date().isEmpty()){
+								startDate = inputFormat.parse(tickets.getStart_date());
+								endDate = inputFormat.parse(tickets.getEnd_date());
+							}
+						
 						} catch (ParseException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						ticket_dataTable.setTicketCratedDate(tickets.getSys_created_on());
+						ticket_dataTable.setStatus(tickets.getState());
 						ticket_dataTable.setPlanEndDate(endDate);
 						ticket_dataTable.setUpdateBY(userId);
 						ticket_dataTable.setPlanStartDate(startDate);

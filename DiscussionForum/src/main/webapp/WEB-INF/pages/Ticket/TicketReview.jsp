@@ -437,16 +437,16 @@ if(len >1){
     	
 		var row = table.insertRow(i+1);
 		
-		row.insertCell(0).innerHTML=popUpList[i].updateBY;
-	    row.insertCell(1).innerHTML=popUpList[i].ticket;
-	 	row.insertCell(2).innerHTML=popUpList[i].status;
-	    row.insertCell(3).innerHTML=popUpList[i].ticketCratedDate;
-	 	row.insertCell(4).innerHTML=popUpList[i].planStartDate;
-	    row.insertCell(5).innerHTML=popUpList[i].planEndDate;
-		row.insertCell(6).innerHTML=popUpList[i].description;
-		row.insertCell(7).innerHTML=popUpList[i].createdDate;
-		row.insertCell(8).innerHTML=popUpList[i].noHours;
-		row.insertCell(9).innerHTML=popUpList[i].comments;
+		row.insertCell(0).innerHTML=popUpList[i].updateBY != undefined ? popUpList[i].updateBY :"empty";
+	    row.insertCell(1).innerHTML=popUpList[i].ticket != undefined? popUpList[i].ticket :"empty";
+	 	row.insertCell(2).innerHTML=popUpList[i].status != undefined ? popUpList[i].status:"empty";
+	    row.insertCell(3).innerHTML=popUpList[i].ticketCratedDate != undefined ? popUpList[i].ticketCratedDate :"empty";
+	 	row.insertCell(4).innerHTML=popUpList[i].planStartDate != undefined ?popUpList[i].planStartDate :"empty";
+	    row.insertCell(5).innerHTML=popUpList[i].planEndDate != undefined ? popUpList[i].planEndDate:"empty";
+		row.insertCell(6).innerHTML=popUpList[i].description != undefined ? popUpList[i].description:"empty";
+		row.insertCell(7).innerHTML=popUpList[i].createdDate != undefined ? popUpList[i].createdDate:"empty";
+		row.insertCell(8).innerHTML=popUpList[i].noHours != undefined ? popUpList[i].noHours:"empty";
+		row.insertCell(9).innerHTML=popUpList[i].comments != undefined ? popUpList[i].comments:"empty";
 		
 		
 	}

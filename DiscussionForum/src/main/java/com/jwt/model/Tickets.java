@@ -16,7 +16,7 @@ public class Tickets {
 	
 	String sys_created_on;
 
-	
+	String state;
 	
 	String end_date;
 	
@@ -71,6 +71,14 @@ public class Tickets {
 
 	public void setStart_date(String start_date) {
 		this.start_date = start_date;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 	
 	
