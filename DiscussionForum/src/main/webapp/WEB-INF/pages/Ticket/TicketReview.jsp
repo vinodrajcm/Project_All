@@ -176,7 +176,7 @@ input[type=submit] {
   <div class="row" style="margin-top: 5%;">
   <div class="col-sm-12">
   	<table class="table table-bordered" id="myTable">
-    <thead>
+    
       <tr>
      	<th id="userId">User Id</th>
       	<th id="perviousheader">Pervious Week</th>
@@ -190,11 +190,11 @@ input[type=submit] {
         <th id="week8header">Week 8</th>
         <th id="week9header">No Date Tickets</th>
       </tr>
-    </thead>
-    <tbody>
+    
+    
   
       
-    </tbody>
+    
   </table>
   </div>
   </div>
@@ -425,11 +425,11 @@ $('#vinodModal').modal('show');
 
 var table = document.getElementById("myTableVinod");
 
-var len = $("#myTableVinod thead tr").length;
+var len = $("#myTableVinod tbody tr").length;
 
 if(len >1){
 	for (var i=1 ; i<len ; i++){
-		$("#myTableVinod thead tr")[1].remove();
+		$("#myTableVinod tbody tr")[1].remove();
 	}
 }
 
@@ -461,13 +461,13 @@ $(document).ready(function() {
 		var data = $("#users").val();
 		var role = "";
 		
-		var len = $("#myTable thead tr").length;
+		var len = $("#myTable tbody tr").length;
 		
 		var checked = document.getElementById("myCheck").checked;
 		
 		if(len >1){
 			for (var i=1 ; i<len ; i++){
-				$("#myTable thead tr")[1].remove();
+				$("#myTable tbody tr")[1].remove();
 			}
 		}
 		
@@ -517,54 +517,59 @@ $(document).ready(function() {
 	           		
 	           		var Cells = row.getElementsByTagName("td");
 	           		if(data.data[i].previousWeek > 0){
-	           			Cells[1].style="background-color:red";
+	           			Cells[1].style.backgroundColor="red";
 	           		}else{
-	           			Cells[1].style="background-color:yellowgreen";
+	           			Cells[1].style.backgroundColor="yellowgreen";
 	           		}
 	           		if(data.data[i].week1 > 0){
-	           			Cells[2].style="background-color:red";
+	           			Cells[2].style.backgroundColor="red";
 	           		}else{
-	           			Cells[2].style="background-color:yellowgreen";
+	           			Cells[2].style.backgroundColor="yellowgreen";
 	           		}
 	           		if(data.data[i].week2 > 0){
-	           			Cells[3].style="background-color:red";
+	           			Cells[3].style.backgroundColor="red";
 	           		}else{
-	           			Cells[3].style="background-color:yellowgreen";
+	           			Cells[3].style.backgroundColor="yellowgreen";
 	           		}
 	           		if(data.data[i].week3 > 0){
-	           			Cells[4].style="background-color:red";
+	           			Cells[4].style.backgroundColor="red";
 	           		}else{
-	           			Cells[4].style="background-color:yellowgreen";
+	           			Cells[4].style.backgroundColor="yellowgreen";
 	           		}
 	           		if(data.data[i].week4 > 0){
-	           			Cells[5].style="background-color:red";
+	           			Cells[5].style.backgroundColor="red";
 	           		}else{
-	           			Cells[5].style="background-color:yellowgreen";
+	           			Cells[5].style.backgroundColor="yellowgreen";
 	           		}
 	           		if(data.data[i].week5 > 0){
-	           			Cells[6].style="background-color:red";
+	           			Cells[6].style.backgroundColor="red";
 	           		}else{
-	           			Cells[6].style="background-color:yellowgreen";
+	           			Cells[6].style.backgroundColor="yellowgreen";
 	           		}
 	           		if(data.data[i].week6 > 0){
-	           			Cells[7].style="background-color:red";
+	           			Cells[7].style.backgroundColor="red";
 	           		}else{
-	           			Cells[7].style="background-color:yellowgreen";
+	           			Cells[7].style.backgroundColor="yellowgreen";
 	           		}
 	           		if(data.data[i].week7 > 0){
-	           			Cells[8].style="background-color:red";
+	           			Cells[8].style.backgroundColo="red";
 	           		}else{
-	           			Cells[8].style="background-color:yellowgreen";
+	           			//Cells[8].style="backgroundColor:yellowgreen";
+	           			Cells[8].style.backgroundColor="yellowgreen";
 	           		}
 	           		if(data.data[i].week8 > 0){
-	           			Cells[9].style="background-color:red";
+	           			//Cells[9].style="backgroundColor:red";
+	           			Cells[9].style.backgroundColor="red";
 	           		}else{
-	           			Cells[9].style="background-color:yellowgreen";
+	           			//Cells[9].style="backgroundColor:yellowgreen";
+	           			Cells[9].style.backgroundColor="yellowgreen";
 	           		}
 	           		if(data.data[i].noDueDate > 0){
-	           			Cells[10].style="background-color:yellow";
+	           			//Cells[10].style="backgroundColor:yellow";
+	           			Cells[10].style.backgroundColor="yellow";
 	           		}else{
-	           			Cells[10].style="background-color:yellowgreen";
+	           			//Cells[10].style="backgroundColor:yellowgreen";
+	           			Cells[10].style.backgroundColor="yellowgreen";
 	           		}
 	           		
 	           	    

@@ -639,7 +639,17 @@ public class TicketUpdate {
 			}
 			else{
 				tickets = employeeService.getTicketsBasedOnUsers(userId);
-			
+				List<SystemProperties> listOfStatus = employeeService.getValues("ticketStatus");
+				for (TicketsData tickets2 : tickets) {
+					
+					String incidentState = tickets2.getStatus();
+					for (SystemProperties systemProperties : listOfStatus) {
+						
+						if(incidentState.equals(systemProperties.getName())){
+							tickets2.setStatus(systemProperties.getDescription());
+						}
+					}
+				}
 			}
 			ticketListForUsers.setUserId(userId);
 			if(tickets == null){
