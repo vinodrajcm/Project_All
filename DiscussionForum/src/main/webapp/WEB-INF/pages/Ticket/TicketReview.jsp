@@ -420,16 +420,14 @@ console.log(popUpList);
 
 $('#vinodModal').modal('show');
 
-
-
-
 var table = document.getElementById("myTableVinod");
 
-var len = $("#myTableVinod tbody tr").length;
+var len = $("#myTableVinod thead tr").length;
+
 
 if(len >1){
 	for (var i=1 ; i<len ; i++){
-		$("#myTableVinod tbody tr")[1].remove();
+		$("#myTableVinod thead tr")[1].remove();
 	}
 }
 
