@@ -92,7 +92,7 @@ public class TicketUpdate {
 			HttpGet getRequest = new HttpGet(
 					url);
 			getRequest.addHeader("accept", "application/xml");
-			getRequest.addHeader("Authorization", "Basic bXVuaXJ2YzpTYW1zdW5nQHM0");
+			getRequest.addHeader("Authorization", "Basic bXVuaXJ2YzpaaXBnb0AxMjM0NQ==");
 			HttpResponse response1 = httpClient.execute(getRequest);
 
 			if (response1.getStatusLine().getStatusCode() != 200) {
@@ -204,7 +204,7 @@ public class TicketUpdate {
 			String encode = Base64.encodeBase64(auth.getBytes("UTF-8")).toString(); 
 			
 			//String authStringEnc = new BASE64Encoder().encode(auth.getBytes()); 
-			getRequest.addHeader("Authorization", "Basic bXVuaXJ2YzpTYW1zdW5nQHM0");
+			getRequest.addHeader("Authorization", "Basic bXVuaXJ2YzpaaXBnb0AxMjM0NQ==");
 			HttpResponse response1 = httpClient.execute(getRequest);
 
 			if (response1.getStatusLine().getStatusCode() != 200) {
@@ -289,7 +289,7 @@ public class TicketUpdate {
 		HttpGet getRequest1 = new HttpGet(
 				url1);
 		getRequest1.addHeader("accept", "application/xml");
-		getRequest1.addHeader("Authorization", "Basic bXVuaXJ2YzpTYW1zdW5nQHM0");
+		getRequest1.addHeader("Authorization", "Basic bXVuaXJ2YzpaaXBnb0AxMjM0NQ==");
 		HttpResponse response1 = httpClient.execute(getRequest1);
 		if (response1.getStatusLine().getStatusCode() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
@@ -425,7 +425,7 @@ public class TicketUpdate {
 		HttpGet getRequest1 = new HttpGet(
 				url1);
 		getRequest1.addHeader("accept", "application/xml");
-		getRequest1.addHeader("Authorization", "Basic bXVuaXJ2YzpTYW1zdW5nQHM0");
+		getRequest1.addHeader("Authorization", "Basic bXVuaXJ2YzpaaXBnb0AxMjM0NQ==");
 		HttpResponse response1 = httpClient.execute(getRequest1);
 		if (response1.getStatusLine().getStatusCode() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
@@ -484,7 +484,7 @@ public class TicketUpdate {
 		HttpGet getRequest1 = new HttpGet(
 				url1);
 		getRequest1.addHeader("accept", "application/xml");
-		getRequest1.addHeader("Authorization", "Basic bXVuaXJ2YzpTYW1zdW5nQHM0");
+		getRequest1.addHeader("Authorization", "Basic bXVuaXJ2YzpaaXBnb0AxMjM0NQ==");
 		HttpResponse response1 = httpClient.execute(getRequest1);
 		if (response1.getStatusLine().getStatusCode() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
