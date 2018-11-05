@@ -550,7 +550,7 @@ $(document).ready(function() {
 	           			Cells[7].style.backgroundColor="yellowgreen";
 	           		}
 	           		if(data.data[i].week7 > 0){
-	           			Cells[8].style.backgroundColo="red";
+	           			Cells[8].style.backgroundColor="red";
 	           		}else{
 	           			//Cells[8].style="backgroundColor:yellowgreen";
 	           			Cells[8].style.backgroundColor="yellowgreen";
