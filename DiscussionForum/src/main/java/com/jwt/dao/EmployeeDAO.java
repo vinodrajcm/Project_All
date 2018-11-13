@@ -52,7 +52,7 @@ public interface EmployeeDAO {
 	
 	public Employee getUserBasedOnEmail(String email);
 	
-	public List<TicketsData> updateTicketsDataBase(List<TicketsData> ticketList);
+	public List<TicketsData> updateTicketsDataBase(List<TicketsData> ticketList,String userId);
 	
 	public String updateTicketPlanDate(TicketHistory ticket);
 	

@@ -304,8 +304,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<TicketsData> updateTicketsDataBase(List<TicketsData> ticketList){
-		List<TicketsData> ticketListDB=   sessionFactory.getCurrentSession().createQuery("from TicketsData where updateBY ='"+sessionBean.getEmp().getLoginId()+"'").list();
+	public List<TicketsData> updateTicketsDataBase(List<TicketsData> ticketList,String userId){
+		List<TicketsData> ticketListDB=   sessionFactory.getCurrentSession().createQuery("from TicketsData where updateBY ='"+userId+"'").list();
 		
 		boolean deleteOldTicket = true;
 		for (TicketsData ticketsData : ticketList) {
@@ -314,12 +314,15 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			for (TicketsData ticketsDataDB : ticketListDB) {
 				String ticketNumberDB = ticketsDataDB.getTicket();
 				if(ticketAPI.equals(ticketNumberDB)){
+					ticketsDataDB.setStatus(ticketsData.getStatus());
+					sessionFactory.getCurrentSession().update(ticketsDataDB);
 					newTicket = false;
 				}
 			}
 			if(newTicket == true){
 				sessionFactory.getCurrentSession().save(ticketsData);
 			}
+			
 		}
 		
 		for (TicketsData ticketsDataDB : ticketListDB) {
@@ -337,7 +340,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			}
 		}
 		
-		List<TicketsData> ticketListDBLatest=   sessionFactory.getCurrentSession().createQuery("from TicketsData where updateBY ='"+sessionBean.getEmp().getLoginId()+"'").list();
+		List<TicketsData> ticketListDBLatest=   sessionFactory.getCurrentSession().createQuery("from TicketsData where updateBY ='"+userId+"'").list();
 		
 		return ticketListDBLatest;
 		

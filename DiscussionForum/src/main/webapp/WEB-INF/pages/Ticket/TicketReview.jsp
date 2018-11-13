@@ -161,13 +161,17 @@ input[type=submit] {
 		</div>
 		
 		<button id="submit" type="button">Submit</button>
+		
+		
+		
+		
 		</form>
 		<div style="margin-top: 2%;"> If you need to check change request due date check this: <input type="checkbox" id="myCheck" > </div>
 		
     </div>
    
     <div class="col-sm-3">
-     
+     	<a id="clickMe" data-toggle="tooltip" style="color: red;" title="Update the incidents and GERQ of selected users on test field">Click here Update users*</a>
     </div>
   </div>
   
@@ -454,7 +458,34 @@ if(len >1){
 }
 	
 $(document).ready(function() {
+	$(".loader").fadeOut(); 
 	
+	$("#clickMe").click(function(){
+		
+		var data = $("#users").val();
+		if(data == ""){
+			return false;
+		}
+		var formData = {
+	               'userList':data
+	        };
+		
+		$(".loader").fadeIn(); 
+		 $.ajax({
+	           type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+	           url         : '../ticketUpdate/updateTicketsOfAllusers', // the url where we want to POST
+	           data        : formData, // our data object
+	           //dataType    : 'json', // what type of data do we expect back from the server
+	           encode          : true,
+	           success: function (data) {
+	        	   $(".loader").fadeOut(); 
+	        	   alert('Sucess');
+	           },
+	           error: function () {
+	               alert('error happened');
+	           }
+		 });
+	});
 	$("#submit").click(function(){
 		var data = $("#users").val();
 		var role = "";
@@ -469,11 +500,10 @@ $(document).ready(function() {
 			}
 		}
 		
-		
 		var formData = {
 	               'userList':data,
 	               'usersRole':checked
-	           };
+	        };
 		 $(".loader").fadeIn(); 
 	   // process the form
 	       $.ajax({

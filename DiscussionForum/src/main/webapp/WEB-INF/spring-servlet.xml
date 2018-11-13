@@ -1,10 +1,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"  xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
 	<!-- Specifying base package of the Components like Controller, Service, 
 		DAO -->
@@ -15,6 +17,7 @@
 	<context:component-scan base-package="com.jwt.service" />
 	<context:component-scan base-package="com.jwt.dao" />
 	<context:component-scan base-package="com.jwt.model" />
+<!-- 	<context:component-scan base-package="com.jwt.cronJob" /> -->
 	<!-- Getting Database properties -->
 	<context:property-placeholder location="classpath:application.properties" />
 
@@ -69,5 +72,13 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean id = "emailSender" class="com.jwt.config.EmailUtility"></bean>
+	 
+	
+   <!--  <task:scheduled-tasks>
+        <task:scheduled ref="ticketUpdate" method="runCronJob4" cron="0 */2 * ? * *" />
+    </task:scheduled-tasks> -->
+ 
+ 
+	
 	<tx:annotation-driven transaction-manager="transactionManager" />
 </beans>

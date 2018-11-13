@@ -248,8 +248,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 	@Override
 	@Transactional
-	public List<TicketsData> updateTicketsDataBase(List<TicketsData> ticketList){
-		return this.employeeDAO.updateTicketsDataBase(ticketList);
+	public List<TicketsData> updateTicketsDataBase(List<TicketsData> ticketList,String userId){
+		return this.employeeDAO.updateTicketsDataBase(ticketList,userId);
 		
 	};
 	

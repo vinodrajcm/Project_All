@@ -30,6 +30,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.XML;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -267,7 +269,7 @@ public class TicketUpdate {
 			return model ;
 		}
 		
-		outPut = getTicketsBysystemId(sys_id,"", "");
+		outPut = getTicketsBysystemId(sys_id,sessionBean.getEmp().getLoginId(), "");
 		
 		ModelAndView model = new ModelAndView();
 		model.addObject("result",outPut);
@@ -323,7 +325,7 @@ public class TicketUpdate {
 	                // Get next book.
 	            	Tickets tickets = bookIterator.next();
 	            	
-	                // If current book title is "Gone Girl", remove that book from list.
+	                // 
 	                if (tickets.getIncident_state().equals("6") || tickets.getIncident_state().equals("25")) {
 	                    bookIterator.remove();
 	                } 
@@ -334,14 +336,19 @@ public class TicketUpdate {
 	            	TicketsData ticket_dataTable = new TicketsData();
 					ticket_dataTable.setTicket(tickets.getNumber());
 					ticket_dataTable.setCreatedDate(new Date());
-					ticket_dataTable.setUpdateBY(sessionBean.getEmp().getLoginId());
+					ticket_dataTable.setUpdateBY(userId);
 					ticket_dataTable.setDescription(tickets.getShort_description());
 					ticket_dataTable.setStatus(tickets.getIncident_state());
 					ticket_dataTable.setTicketCratedDate(tickets.getSys_created_on());
 					tickets_dataTable.add(ticket_dataTable);
 				}
 	            
-	            tickets_dataTable =   employeeService.updateTicketsDataBase(tickets_dataTable);
+	            tickets_dataTable =   employeeService.updateTicketsDataBase(tickets_dataTable,userId);
+	            
+	            
+	            if(password == "cron"){
+	            	return null;
+	            }
 	            List<SystemProperties> listOfStatus = employeeService.getValues("ticketStatus");
 				for (TicketsData tickets : tickets_dataTable) {
 					
@@ -1495,5 +1502,37 @@ public class TicketUpdate {
 		
 		return result;
 	}
+	
+	 @RequestMapping(value = "/updateTicketsOfAllusers" ,method=RequestMethod.POST)
+	 public  @ResponseBody String  runCronJob4(HttpServletRequest request, HttpServletResponse response){
+	      
+	       
+		 	String userList = "";
+		 	String output = "";
+			userList = request.getParameter("userList") != null ? request.getParameter("userList") : null;
+	       
+			
+			List<String> usersList = Arrays.asList(userList.split("\\s*,\\s*"));
+			try{
+				for (String userName : usersList) {
+					
+					String[] user = userName.split("--");
+					String userId = user[1];
+					
+					String sysId = getSysId(userId);
+					getTicketsBysystemId(sysId,userId,"cron");
+				}
+		       
+			}
+			catch(Exception e){
+				output = "false";
+			}
+			
+	      
+			output = "true";
+	        return output;
+				
+	   }
+	
 	
 }
