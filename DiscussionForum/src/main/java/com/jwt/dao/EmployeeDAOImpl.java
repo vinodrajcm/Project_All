@@ -305,7 +305,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<TicketsData> updateTicketsDataBase(List<TicketsData> ticketList,String userId){
-		List<TicketsData> ticketListDB=   sessionFactory.getCurrentSession().createQuery("from TicketsData where updateBY ='"+userId+"'").list();
+		List<TicketsData> ticketListDB =   sessionFactory.getCurrentSession().createQuery("from TicketsData where updateBY ='"+userId+"'").list();
 		
 		boolean deleteOldTicket = true;
 		for (TicketsData ticketsData : ticketList) {

@@ -171,6 +171,19 @@ input[type=submit] {
     </div>
    
     <div class="col-sm-3">
+    
+    	<div style="margin-top: 10px;margin-bottom: 10px;">
+    	<i class="fa fa-circle" style="
+		    color: orange;
+		"> </i> Holiday/Leave
+				<i class="fa fa-circle" style="
+		    color: red;
+		"> </i> Working
+		    	<i class="fa fa-circle" style="
+		    color: green;
+		"></i> Free
+		    </div>
+     	
      	<a id="clickMe" data-toggle="tooltip" style="color: red;" title="Update the incidents and GERQ of selected users on test field">Click here Update users*</a>
     </div>
   </div>
@@ -211,15 +224,46 @@ input[type=submit] {
       <!-- Modal Header -->
       <div class="modal-header">
         <h4 class="modal-title">Ticket Details</h4>
+        <div style="margin-top: 10px;margin-left: 50px;">
+    	<i class="fa fa-circle" style="
+		    color: orange;
+		"> </i> Holiday/Leave
+				<i class="fa fa-circle" style="
+		    color: red;
+		"> </i> Working
+		    	<i class="fa fa-circle" style="
+		    color: green;
+		"></i> Free
+		    </div>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
 <!-- Modal body -->
 <div class="modal-body">
+
+
+ <div class="row">
+   		<h4 class="modal-title">Day based work load</h4>
+ 		<table class="table table-bordered" id="WeekDay">
+    	<tbody>
+      	<tr>
+     	<td id="Sunday" style="background-color: orange;">Sunday</td>
+      	<td id="Monday" style="background-color: green;">Monday</td>
+        <td id="Tuesday" style="background-color: green;">Tuesday</td>
+        <td id="Wednesday" style="background-color: green;">Wednesday</td>
+        <td id="Thursday" style="background-color: green;">Thursday</td>
+        <td id="Friday" style="background-color: green;">Friday</td>
+        <td id="Saturday" style="background-color: orange;">Saturday</td>
+      </tr>
+      
+    </tbody>
+  	</table>
+ </div>
  
  <div class="row">
+ 		<h4 class="modal-title">Ticket Details</h4>
  		<table class="table table-bordered" id="myTableVinod">
-    <thead>
-      <tr>
+   		 <thead>
+      	<tr>
      	<th id="userId">User Id</th>
       	<th id="ticket">ticket</th>
         <th id="status">status</th>
@@ -255,6 +299,23 @@ input[type=submit] {
 <script>
 var user_ticket;
 
+var startWeekDate;
+
+var endWeekDate;
+
+var monTotal = 0;
+
+var tueTotal = 0;
+
+var wedTotal = 0;
+
+var thuTotal = 0;
+
+var firTotal = 0;
+
+
+
+
 function formatDate (input) {
 	  var datePart = input.split("-");
 	  var year = datePart[0]; // get only two digits
@@ -282,6 +343,8 @@ function getval(cel,row) {
 	var index = cel.closest("tr").rowIndex;
 	var userId = tab.rows[index].cells[0].innerHTML;
 	
+	userId = userId.substring(0, userId.indexOf("("));
+
 	var tickets =user_ticket;
 	
 	var ticketsObj = JSON.parse(tickets);
@@ -289,6 +352,23 @@ function getval(cel,row) {
 	var popUpList = [];
 	
 	var selectedTicketObj ;
+	
+	$("#Monday").css("background-color","green");
+	 $("#Tuesday").css("background-color","green"); 
+	 $("#Wednesday").css("background-color","green");
+	 $("#Thursday").css("background-color","green");
+	 $("#Friday").css("background-color","green");
+	
+	
+	
+	function getSunday(d) {
+		  d = new Date(d);
+		  var day = d.getDay(),
+		      diff = d.getDate() - day + (day == 0 ? -6:0); // adjust when day is sunday
+		  return new Date(d.setDate(diff));
+		}
+
+	
 	
 	for(var i=0;i<ticketsObj.length;i++){
 		if(ticketsObj[i].userId == userId){
@@ -308,6 +388,10 @@ function getval(cel,row) {
 		   }
 	   }
 	   
+	   startWeekDate =  getSunday(new Date($('#perviousheader').text().replace("Pervious Week : Before -",""))-1);
+	   
+	   endWeekDate = new Date($('#perviousheader').text().replace("Pervious Week : Before -",""))
+	   
    }else if(cel.cellIndex == 2){
 	   var tickets = selectedTicketObj.week1Incidents;
 	   var ticketsarray = tickets.split(',');
@@ -316,12 +400,15 @@ function getval(cel,row) {
 		   if(ticketsarray[i] != ""){
 			   var ticketNo = ticketsarray[i];
 			   var ticketDetails = getTicketDetails(listOfTickets,ticketNo);
-			   console.log(ticketDetails);
-			   
 			   popUpList = popUpList.concat(ticketDetails)
-			   console.log(popUpList);
 		   }
 	   }
+	   
+	   	var week = $('#week1header').text().replace('Week 1 : ','').split('-');;
+ 		startWeekDate =  new Date(week[0]);
+		endWeekDate = new Date(week[1]);
+	   
+	   
 	   
    }else if(cel.cellIndex == 3){
 	   var tickets = selectedTicketObj.week2Incidents;
@@ -334,7 +421,9 @@ function getval(cel,row) {
 			   popUpList.push(ticketDetails);
 		   }
 	   }
-	   
+	 	var week = $('#week2header').text().replace('Week 2 : ','').split('-');;
+ 		startWeekDate =  new Date(week[0]);
+		endWeekDate = new Date(week[1]);
    }else if(cel.cellIndex == 4){
 	   var tickets = selectedTicketObj.week3Incidents;
 	   var ticketsarray = tickets.split(',');
@@ -346,6 +435,11 @@ function getval(cel,row) {
 			   popUpList.push(ticketDetails);
 		   }
 	   }
+	   
+	 	var week = $('#week3header').text().replace('Week 3 : ','').split('-');;
+ 		startWeekDate =  new Date(week[0]);
+		endWeekDate = new Date(week[1]);
+		
 	   
    }else if(cel.cellIndex == 5){
 	   var tickets = selectedTicketObj.week4Incidents;
@@ -359,6 +453,10 @@ function getval(cel,row) {
 		   }
 	   }
 	   
+	 	var week = $('#week4header').text().replace('Week 4 : ','').split('-');;
+ 		startWeekDate =  new Date(week[0]);
+		endWeekDate = new Date(week[1]);
+	   
    }else if(cel.cellIndex == 6){
 	   var tickets = selectedTicketObj.week5Incidents;
 	   var ticketsarray = tickets.split(',');
@@ -371,6 +469,11 @@ function getval(cel,row) {
 		   }
 	   }
 	   
+	 	var week = $('#week5header').text().replace('Week 5 : ','').split('-');;
+ 		startWeekDate =  new Date(week[0]);
+		endWeekDate = new Date(week[1]);
+		
+		
    }else if(cel.cellIndex == 7){
 	   var tickets = selectedTicketObj.week6Incidents;
 	   var ticketsarray = tickets.split(',');
@@ -383,6 +486,11 @@ function getval(cel,row) {
 		   }
 	   }
 	   
+	 	var week = $('#week6header').text().replace('Week 6 : ','').split('-');;
+ 		startWeekDate =  new Date(week[0]);
+		endWeekDate = new Date(week[1]);
+		
+		
    }else if(cel.cellIndex == 8){
 	   var tickets = selectedTicketObj.week7Incidents;
 	   var ticketsarray = tickets.split(',');
@@ -395,6 +503,10 @@ function getval(cel,row) {
 		   }
 	   }
 	   
+	 	var week = $('#week7header').text().replace('Week 7 : ','').split('-');;
+ 		startWeekDate =  new Date(week[0]);
+		endWeekDate = new Date(week[1]);
+		
    }else if(cel.cellIndex == 9){
 	   var tickets = selectedTicketObj.week8Incidents;
 	   var ticketsarray = tickets.split(',');
@@ -407,6 +519,10 @@ function getval(cel,row) {
 		   }
 	   }
 	   
+	 	var week = $('#week8header').text().replace('Week 8 : ','').split('-');;
+ 		startWeekDate =  new Date(week[0]);
+		endWeekDate = new Date(week[1]);
+		
    }else if(cel.cellIndex == 10){
 	   var tickets = selectedTicketObj.incidentWithNoDate;
 	   var ticketsarray = tickets.split(',');
@@ -420,7 +536,7 @@ function getval(cel,row) {
 	   }
 	   
    }
-console.log(popUpList);
+
 
 $('#vinodModal').modal('show');
 
@@ -450,15 +566,277 @@ if(len >1){
 		row.insertCell(8).innerHTML=popUpList[i].noHours != undefined ? popUpList[i].noHours:"empty";
 		row.insertCell(9).innerHTML=popUpList[i].comments != undefined ? popUpList[i].comments:"empty";
 		
+		var startDate = popUpList[i].planStartDate;
+		
+		var endDate = popUpList[i].planEndDate;
+		if(startDate != "empty" && endDate !="empty"){
+			updateWeekTable(startDate,endDate,popUpList[i].status);
+		}
+		
+		
 		
 	}
 
-
+	
+	
+	function updateWeekTable(startDate,endDate,status){
+		
+		var startDate = new Date(startDate);
+		var endDate = new Date(endDate);
+		
+		$("#Sunday").text(startWeekDate.toDateString());
+		
+		//startWeekDate = new Date(startWeekDate.setDate(startWeekDate.getDate()+1));
+		var endWeekDate2 = new Date(endWeekDate- 86400000);
+		//endWeekDate2.setDate();
+		
+		$("#Saturday").text(endWeekDate2.toDateString());
+			if(status == "Vacation"){
+				if(startDate < startWeekDate){
+					startDate = startWeekDate;
+				
+					var one_day=1000*60*60*24;
+					
+					var date1_ms = startDate.getTime();
+					var date2_ms = endDate.getTime();
+					// Calculate the difference in milliseconds
+					var difference_ms = date2_ms - date1_ms;
+					// Convert back to days and return
+					var diff =  Math.round(difference_ms/one_day); 
+					console.log(diff);
+					
+					if(diff > 7 ){
+						 	 $("#Monday").css("background-color","orange");
+						 	 $("#Tuesday").css("background-color","orange"); 
+						 	 $("#Wednesday").css("background-color","orange");
+						 	 $("#Thursday").css("background-color","orange");
+							 $("#Friday").css("background-color","orange");
+					}else{
+						for(var i = 0; i<=diff;i++){
+							if(i == 1){
+									 $("#Monday").css("background-color","orange");
+							}else if(i == 2){
+								 	 $("#Tuesday").css("background-color","orange"); 
+							}else if(i == 3 ){
+									 $("#Wednesday").css("background-color","orange");
+							}else if(i == 4 ){
+									 $("#Thursday").css("background-color","orange");
+							}else if(i == 5){
+									 $("#Friday").css("background-color","orange");
+							}
+						}
+					}
+				}else{
+					var one_day=1000*60*60*24;
+					
+					var date1_ms = startDate.getTime();//ticket start date
+					var weekEndDate = endWeekDate.getTime();//weekend date i.e friday
+					var diffStart = weekEndDate - date1_ms;
+					var diffStartWeek = Math.round(diffStart/one_day); 
+					var date2_ms = endDate.getTime();
+					// Calculate the difference in milliseconds
+					var difference_ms = date2_ms - date1_ms;
+					// Convert back to days and return
+					var diff =  Math.round(difference_ms/one_day); 
+					if(diff > 7 ){
+						for(var i = diffStartWeek;0<i;i--){
+							if(i == 6){
+								 $("#Monday").css("background-color","orange");
+						}else if(i == 5){
+							 	 $("#Tuesday").css("background-color","orange"); 
+						}else if(i == 4 ){
+								 $("#Wednesday").css("background-color","orange");
+						}else if(i == 3 ){
+								 $("#Thursday").css("background-color","orange");
+						}else if(i == 2){
+								 $("#Friday").css("background-color","orange");
+						}
+						}
+					}else{
+						
+						for(var i = diffStartWeek; 0<diffStartWeek ;i--){
+								if(diff == 0){
+									return;
+								}
+								if(i == 6){
+										 $("#Monday").css("background-color","orange");
+								}else if(i == 5){
+									 	 $("#Tuesday").css("background-color","orange"); 
+								}else if(i == 4 ){
+										 $("#Wednesday").css("background-color","orange");
+								}else if(i == 3 ){
+										 $("#Thursday").css("background-color","orange");
+								}else if(i == 2){
+										 $("#Friday").css("background-color","orange");
+								}
+						diffStartWeek--;
+						}
+						
+					}
+					
+				}
+				
+			}else{
+				if(startDate < startWeekDate){
+					startDate = startWeekDate;
+				
+					var one_day=1000*60*60*24;
+					
+					var date1_ms = startDate.getTime();
+					var date2_ms = endDate.getTime();
+					
+					// Calculate the difference in milliseconds
+					var difference_ms = date2_ms - date1_ms;
+					    
+					// Convert back to days and return
+					var diff =  Math.round(difference_ms/one_day); 
+					console.log(diff);
+					
+					if(diff > 7 ){
+						 monTotal += 1;
+						 tueTotal += 1;
+						 wedTotal += 1;
+						 thuTotal += 1;
+						 firTotal += 1;
+						 if(document.getElementById("Monday").style.backgroundColor != "orange"){
+							 $("#Monday").css("background-color","red");
+						 }
+						 if(document.getElementById("Tuesday").style.backgroundColor != "orange"){
+							 $("#Tuesday").css("background-color","red"); 
+						 }
+						 if(document.getElementById("Wednesday").style.backgroundColor != "orange"){
+							 $("#Wednesday").css("background-color","red");
+						 }
+						 if(document.getElementById("Thursday").style.backgroundColor != "orange"){
+							 $("#Thursday").css("background-color","red");
+						 }
+						 if(document.getElementById("Friday").style.backgroundColor != "orange"){
+							 $("#Friday").css("background-color","red");
+						 }
+						 
+					}else{
+						for(var i = 0; i<=diff;i++){
+							if(i == 1){
+								monTotal += 1;
+								if(document.getElementById("Monday").style.backgroundColor != "orange"){
+									 $("#Monday").css("background-color","red");
+								 }
+							}else if(i == 2){
+								 tueTotal += 1;
+								if(document.getElementById("Tuesday").style.backgroundColor != "orange"){
+									 $("#Tuesday").css("background-color","red"); 
+								 }
+							}else if(i == 3 ){
+								wedTotal += 1;
+								if(document.getElementById("Wednesday").style.backgroundColor != "orange"){
+									 $("#Wednesday").css("background-color","red");
+								 }
+							}else if(i == 4 ){
+								 thuTotal += 1;
+								if(document.getElementById("Thursday").style.backgroundColor != "orange"){
+									 $("#Thursday").css("background-color","red");
+								 }
+							}else if(i == 5){
+								firTotal += 1;
+								if(document.getElementById("Friday").style.backgroundColor != "orange"){
+									 $("#Friday").css("background-color","red");
+								 }
+							}
+						}
+					}
+				}else{
+					var one_day=1000*60*60*24;
+					var date1_ms = startDate.getTime();//ticket start date
+					var weekEndDate = endWeekDate.getTime();//weekend date i.e friday
+					var diffStart = weekEndDate - date1_ms;
+					var diffStartWeek = Math.round(diffStart/one_day); 
+					var date2_ms = endDate.getTime();
+					// Calculate the difference in milliseconds
+					var difference_ms = date2_ms - date1_ms;
+					// Convert back to days and return
+					var diff =  Math.round(difference_ms/one_day); 
+					
+					if(diff > 7 ){
+						for(var i = diffStartWeek;0<i;i--){
+							if(i == 6){
+								monTotal += 1;
+								if(document.getElementById("Monday").style.backgroundColor != "orange"){
+									 $("#Monday").css("background-color","red");
+								 }
+							}else if(i == 5){
+								 tueTotal += 1;
+								if(document.getElementById("Tuesday").style.backgroundColor != "orange"){
+									 $("#Tuesday").css("background-color","red"); 
+								 }
+							}else if(i == 4 ){
+								 wedTotal += 1;
+								if(document.getElementById("Wednesday").style.backgroundColor != "orange"){
+									 $("#Wednesday").css("background-color","red");
+								 }
+							}else if(i == 3 ){
+								thuTotal += 1;
+								if(document.getElementById("Thursday").style.backgroundColor != "orange"){
+									 $("#Thursday").css("background-color","red");
+								 }
+							}else if(i == 2){
+								firTotal += 1;
+								if(document.getElementById("Friday").style.backgroundColor != "orange"){
+									 $("#Friday").css("background-color","red");
+								 }
+							}
+						}
+					}else{
+						
+						for(var i = diffStartWeek; 0<diffStartWeek ;i--){
+							if(diff == 0){
+								return;
+							}
+							if(i == 6){
+								monTotal += 1;
+								if(document.getElementById("Monday").style.backgroundColor != "orange"){
+									 $("#Monday").css("background-color","red");
+								 }
+							}else if(i == 5){
+								 tueTotal += 1;
+								if(document.getElementById("Tuesday").style.backgroundColor != "orange"){
+									 $("#Tuesday").css("background-color","red"); 
+								 }
+							}else if(i == 4 ){
+								wedTotal += 1;
+								if(document.getElementById("Wednesday").style.backgroundColor != "orange"){
+									 $("#Wednesday").css("background-color","red");
+								 }
+							}else if(i == 3 ){
+								thuTotal += 1;
+								if(document.getElementById("Thursday").style.backgroundColor != "orange"){
+									 $("#Thursday").css("background-color","red");
+								 }
+							}else if(i == 2){
+								 firTotal += 1;
+								if(document.getElementById("Friday").style.backgroundColor != "orange"){
+									 $("#Friday").css("background-color","red");
+								 }
+							}
+							
+							diffStartWeek--;
+						}
+						
+					}
+					
+				}
+			}
+			
+		
+		
+		
+	}
 
 }
 	
 $(document).ready(function() {
 	$(".loader").fadeOut(); 
+	
+	
 	
 	$("#clickMe").click(function(){
 		
@@ -513,25 +891,32 @@ $(document).ready(function() {
 	           //dataType    : 'json', // what type of data do we expect back from the server
 	           encode          : true,
 	           success: function (data) {
-	           	console.log(data.data);
 	           	user_ticket =JSON.stringify(data.data);
 	           	$.cookie('tickets', user_ticket);
-	           	$("#perviousheader").text("Pervious Week : \n Before -"+new Date(data.data[0].previousDate).toDateString().replace("Sun",""));
-	           	$("#week1header").text("Week 1 : \n"+new Date(data.data[0].previousDate).toDateString().replace("Sun","") +' - '+new Date(data.data[0].week1Date).toDateString().replace("Sun",""));
-	           	$("#week2header").text("Week 2 :\n"+new Date(data.data[0].week1Date).toDateString().replace("Sun","")+' - '+new Date(data.data[0].week2Date).toDateString().replace("Sun",""));
-	           	$("#week3header").text("Week 3 :\n"+new Date(data.data[0].week2Date).toDateString().replace("Sun","")+' - '+new Date(data.data[0].week3Date).toDateString().replace("Sun",""));
-	           	$("#week4header").text("Week 4 :\n"+new Date(data.data[0].week3Date).toDateString().replace("Sun","")+' - '+new Date(data.data[0].week4Date).toDateString().replace("Sun",""));
-	           	$("#week5header").text("Week 5 :\n"+new Date(data.data[0].week4Date).toDateString().replace("Sun","")+' - '+new Date(data.data[0].week5Date).toDateString().replace("Sun",""));
-	           	$("#week6header").text("Week 6 :\n"+new Date(data.data[0].week5Date).toDateString().replace("Sun","")+' - '+new Date(data.data[0].week6Date).toDateString().replace("Sun",""));
-	           	$("#week7header").text("Week 7 :\n"+new Date(data.data[0].week6Date).toDateString().replace("Sun","")+' - '+new Date(data.data[0].week7Date).toDateString().replace("Sun",""));
-           		$("#week8header").text("Week 8 :\n"+new Date(data.data[0].week7Date).toDateString().replace("Sun","")+' - '+new Date(data.data[0].week8Date).toDateString().replace("Sun",""));
+	           	
+	           	var dateFormate = function(date1){
+	        		var date = new Date(date1);
+	        		//date.setDate(date.getDate()-1);
+	        		
+	        		return date.toDateString().replace("Sun","");
+	        	}
+	        	
+	           	
+	           	$("#perviousheader").text("Pervious Week : Before -"+dateFormate(data.data[0].previousDate));
+	           	$("#week1header").text("Week 1 : "+new Date(data.data[0].previousDate).toDateString().replace("Sun","") +' - '+dateFormate(data.data[0].week1Date));
+	           	$("#week2header").text("Week 2 : "+new Date(data.data[0].week1Date).toDateString().replace("Sun","")+' - '+dateFormate(data.data[0].week2Date));
+	           	$("#week3header").text("Week 3 : "+new Date(data.data[0].week2Date).toDateString().replace("Sun","")+' - '+dateFormate(data.data[0].week3Date));
+	           	$("#week4header").text("Week 4 : "+new Date(data.data[0].week3Date).toDateString().replace("Sun","")+' - '+dateFormate(data.data[0].week4Date));
+	           	$("#week5header").text("Week 5 : "+new Date(data.data[0].week4Date).toDateString().replace("Sun","")+' - '+dateFormate(data.data[0].week5Date));
+	           	$("#week6header").text("Week 6 : "+new Date(data.data[0].week5Date).toDateString().replace("Sun","")+' - '+dateFormate(data.data[0].week6Date));
+	           	$("#week7header").text("Week 7 : "+new Date(data.data[0].week6Date).toDateString().replace("Sun","")+' - '+dateFormate(data.data[0].week7Date));
+           		$("#week8header").text("Week 8 : "+new Date(data.data[0].week7Date).toDateString().replace("Sun","")+' - '+dateFormate(data.data[0].week8Date));
            		$("#week9header").text("No Date Tickets");
            		var table = document.getElementById("myTable");
 	           	for(var i=0;i<data.data.length;i++){
-			        	
 	           		var row = table.insertRow(i+1);
-	           		
-	           		row.insertCell(0).innerHTML=data.data[i].userId;
+	           		var  total = data.data[0].result1.length;
+	           		row.insertCell(0).innerHTML=data.data[i].userId+"("+total+")";
 	           	    row.insertCell(1).innerHTML=data.data[i].previousWeek;
 	           	 	row.insertCell(2).innerHTML=data.data[i].week1;
 	           	    row.insertCell(3).innerHTML=data.data[i].week2;
@@ -544,78 +929,75 @@ $(document).ready(function() {
 	           		row.insertCell(10).innerHTML=data.data[i].noDueDate;
 	           		
 	           		var Cells = row.getElementsByTagName("td");
-	           		if(data.data[i].previousWeek > 0){
-	           			Cells[1].style.backgroundColor="red";
+	           		
+	           		if(data.data[i].previousWeekIncidents != undefined && data.data[i].previousWeekIncidents.includes(data.data[i].userId)){
+	           			Cells[1].style.backgroundColor="orange";
 	           		}else{
-	           			Cells[1].style.backgroundColor="yellowgreen";
-	           		}
-	           		if(data.data[i].week1 > 0){
-	           			Cells[2].style.backgroundColor="red";
-	           		}else{
-	           			Cells[2].style.backgroundColor="yellowgreen";
-	           		}
-	           		if(data.data[i].week2 > 0){
-	           			Cells[3].style.backgroundColor="red";
-	           		}else{
-	           			Cells[3].style.backgroundColor="yellowgreen";
-	           		}
-	           		if(data.data[i].week3 > 0){
-	           			Cells[4].style.backgroundColor="red";
-	           		}else{
-	           			Cells[4].style.backgroundColor="yellowgreen";
-	           		}
-	           		if(data.data[i].week4 > 0){
-	           			Cells[5].style.backgroundColor="red";
-	           		}else{
-	           			Cells[5].style.backgroundColor="yellowgreen";
-	           		}
-	           		if(data.data[i].week5 > 0){
-	           			Cells[6].style.backgroundColor="red";
-	           		}else{
-	           			Cells[6].style.backgroundColor="yellowgreen";
-	           		}
-	           		if(data.data[i].week6 > 0){
-	           			Cells[7].style.backgroundColor="red";
-	           		}else{
-	           			Cells[7].style.backgroundColor="yellowgreen";
-	           		}
-	           		if(data.data[i].week7 > 0){
-	           			Cells[8].style.backgroundColor="red";
-	           		}else{
-	           			//Cells[8].style="backgroundColor:yellowgreen";
-	           			Cells[8].style.backgroundColor="yellowgreen";
-	           		}
-	           		if(data.data[i].week8 > 0){
-	           			//Cells[9].style="backgroundColor:red";
-	           			Cells[9].style.backgroundColor="red";
-	           		}else{
-	           			//Cells[9].style="backgroundColor:yellowgreen";
-	           			Cells[9].style.backgroundColor="yellowgreen";
-	           		}
-	           		if(data.data[i].noDueDate > 0){
-	           			//Cells[10].style="backgroundColor:yellow";
-	           			Cells[10].style.backgroundColor="yellow";
-	           		}else{
-	           			//Cells[10].style="backgroundColor:yellowgreen";
-	           			Cells[10].style.backgroundColor="yellowgreen";
+	           			(data.data[i].previousWeek > 0) ? Cells[1].style.backgroundColor="red" :Cells[1].style.backgroundColor="yellowgreen";
 	           		}
 	           		
-	           	    
+	           		if(data.data[i].week1Incidents != undefined && data.data[i].week1Incidents.includes(data.data[i].userId)){
+	           			Cells[2].style.backgroundColor="orange";
+	           		}else{
+	           			(data.data[i].week1 > 0) ? Cells[2].style.backgroundColor="red" :Cells[2].style.backgroundColor="yellowgreen";
+	           		}
+	           		
+	           		if(data.data[i].week2Incidents != undefined && data.data[i].week2Incidents.includes(data.data[i].userId)){
+	           			Cells[3].style.backgroundColor="orange";
+	           		}else{
+	           			(data.data[i].week2 > 0) ? Cells[3].style.backgroundColor="red" :Cells[3].style.backgroundColor="yellowgreen";
+	           		}
+	           		
+	           		if(data.data[i].week3Incidents != undefined && data.data[i].week3Incidents.includes(data.data[i].userId)){
+	           			Cells[4].style.backgroundColor="orange";
+	           		}else{
+	           			(data.data[i].week3 > 0) ? Cells[4].style.backgroundColor="red" :Cells[4].style.backgroundColor="yellowgreen";
+	           		}
+	           		
+	           		if(data.data[i].week4Incidents != undefined && data.data[i].week4Incidents.includes(data.data[i].userId)){
+	           			Cells[5].style.backgroundColor="orange";
+	           		}else{
+	           			(data.data[i].week4 > 0) ? Cells[5].style.backgroundColor="red" :Cells[5].style.backgroundColor="yellowgreen";
+	           		}
+	           		
+	           		if(data.data[i].week5Incidents != undefined && data.data[i].week5Incidents.includes(data.data[i].userId)){
+	           			Cells[6].style.backgroundColor="orange";
+	           		}else{
+	           			(data.data[i].week5 > 0) ? Cells[6].style.backgroundColor="red" :Cells[6].style.backgroundColor="yellowgreen";
+	           		}
+	           		
+	           		if(data.data[i].week6Incidents != undefined && data.data[i].week6Incidents.includes(data.data[i].userId)){
+	           			Cells[7].style.backgroundColor="orange";
+	           		}else{
+	           			(data.data[i].week6 > 0) ? Cells[7].style.backgroundColor="red" :Cells[7].style.backgroundColor="yellowgreen";
+	           		}
+	           		
+	           		if(data.data[i].week7Incidents != undefined && data.data[i].week7Incidents.includes(data.data[i].userId)){
+	           			Cells[8].style.backgroundColor="orange";
+	           		}else{
+	           			(data.data[i].week7 > 0) ? Cells[8].style.backgroundColor="red" :Cells[8].style.backgroundColor="yellowgreen";
+	           		}
+	           		
+	           		if(data.data[i].week8Incidents != undefined && data.data[i].week8Incidents.includes(data.data[i].userId)){
+	           			Cells[9].style.backgroundColor="orange";
+	           		}else{
+	           			(data.data[i].week8 > 0) ? Cells[9].style.backgroundColor="red" :Cells[9].style.backgroundColor="yellowgreen";
+	           		}
+	           		
+	           		if(data.data[i].noDueDate > 0){
+	           			Cells[10].style.backgroundColor="yellow";
+	           		}else{
+	           			Cells[10].style.backgroundColor="yellowgreen";
+	           		}
 	           	}
 	           	
 	           	
 	           	var tbl = document.getElementById("myTable");
-
 	           	if (tbl != null) {
-
 	           	    for (var i = 0; i < tbl.rows.length; i++) {
-
 	           	        for (var j = 0; j < tbl.rows[i].cells.length; j++)
-
 	           	            tbl.rows[i].cells[j].onclick = function () { getval(this); };
-
 	           	    }
-
 	           	}
 	            $(".loader").fadeOut(); 
 	           },
@@ -623,8 +1005,6 @@ $(document).ready(function() {
 	               alert('error happened');
 	           }
 	       });
-		
-		
 	});
 });
 
