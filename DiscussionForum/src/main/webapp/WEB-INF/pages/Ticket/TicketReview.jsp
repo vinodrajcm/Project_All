@@ -915,7 +915,7 @@ $(document).ready(function() {
            		var table = document.getElementById("myTable");
 	           	for(var i=0;i<data.data.length;i++){
 	           		var row = table.insertRow(i+1);
-	           		var  total = data.data[0].result1.length;
+	           		var  total = data.data[i].result1.length;
 	           		row.insertCell(0).innerHTML=data.data[i].userId+"("+total+")";
 	           	    row.insertCell(1).innerHTML=data.data[i].previousWeek;
 	           	 	row.insertCell(2).innerHTML=data.data[i].week1;
