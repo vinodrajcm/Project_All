@@ -10,6 +10,13 @@
 $(document).ready(function() {
 $('.login_button').click(function(event) {
 	 
+	var userId = $('input[name=loginId]').val();
+	var password = $('input[name=password]').val();
+	if(userId == "" && password ==""){
+		message.messageHandling("Please enter your user id and password","error","message_log_modal");
+		return false;
+	}
+	
     // get the form data
     // there are many ways to get this data using jQuery (you can use the class or id also)
     var formData = {
