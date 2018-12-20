@@ -172,5 +172,46 @@ public class UserMangmentController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
+	public @ResponseBody Map<String,String> forgotPassword(HttpServletRequest request, HttpServletResponse response){
+		//get the user id from the request
+		String userId = request.getParameter("userId") == null ? "" : request.getParameter("userId");
+		//output object for forgot password
+		Map<String, String> output = new HashMap<String,String>();
+		//create employee object
+		Employee employee = new Employee();
+		employee.setLoginId(userId);
+		//get the employee details from the DB if exists
+		Employee employeeDetails = employeeService.authUser(employee);
+		String status;
+		String emailId;
+		String name;
+		if(employeeDetails == null || employeeDetails.getUserId() == 0){
+			//return false
+			 output.put("success","false");
+			 return output;
+		}else{
+			 emailId =  employeeDetails.getEmail();
+			 name = employeeDetails.getFirstName();
+			 status = "true";
+		}
+		
+		
+		
+		String mailBody = "<html><head></head><body>Hello "+name+"<br><br>";
+		mailBody = mailBody + "Your password is "+employeeDetails.getPassword()+"</body></html>";
+		try {
+			String[] to = {emailId};
+			com.jwt.config.EmailUtility.sendEmail(to, null,"Your Password for Disscussion Forum", mailBody, "");
+			status = "true";
+		} catch (Exception e) {
+			// TODO: handle exception
+			 output.put("success","false");
+			 return output;
+		}
+		output.put("success",status);
+		return output;
+	}
+	
 	
 }

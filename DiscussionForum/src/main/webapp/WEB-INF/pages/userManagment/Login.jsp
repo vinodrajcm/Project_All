@@ -58,6 +58,47 @@ $('.login_button').click(function(event) {
     event.preventDefault();
 });
 
+$("#forgotPassword").on("click",function(){
+	var userId = $('input[name=loginId]').val();
+	if(userId == ""){
+		message.messageHandling("Please enter your user id","error","message_log");
+		return false;
+	}
+	var formData = {
+	    	'userId' : userId
+	    };
+	$(".loader").fadeIn();
+	
+	// process the form
+    $.ajax({
+        type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+        url         : '../userMangment/forgotPassword', // the url where we want to POST
+        data        : formData, // our data object
+        //dataType    : 'json', // what type of data do we expect back from the server
+        encode          : true,
+        success: function (data) {
+        	var status = data.success;
+        	$(".loader").fadeOut();
+        	if(status == "false"){
+        		 message.messageHandling("Entered user id  may be wrong","error","message_log");
+        		 return false;
+        	}else{
+        		message.messageHandling("Your password sent to your mail id Please check","success","message_log");
+        	}
+        },
+        error: function () {
+        	$(".loader").fadeOut("slow");
+        	 message.messageHandling("Something went wrong while submitting question","error","message_log");
+        }
+    });
+	
+ 	// stop the form from submitting the normal way and refreshing the page
+    event.preventDefault();
+	
+});
+
+
+
 });
 
 </script>
@@ -85,7 +126,7 @@ $('.login_button').click(function(event) {
 					</div>
 					<button type="submit" class="btn btn-kenna login_button" style="width: 100%">Submit</button>
 					<div class="form-group">
-						<label> <span class="psw">Forgot <a href="#">password?</a></span>
+						<label> <span class="psw">Forgot <a href="#" id="forgotPassword">password?</a></span>
 						</label>
 					</div>
 

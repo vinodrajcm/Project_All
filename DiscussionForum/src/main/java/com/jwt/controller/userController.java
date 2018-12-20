@@ -338,7 +338,7 @@ public class userController {
 		model.addObject("lastLoggedIn", lastLoggedIn);
 		model.addObject("userDetails", sessionBean.getEmp());
 		model.setViewName("pages/userManagment/userDetails");
-		model.setViewName("pages/userManagment/EditUser");
+		
 		return model;
 	}
 	
