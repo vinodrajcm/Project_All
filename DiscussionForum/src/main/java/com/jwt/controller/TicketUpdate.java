@@ -23,17 +23,23 @@ import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.jboss.logging.Logger;
+import org.jboss.logging.Logger.Level;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.XML;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -42,6 +48,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.jwt.config.ApplicationProperties;
+import com.jwt.config.ExceptionCapture;
+import com.jwt.model.ChangeDetail;
 import com.jwt.model.Employee;
 import com.jwt.model.Messages;
 import com.jwt.model.SystemProperties;
@@ -68,6 +77,7 @@ public class TicketUpdate {
 
 	@Autowired(required = true)
 	private sessionBean sessionBean;
+	
 
 	@RequestMapping(value = "/TicketLogin")
 	public ModelAndView userEdit(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -137,6 +147,97 @@ public class TicketUpdate {
 
 		return xmlJSONObj.toString();
 	}
+	
+	@RequestMapping(value = "/getChangeDetails")
+	public @ResponseBody String getChangeDetails(HttpServletRequest request, HttpServletResponse response)
+		 {
+		String ticketNumber = request.getParameter("ticketNumber") == null ? "" : request.getParameter("ticketNumber");
+		JSONObject xmlJSONObj = null;
+		String output = null;
+		String value = null;
+		String link = null;
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+		try {
+			String url ="https://kennametal.service-now.com/api/now/table/incident?sysparm_query=number="+ticketNumber
+				+"%5Eu_change_created%3Dtrue&sysparm_fields=number%2Cu_change_created%2Crfc&sysparm_limit=1";
+			url = url.replaceAll(" ", "%20");
+			HttpGet getRequest = new HttpGet(url);
+			getRequest.addHeader("accept", ApplicationProperties.XML);
+			getRequest.addHeader("Authorization", ApplicationProperties.AUTH);
+			HttpResponse response_change = httpClient.execute(getRequest);
+			if (response_change.getStatusLine().getStatusCode() != 200) {
+				throw new ExceptionCapture("Failed : HTTP error code : " + response_change.getStatusLine().getStatusCode());
+			}
+			String content = EntityUtils.toString(response_change.getEntity());
+			xmlJSONObj = XML.toJSONObject(content);
+			if(xmlJSONObj.getJSONObject("response") != null){
+					JSONObject xmlJSONObjresult1 = xmlJSONObj.getJSONObject("response").getJSONObject("result").getJSONObject("rfc");
+					 value = (String) xmlJSONObjresult1.get("value");
+					 link = (String) xmlJSONObjresult1.get("link");
+					
+			}
+		
+		} catch (Exception e) {
+			logger.log(Level.ERROR, "Error while capturing the change request details please check web service");
+		}finally{
+			httpClient.getConnectionManager().shutdown();
+		}
+		if(value != null && link != null){
+			output = getChangeDetailForTicket(value,link);
+		}
+		return output;
+	}
+	
+	public String getChangeDetailForTicket(String value1, String link1){
+		String output = null;
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+		try {
+			
+			String url = "https://kennametal.service-now.com/api/now/table/change_request?sysparm_query=sys_id="+
+					value1+"&sysparm_fields=number%2Cparent%2Cstate%2Cstart_date%2Cend_date%2Cshort_description%2Cassigned_to%2Ccomments_and_work_notes&sysparm_limit=1";
+			url = url.replaceAll(" ", "%20");
+			HttpGet getRequest = new HttpGet(url);
+			getRequest.addHeader("accept", ApplicationProperties.XML);
+			getRequest.addHeader("Authorization", ApplicationProperties.AUTH);
+			HttpResponse response = httpClient.execute(getRequest);
+
+			if (response.getStatusLine().getStatusCode() != 200) {
+				throw new ExceptionCapture("Failed : HTTP error code : " + response.getStatusLine().getStatusCode());
+			}
+			String content = EntityUtils.toString(response.getEntity());
+			if(content != null){
+				JSONObject xmlJSONObj = XML.toJSONObject(content);
+				
+				ObjectMapper objectMapper = new ObjectMapper();
+				ChangeDetail changeDetails = objectMapper.readValue(xmlJSONObj.toString(), ChangeDetail.class);
+				
+				List<SystemProperties> listOfStatus = employeeService.getValues("changeState");
+				
+				for (SystemProperties systemProperties : listOfStatus) {
+
+					if (changeDetails.getResponse().getResult().getState().equals(systemProperties.getName())) {
+						changeDetails.getResponse().getResult().setState(systemProperties.getDescription());
+					}
+				}
+				
+			
+				String carJson = objectMapper.writeValueAsString(changeDetails);
+				logger.log(Level.INFO, carJson);
+				logger.log(Level.INFO, xmlJSONObj.toString());
+				output = carJson;
+			}else{
+				output = null;
+			}
+		} catch (Exception e) {
+			logger.log(Level.ERROR, "Error while capturing the change request details please check web service");
+		}finally{
+
+			httpClient.getConnectionManager().shutdown();
+		}
+		return output;
+	};
+	
+	
 
 	@RequestMapping(value = "/TicketAuth", method = RequestMethod.POST)
 	public @ResponseBody String ticketUserAuth(HttpServletRequest request, HttpServletResponse response) {

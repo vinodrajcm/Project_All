@@ -37,10 +37,13 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/js/gijgo.min.js" type="text/javascript"></script>
 <link href="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/css/gijgo.min.css" rel="stylesheet" type="text/css" />
-
-
-
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/home.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">	
+<link href="${pageContext.request.contextPath}/resources/css/DiscussionForum.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/header.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/table.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/reward.css" rel="stylesheet">
+<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/general.js"></script>
 
 </head>
 <body>
@@ -92,12 +95,12 @@
 
 <!-- The Modal -->
 <div class="modal" id="vinodModal">
-  <div class="modal-dialog">
+  <div class="modal-dialog" style="max-width: 900px;">
     <div class="modal-content">
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Modal Heading</h4>
+        <h4 class="modal-title">Ticket Details</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
 
@@ -105,8 +108,25 @@
       <div class="modal-body">
  
  <div class="row">
+ <table class="table display responsive ">
+ 	 <tr>
+	    <th>Change number</th>
+	    <th>Discription</th>
+	    <th>Status</th>
+	    <th>Plan Start Date</th>
+	    <th>Plan End Date</th>
+	  </tr>
+	  <tr>
+	    <td id="changeNumber">No</td>
+	    <td id="discription">No</td>
+	    <td id="status">No</td>
+	    <td id="startDate">No</td>
+	    <td id="endDate">No</td>
+	  </tr>
+ 	</table>
  <div class="col-sm-6">
  	<fieldset disabled>
+ 	
   <div class="form-group">
     <label for="ticketNo">Ticket No</label>
       <input type="text" class="form-control" id="ticketNo">
@@ -192,11 +212,49 @@ function dateFormate(date){
 	 
 }
 function openModal(val){
- 	
- 	$('#vinodModal').modal('show');
+	$('#vinodModal').modal('show');
  	tr =$(val).closest('tr')[0];
- 	
  	child = tr.children;
+ 	$(".loader").fadeIn();
+	 var formData = {
+		    	'ticketNumber' :child[0].innerHTML
+		    };
+	
+	 // process the form
+	    $.ajax({
+	        type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+	        url         : '../ticketUpdate/getChangeDetails', // the url where we want to POST
+	        data        : formData, // our data object
+	        //dataType    : 'json', // what type of data do we expect back from the server
+	        encode          : true,
+	        success: function (data) {
+	        	$(".loader").fadeOut("slow");
+	        	if(data == ""){
+	        		
+		        	$("#changeNumber").text('no data');
+		        	$("#discription").text('no data');
+		        	$("#status").text('no data');
+		        	$("#startDate").text('no data');
+		        	$("#endDate").text('no data');
+	        	}else{
+	        		var obj = JSON.parse(data)
+		        	var date = obj.response.result;
+		        	$("#changeNumber").text(date.number);
+		        	$("#discription").text(date.short_description);
+		        	$("#status").text(date.state);
+		        	$("#startDate").text(date.start_date);
+		        	$("#endDate").text(date.end_date);
+	        	}
+	        	
+	        	event.preventDefault();
+	        },
+	        error: function () {
+	        	$(".loader").fadeOut("slow");
+	        	 alert("Error");
+	        }
+	    });
+	
+ 	
  	var startDate = dateFormate(child[4].innerHTML != "" ? child[4].innerHTML :"");
  	var endDate = dateFormate(child[5].innerHTML != "" ? child[5].innerHTML :"");
  	
