@@ -1,45 +1,94 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <title>Ticket Update</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="shortcut icon" type="image/ico" href="${pageContext.request.contextPath}/resources/img/icon.gif">
+<link rel="shortcut icon" type="image/ico"
+	href="${pageContext.request.contextPath}/resources/img/icon.gif">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
+<link
+	href="${pageContext.request.contextPath}/resources/css/DiscussionForum.css"
+	rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/header.css"
+	rel="stylesheet">	
+<script
+	src="${pageContext.request.contextPath}/resources/js/resource/jquery.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/resource/bootstrap.min.js"></script>
+	<script
+	src="${pageContext.request.contextPath}/resources/js/general.js"></script>
+<style>
+.loginDiv{
+	margin-top:10%;
+	padding-bottom: 3%;
+    background-color: #f3c809;
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+body{
+	//background-color: #DDDDDD;
+}
+</style>
+</head>
+<body>
+	<div class="loader" style="display: none"></div>
+	<div class="container">
+		<marquee behavior="scroll" direction="left" style="color: red;">New Changes --- You can login by pressing enter key after filling up userId and password</marquee>
+		<div class="row">
+			<div class="col-sm-4"></div>
+			<div class="col-sm-4 loginDiv">
+			<div class="headerTitle" style="text-align: center;border-bottom: 1px solid #343a40;">Sign in</div>
+			<div id="message_log">${result}</div>
+				<div style="width: 100%;text-align: center;font-weight: 700;margin-bottom: 5%;margin-top: 2%;">*** Use Windows credentials to login ***</br></div>
+				<div class="form-group">
+					<label for="loginId">Login ID</label> <input type="text"
+						class="form-control" id="login_Id" name="loginId"
+						placeholder="Enter Login ID">
+				</div>
+				<div class="form-group">
+					<label for="password">Password</label> <input type="password"
+						class="form-control" name="password" id="password_"
+						placeholder="Enter Password">
+				</div>
+				<button type="submit" class="btn btn-kenna login_button"
+					style="width: 100%;margin-top: 5%;">Submit</button>
 
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-	
- <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">	
-<link href="${pageContext.request.contextPath}/resources/css/DiscussionForum.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/header.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/table.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/reward.css" rel="stylesheet">
-<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/general.js"></script>
+
+			</div>
+			<div class="col-sm-4"></div>
+		</div>
+
+	</div>
+
+</body>
+
 <script>
 //process the form
 $(document).ready(function() {
-$('.login_button').click(function(event) {
-	 
+	
+function formSubmit(){
+	var loginID = $('input[name=loginId]').val();
+	var password = $('input[name=password]').val();
+	//check empty values entered
+	if( loginID == "" || password =="" ){
+		message.messageHandling("Please enter user id and password","error","message_log");
+		return false;
+	}
     // get the form data
     // there are many ways to get this data using jQuery (you can use the class or id also)
     var formData = {
-    	'userId' :$('input[name=loginId]').val(),
-        'password': $('input[name=password]').val()
+    	'userId' :loginID,
+        'password': password
     };
-    $(".loader").fadeIn();
+    
+    $(".loader").fadeIn();//loading symbol
     // process the form
     $.ajax({
         type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
@@ -53,58 +102,30 @@ $('.login_button').click(function(event) {
         		message.messageHandling("Entered user id and password may be wrong / If new user please register.","error","message_log");
        			 return false;
         	}
-        	
-        	
+        	//once user got autheticated we are redirecting it to get tickets based on logged in user id
         	window.location.href ="../ticketUpdate/getTickets";
-        	        	
-        
-        		 
-        	
-        
         },
         error: function () {
         	$(".loader").fadeOut("slow");
         	 message.messageHandling("Something went wrong while submitting question","error","message_log");
         }
     });
-    
-        
+}	
+	
+$('.login_button').click(function(event) {
+	formSubmit();
 });
+
+$('body').keypress(function (e) {
+	 var key = e.which;
+	 if(key == 13)  // the enter key code
+	  {
+		 formSubmit();
+	  }
+	});
 
 });
 
 </script>
 
-</head>
-<body>
-<div class="loader" style="display:none"></div>
-	<div class="container">
-		
-			<div class="headerTitle">Login Form</div>
-			<div id="message_log">${result}</div>
-			<div class="row">
-				
-				<div class="col-sm-4"></div>
-				<div class="col-sm-4">
-				<b>*** Use Windows credentials to login ***</br></b>
-					<div class="form-group">
-						<label for="loginId">Login ID</label> <input type="text"
-							class="form-control" id="login_Id" name="loginId"
-							placeholder="Enter Login ID">
-					</div>
-					<div class="form-group">
-						<label for="password">Password</label> <input type="password"
-							class="form-control" name="password" id="password_"
-							placeholder="Enter Password">
-					</div>
-					<button type="submit" class="btn btn-kenna login_button" style="width: 100%">Submit</button>
-					
-
-				</div>
-				<div class="col-sm-4"></div>
-			</div>
-		
-	</div>
-	
-</body>
 </html>
