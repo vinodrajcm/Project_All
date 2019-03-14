@@ -34,7 +34,7 @@ public class TicketServiceImpl implements TicketService {
 		Weburl = Weburl.replaceAll(" ", "%20");
 		HttpGet getRequest = new HttpGet(Weburl);
 		getRequest.addHeader("accept",ApplicationProperties.XML);
-		if(password == null || password.isEmpty()){
+		if(password == null || password.isEmpty()  || password == "usersUpdatefromTeamLead"){
 			userId = ApplicationProperties.USERID;
 			password = ApplicationProperties.PASSWORD;
 		}
