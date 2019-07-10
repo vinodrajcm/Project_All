@@ -5,6 +5,8 @@ public class ApplicationProperties {
 	
 	public static final String XML = "application/xml";
 	
+	public static final String JSON = "application/json";
+	
 	public static final String AUTH = "Basic bXVuaXJ2YzpKYW4yNnRoQDEyMw==";
 	
 	public static final String USERID = "munirvc";

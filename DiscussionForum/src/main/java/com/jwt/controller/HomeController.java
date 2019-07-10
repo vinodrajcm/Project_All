@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import com.jwt.config.ApplicationConfig;
+import com.jwt.model.Answers;
 import com.jwt.model.Employee;
 import com.jwt.model.Mail;
 import com.jwt.model.Questions;
@@ -98,6 +100,17 @@ public class HomeController {
 		model2.addObject("userDetails", sessionBean.getEmp());
 		model2.setViewName("index");
 		return model2;
+	}
+	
+	
+	
+	@RequestMapping(value = "/userStatus")
+	public ModelAndView userDelete(HttpServletRequest request,Answers answers,ModelAndView model) throws IOException {
+		
+		//System.out.println("demo");
+		ModelAndView model2 = new ModelAndView();
+		model2.setViewName("pages/common/userStatus");
+		return model2 ;
 	}
 	
 	

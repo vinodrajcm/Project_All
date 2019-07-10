@@ -1,8 +1,10 @@
 package com.jwt.controller;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,21 +13,37 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jboss.logging.Logger;
+import org.jboss.logging.Logger.Level;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.XML;
+import org.junit.internal.runners.model.EachTestNotifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jwt.config.ApplicationProperties;
 import com.jwt.model.Answers;
 import com.jwt.model.Employee;
+import com.jwt.model.Message;
 import com.jwt.model.Questions;
+import com.jwt.model.SystemOutput;
 import com.jwt.model.SystemProperties;
 import com.jwt.model.Tag;
+import com.jwt.model.UserDetails;
 import com.jwt.service.EmployeeService;
 import com.jwt.service.session.sessionBean;
 
@@ -366,5 +384,189 @@ public class userController {
 		return model ;
 	}
 	
-
+	
+	@RequestMapping(value = "/CheckUserLock")
+	public @ResponseBody String checkUserLock(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		
+		String userId = request.getParameter("userId");
+		
+		String system = request.getParameter("system");
+		String user = null;
+		String output = null;
+		String password = null;
+		String json = "{\"USER_NAME\":\""+userId+"\",\"SYSTEM\":\""+system+"\"}";
+		String output_message = "";
+		StringEntity entity = new StringEntity(json);
+		String Weburl = null;
+		String count = "";
+		try {
+			DefaultHttpClient httpClient = new DefaultHttpClient();
+			if(system.equals("D")){
+				Weburl = "http://cnpl00330.kmt.kmtl.com:8001/ZBGX_CONNECT_13/ZCheckUsrStatus?sap-client=120";
+			}else if (system.equals("Q")){
+				 Weburl = "http://cnpl20332.kmt.kmtl.com:8000/ZBGX_CONNECT_13/ZCheckUsrStatus?sap-client=120";
+			}else{
+				Weburl = "http://axhq30334.hq.kmtl.com:8000/ZBGX_CONNECT_13/ZCheckUsrStatus?sap-client=120";
+			}
+			
+			Weburl = Weburl.replaceAll(" ", "%20");
+			HttpPost httpPost = new HttpPost(Weburl);
+			httpPost.setHeader("Accept", "application/json");
+		    httpPost.setHeader("Content-type", "application/json");
+			httpPost.setEntity(entity);
+			user = ApplicationProperties.USERID;
+			password = ApplicationProperties.PASSWORD;
+			
+			String auth = user + ":" + password;
+			String encodedUserDetails = Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.ISO_8859_1));
+			encodedUserDetails = "Basic "+encodedUserDetails;
+			httpPost.setHeader("Authorization","Basic Z3VuZGV2Ok1heTE4dGhAMTk=");
+			
+			HttpResponse response1 = httpClient.execute(httpPost);
+			if (response1.getStatusLine().getStatusCode() != 200) {
+				throw new RuntimeException("Failed : HTTP error code : " + response1.getStatusLine().getStatusCode());
+			}
+			
+			output = EntityUtils.toString(response1.getEntity());
+			ObjectMapper mapper = new ObjectMapper();
+			JSONObject jsonObject;
+			try {
+				jsonObject = new JSONObject(output);
+				UserDetails userDetail = mapper.readValue(output, UserDetails.class);
+				List<SystemOutput> systemDetails = userDetail.getOutput();
+				for(SystemOutput systemOutput : systemDetails){
+					String sys = systemOutput.getSystem();
+					if(sys.contains("D")){
+						if(sys.equals("D11")){
+							if(systemOutput.getStatus().getGlobalLock().equals("L") || 
+									systemOutput.getStatus().getLocalLock().equals("L") ||
+											systemOutput.getStatus().getNoUserPassword().equals("L") ||
+											  systemOutput.getStatus().getWrongLock().equals("L")){
+								output_message = output_message + "D11 ---- >  is locked , ";
+							}else {
+								output_message = output_message + "D11 ------> is not locked , ";
+							}
+						}else if(sys.equals("D21")){
+							if(systemOutput.getStatus().getGlobalLock().equals("L") || 
+									systemOutput.getStatus().getLocalLock().equals("L") ||
+											systemOutput.getStatus().getNoUserPassword().equals("L") ||
+											  systemOutput.getStatus().getWrongLock().equals("L")){
+								output_message = output_message + "D21 ------ > is locked, ";
+							}else{
+								output_message = output_message + " D21 ------ > is not locked,";
+								
+							}
+						}else if(sys.equals("D41")){
+							if(systemOutput.getStatus().getGlobalLock().equals("L") || 
+									systemOutput.getStatus().getLocalLock().equals("L") ||
+											systemOutput.getStatus().getNoUserPassword().equals("L") ||
+											  systemOutput.getStatus().getWrongLock().equals("L")){
+								output_message = output_message + "D41 ------ > is locked , ";
+							}else{
+								output_message = output_message + "D41 ------ > is not locked , ";
+								
+							}
+						}
+					}else if(sys.contains("Q")){
+						if(sys.equals("Q11")){
+							if(systemOutput.getStatus().getGlobalLock().equals("L") || 
+									systemOutput.getStatus().getLocalLock().equals("L") ||
+											systemOutput.getStatus().getNoUserPassword().equals("L") ||
+											  systemOutput.getStatus().getWrongLock().equals("L")){
+								output_message = output_message + "Q11 ------ > is locked , ";
+							}else {
+								output_message = output_message + "Q11 ------ > is not locked ,";
+							}
+						}else if(sys.equals("Q21")){
+							if(systemOutput.getStatus().getGlobalLock().equals("L") || 
+									systemOutput.getStatus().getLocalLock().equals("L") ||
+											systemOutput.getStatus().getNoUserPassword().equals("L") ||
+											  systemOutput.getStatus().getWrongLock().equals("L")){
+								output_message = output_message + "Q21 ------ > is locked , ";
+							}else{
+								output_message = output_message + "Q21  ------ > is not locked , ";
+								
+							}
+						}else if(sys.equals("Q41")){
+							if(systemOutput.getStatus().getGlobalLock().equals("L") || 
+									systemOutput.getStatus().getLocalLock().equals("L") ||
+											systemOutput.getStatus().getNoUserPassword().equals("L") ||
+											  systemOutput.getStatus().getWrongLock().equals("L")){
+								output_message = output_message + "Q41 ------ > is locked ,";
+							}else{
+								output_message = output_message + "Q41  ------ > is not locked , ";
+								
+							}
+						}
+					}else if(sys.contains("P")){
+						if(sys.equals("P11")){
+							if(systemOutput.getStatus().getGlobalLock().equals("L") || 
+									systemOutput.getStatus().getLocalLock().equals("L") ||
+											systemOutput.getStatus().getNoUserPassword().equals("L") ||
+											  systemOutput.getStatus().getWrongLock().equals("L")){
+								output_message = output_message + "P11 ------ > is locked , ";
+							}else {
+								output_message = output_message + "P11 ------ > is not locked , ";
+							}
+						}else if(sys.equals("P21")){
+							if(systemOutput.getStatus().getGlobalLock().equals("L") || 
+									systemOutput.getStatus().getLocalLock().equals("L") ||
+											systemOutput.getStatus().getNoUserPassword().equals("L") ||
+											  systemOutput.getStatus().getWrongLock().equals("L")){
+								output_message = output_message + "P21 ------ > is locked ,";
+							}else{
+								output_message = output_message + "P21 ------ > is not locked , ";
+								
+							}
+						}else if(sys.equals("P41")){
+							if(systemOutput.getStatus().getGlobalLock().equals("L") || 
+									systemOutput.getStatus().getLocalLock().equals("L") ||
+											systemOutput.getStatus().getNoUserPassword().equals("L") ||
+											  systemOutput.getStatus().getWrongLock().equals("L")){
+								output_message = output_message + "P41  ------ > is locked , ";
+							}else{
+								output_message = output_message + "P41 ------ > is not locked , ";
+								
+							}
+						}
+					}else{
+						count = "true"; 
+								}
+				}
+				if(count.equals("true")){
+					output_message = output_message + " <------------------User not found in there systems or in the system which is not mentioned in list-------------------->";
+				}
+				List<Message> messages = userDetail.getMessage();
+				
+				for(Message messages1 : messages){
+					
+					if(messages1.getTYPE().equals("W")){
+						
+						if(messages1.getMESSAGE().equals("UNLOCKED") || messages1.getMESSAGE() == "UNLOCKED"){
+							
+						}else{
+							output_message = output_message + " < --------- Error messages from SAP  ---------->";
+							output_message = output_message + messages1.getMESSAGE()+" , ";
+						}
+						
+					}
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "web service error";
+			}
+			
+			logger.log(Level.INFO, output);
+			httpClient.getConnectionManager().shutdown();
+			} catch ( IOException | RuntimeException e) {
+				logger.log(Level.INFO, e.toString());
+				return "web service error";
+			}
+		
+		
+		return output_message ;
+	}
+	
 }
