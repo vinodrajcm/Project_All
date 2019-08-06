@@ -421,7 +421,7 @@ public class userController {
 			String auth = user + ":" + password;
 			String encodedUserDetails = Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.ISO_8859_1));
 			encodedUserDetails = "Basic "+encodedUserDetails;
-			httpPost.setHeader("Authorization","Basic Z3VuZGV2Ok1heTE4dGhAMTk=");
+			httpPost.setHeader("Authorization",ApplicationProperties.AUTH);
 			
 			HttpResponse response1 = httpClient.execute(httpPost);
 			if (response1.getStatusLine().getStatusCode() != 200) {
