@@ -1,14 +1,24 @@
 package com.jwt.dao;
 
 import java.util.List;
+
+import com.jwt.model.Answers;
 import com.jwt.model.Employee;
 import com.jwt.model.Questions;
+import com.jwt.model.SystemProperties;
+import com.jwt.model.Tag;
+import com.jwt.model.TicketHistory;
+import com.jwt.model.TicketResult;
+import com.jwt.model.TicketsData;
+import com.jwt.model.likeDislike;
 
 public interface EmployeeDAO {
 
 	public void addEmployee(Employee employee);
 	
 	public void addQuestion(Questions Que);
+	
+	public void postAns(Answers ans);
 
 	public List<Employee> getAllEmployees();
 
@@ -19,4 +29,32 @@ public interface EmployeeDAO {
 	public Employee getEmployee(int employeeid);
 	
 	public Employee authUser(Employee employee);
+	
+	public  List<Questions> getQuestions(String keywordForSearch);
+	
+	public List<Tag> getTags(String tag);
+	
+	public void createTag(Tag tag);
+	
+	public Questions questionDetails(int questionId);
+	
+	public List<Answers> getAnswers(int questionId);
+
+	public List<Tag> getTagsForUserId(int userId);
+
+	public List<Questions> getQuestionsForUserID(int UserID);
+
+	public Answers getAnswer(int answer_id);
+
+	void updateLikeDisLike(likeDislike like);
+	
+	public List<SystemProperties> getValues(String key);
+	
+	public Employee getUserBasedOnEmail(String email);
+	
+	public List<TicketsData> updateTicketsDataBase(List<TicketsData> ticketList,String userId);
+	
+	public String updateTicketPlanDate(TicketHistory ticket);
+	
+	public List<TicketsData> getTicketsBasedOnUsers(String userId);
 }

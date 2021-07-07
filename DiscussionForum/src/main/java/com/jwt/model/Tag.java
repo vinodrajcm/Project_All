@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -31,6 +33,19 @@ public class Tag {
 	
 	@Column(name="CREATED_DATE")
 	private Date createdDate;
+	
+	@ManyToOne
+	@JoinColumn(name="USER_ID")
+	private Employee emp;
+	
+
+	public Employee getEmp() {
+		return emp;
+	}
+
+	public void setEmp(Employee emp) {
+		this.emp = emp;
+	}
 
 	public int getTagId() {
 		return tagId;

@@ -1,6 +1,7 @@
 package com.jwt.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,8 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "QUESTION_MASTER")
@@ -46,16 +47,46 @@ public class Questions implements Serializable{
 	@Column(name="COUNT")
 	private int hitCount;
 	
+	@Column(name="LIKES")
+	private int likes;
+	
+	@Column(name="DISLIKE")
+	private int dislikes;
+	
+	@Column(name="NUM_ANSWERS")
+	private int noAnswers;
+	
+	@Column(name="CREATED_DATE")
+	private Date cratedDate;
+	
+	@Column(name="MODIFIED_DATE")
+	private Date modifiedDate;
+	
 	@ManyToOne
 	@JoinColumn(name="USER_ID")
 	private Employee emp;
 	
 	@OneToMany(targetEntity=Answers.class, mappedBy="question",
-			cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+			cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	public List<Answers> answerList;
 	
+	@Transient
+	private List<Tag> tags;
 	
+	@Transient
+	private String user_like_status;
 	
+	@Transient
+	private String noDaysCreated;
+	
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
+
 	public List<Answers> getAnswerList() {
 		return answerList;
 	}
@@ -119,6 +150,64 @@ public class Questions implements Serializable{
 	public void setHitCount(int hitCount) {
 		this.hitCount = hitCount;
 	}
+
+	public int getLikes() {
+		return likes;
+	}
+
+	public void setLikes(int likes) {
+		this.likes = likes;
+	}
+
+	public int getDislikes() {
+		return dislikes;
+	}
+
+	public void setDislikes(int dislikes) {
+		this.dislikes = dislikes;
+	}
+
+	public int getNoAnswers() {
+		return noAnswers;
+	}
+
+	public void setNoAnswers(int noAnswers) {
+		this.noAnswers = noAnswers;
+	}
+
+	public Date getCratedDate() {
+		return cratedDate;
+	}
+
+	public void setCratedDate(Date cratedDate) {
+		this.cratedDate = cratedDate;
+	}
+
+	public String getUser_like_status() {
+		return user_like_status;
+	}
+
+	public void setUser_like_status(String user_like_status) {
+		this.user_like_status = user_like_status;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public String getNoDaysCreated() {
+		return noDaysCreated;
+	}
+
+	public void setNoDaysCreated(String noDaysCreated) {
+		this.noDaysCreated = noDaysCreated;
+	}
+
+	
 
 	
 }

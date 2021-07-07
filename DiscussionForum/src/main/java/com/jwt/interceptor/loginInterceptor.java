@@ -33,7 +33,7 @@ public class loginInterceptor extends HandlerInterceptorAdapter{
 	    if (userName  == null || userName == "" ) {
 	    	
 	    	 StringBuilder redirectUrl = new StringBuilder(request.getContextPath())
-	    			    .append("/login");
+	    			    .append("/userMangment/login");
 	    	 response.sendRedirect(redirectUrl.toString());
 	    	return false;
 	    }

@@ -159,14 +159,15 @@ You should have received a copy of the GNU General Public License along with thi
 					reader.onload = (function(imageFile){
 						return function(e){
 							//Render Thumnails
-							var li = $('<li/>',{class:"col-xs-12 col-sm-6 col-md-3 col-lg-3"});
+							var li = $('<li/>',{class:""});
 							var a = $('<a/>',{
 								href:"javascript:void(0)",
 								class:"thumbnail"
 							});
 							var image = $('<img/>',{
 								src:e.target.result,
-								title:escape(imageFile.name)
+								title:escape(imageFile.name),
+								class:"modal-img"
 							}).appendTo(a).click(function(){
 								$('#imageList_' + _idSuffix).data('current', $(this).attr('src'));
 								});
@@ -323,6 +324,16 @@ You should have received a copy of the GNU General Public License along with thi
 						class:"form-control form-control-link ",
 						type:"text",
 						placeholder:"Link Target"
+					})).append($('<input/>',{
+						id:"imgWid",
+						class:"form-control form-control-link ",
+						type:"number",
+						placeholder:"Enter Width"
+					})).append($('<input/>',{
+						id:"imgHeig",
+						class:"form-control form-control-link ",
+						type:"number",
+						placeholder:"Enter Height"
 					})).append($('<input/>',{
 						id:"imgHidden",
 						type:"hidden"						
@@ -729,7 +740,12 @@ You should have received a copy of the GNU General Public License along with thi
 												}
 												$(editorObj).data("editor").find('a[href="'+targetURL+'"]').each(function(){ $(this).attr("target", "_blank"); });
 												$(".alert").alert("close");
-												$("#InsertLink" + _idSuffix).modal("hide");
+												//$("#InsertLink" + _idSuffix).modal("hide");
+												// $(".modal-backdrop").removeClass("show modal-backdrop fade");
+												 $(".modal").removeClass("in");
+												  $(".modal-backdrop").remove();
+												  $(".modal").hide();
+												  $('body').removeClass('modal-open');
 												$(editorObj).data("editor").focus();
 												return false;
 											}},
@@ -763,7 +779,12 @@ You should have received a copy of the GNU General Public License along with thi
 													methods.showMessage.apply(this,["imgErrMsg" + _idSuffix,"Please select an image"]);
 													return false;
 												}
-												$("#InsertImage" + _idSuffix).modal("hide");
+												//$("#InsertImage" + _idSuffix).modal("hide");
+												 //$(".modal-backdrop").removeClass("show modal-backdrop fade");
+												  $(".modal").removeClass("in");
+												  $(".modal-backdrop").remove();
+												  $(".modal").hide();
+												  $('body').removeClass('modal-open');
 												$(this).data("editor").focus();
 											}},
 
@@ -836,7 +857,12 @@ You should have received a copy of the GNU General Public License along with thi
 												methods.restoreSelection.apply(this,[htmlTableCntr.html(),'html']);
 												else
 												document.execCommand('insertHTML', false, htmlTableCntr.html());
-												$("#InsertTable" + _idSuffix).modal("hide");
+												//$("#InsertTable" + _idSuffix).modal("hide");
+												// $(".modal-backdrop").removeClass("show modal-backdrop fade");
+												 $(".modal").removeClass("in");
+												  $(".modal-backdrop").remove();
+												  $(".modal").hide();
+												  $('body').removeClass('modal-open');
 												$(this).data("editor").focus();
 											}},
 
@@ -1016,11 +1042,11 @@ You should have received a copy of the GNU General Public License along with thi
 				'togglescreen':true
 			},options);
 
-	       	var containerDiv = $("<div/>",{ class : "row-fluid Editor-container" });
+	       	var containerDiv = $("<div/>",{ class : "" });
 			var $this = $(this).hide();	       	
 	       	$this.after(containerDiv); 
 	       	var menuBar = $( "<div/>",{ id : "menuBarDiv_" + $(this).attr("id"),
-								  		class : "row-fluid line-control-menu-bar"
+								  		class : "row line-control-menu-bar"
 							}).prependTo(containerDiv);
 	       	var editor  = $( "<div/>",{	class : "Editor-editor",
 										css : {overflow: "auto"},
@@ -1141,18 +1167,32 @@ You should have received a copy of the GNU General Public License along with thi
 			var onSave = function(){
 				var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
 				var imageAlt = $('#imgAlt').val();
+				var imageHeig= $('#imgHeig').val();
+				var imageWid= 	$('#imgWid').val();
+				var imgId_1 = $("#imgHidden").val();
+				if(imageWid !=""){
+					$("#"+imgId_1).attr('width',imageWid);
+				}else{
+					$("#"+imgId_1).attr('width',"");
+				}
+				if(imageHeig !=""){
+					$("#"+imgId_1).attr('height',imageHeig);
+				}else{
+					$("#"+imgId_1).attr('height',"");
+				}
 				var imageTarget = $('#imgTarget').val();
 				if(imageAlt==""){
 					methods.showMessage.apply(this,["imageErrMsg","Please enter image alternative text"]);
-					return false;
+					return;
 				}
 				if(imageTarget!=""&& !imageTarget.match(urlPattern)){
 					methods.showMessage.apply(this,["imageErrMsg","Please enter valid url"]);
-					return false;
+					return;
 				}
 				if($("#imgHidden").val()!=""){
                         var imgId = $("#imgHidden").val();
 	       				$("#"+imgId).attr('alt',imageAlt);
+	       				
 	       				if(imageTarget!="")
 	       				{
 	       				 if($("#wrap_"+imgId).length)
@@ -1166,7 +1206,12 @@ You should have received a copy of the GNU General Public License along with thi
 					    	$("#"+imgId).unwrap();
 					    }
 	       		}	       		
-				$("#imgAttribute").modal("hide");
+				//$("#imgAttribute").modal("hide");
+				// $(".modal-backdrop").removeClass("show modal-backdrop fade");
+				 $(".modal").removeClass("in");
+				  $(".modal-backdrop").remove();
+				  $(".modal").hide();
+				  $('body').removeClass('modal-open');
 				editorObj.data("editor").focus();
 			};
 			methods.createModal.apply(this,[cModalId,cModalHeader, imgModalBody, onSave]);
@@ -1244,7 +1289,12 @@ You should have received a copy of the GNU General Public License along with thi
 			    $(event.target).closest('table').attr('border',tblBorderEdt);
 			    $(event.target).closest('table').attr('cellspacing',tblCellspacingEdt);
 			    $(event.target).closest('table').attr('cellpadding',tblCellpaddingEdt);
-			    $("#" + modalId).modal("hide");
+			    //$("#" + modalId).modal("hide");
+			    //$(".modal-backdrop").removeClass("show modal-backdrop fade");
+			    $(".modal").removeClass("in");
+				  $(".modal-backdrop").remove();
+				  $(".modal").hide();
+				  $('body').removeClass('modal-open');
 				editorObj.data("editor").focus();
        		};
        		methods.createModal.apply(this,[modalId,modalHeader, tblModalBody, onSave]);
@@ -1349,16 +1399,18 @@ You should have received a copy of the GNU General Public License along with thi
 								         		}).append($('<div>',{
 							            			class:"modal-content"
 									         		}).append($('<div>',{
-									           			class:"modal-header"
-									           			}).append($('<button/>',{
+									           			class:"modal-header headerModel"
+									           			}).append($('<h3/>',{
+									                		id:"h3_"+modalId,
+									                		class:"modal-title"
+									           				}).html(modalHeader))
+									           			.append($('<button/>',{
 										                	type:"button",
-										                	class:"close",
+										                	class:"close closeText",
 										                	"data-dismiss":"modal",
 										                	"aria-hidden":"true"
 										               		}).html('x')
-									            		).append($('<h3/>',{
-									                		id:"h3_"+modalId
-									           				}).html(modalHeader))
+									            		)
 									         		).append($('<div>',{
 									           			class:"modal-body"
 									           			}).append(modalBody)
@@ -1372,7 +1424,9 @@ You should have received a copy of the GNU General Public License along with thi
 									               			}).html('Cancel')
 								           	  			).append($('<button/>',{
 								                			type:"button",
-								                			class:"btn btn-success",
+								                			class:"btn btn-kenna",
+								                			//"data-dismiss":"modal",
+								                			"aria-hidden":"true",
 								               				}).html('Done').mousedown(function(e){
 								                			e.preventDefault();
 								               				}).click(function(obj){return function(){onSave.apply(obj)}}(this)))

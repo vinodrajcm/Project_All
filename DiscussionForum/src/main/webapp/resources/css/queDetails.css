@@ -1,0 +1,65 @@
+.btn-group a {
+	color: #ffd200;
+}
+
+.btn-group a:HOVER {
+	color: white;
+}
+
+.text-container { //
+	display: inline-block;
+	position: relative; //
+	overflow: hidden;
+}
+
+.clearBtn {
+	position: absolute;
+	top: 0;
+	margin-top: 1%;
+	transition: right 0.2s;
+}
+
+.show {
+	right: 5px;
+}
+
+.close-tag {
+	font-size: 8px;
+	margin-left: 5px;
+}
+
+.tags-textfield {
+	border: none !important;
+	box-shadow: none !important;
+	outline: 0 !important;
+	padding: 0 !important;
+	margin: 5px 3px 0;
+	background-color: transparent !important;
+	height: 25px;
+	width: 100%;
+}
+
+.queLike .fa {
+	font-size: 20px;
+	cursor: pointer;
+	user-select: none;
+}
+
+.icon {
+	color: #479f37;
+}
+
+.icon2 {
+	color: #479f37;
+}
+
+.queLike div {
+	width: 100%;
+	//text-align: center;
+}
+
+.answerDiv {
+	border-bottom: 1px solid #eff0f1;
+	padding-bottom: 5%;
+	margin-bottom: 2%;
+}

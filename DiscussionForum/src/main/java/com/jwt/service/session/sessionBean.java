@@ -1,6 +1,7 @@
 package com.jwt.service.session;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.jwt.model.Employee;
+import com.jwt.model.TicketResult;
 
 @Component(value = "sessionBean")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -23,6 +25,8 @@ public class sessionBean implements Serializable {
 	
 	private static ApplicationContext applicationContext;
 
+	private List<TicketResult> ticketResult;
+	
 	private Employee emp;
 
 	public Employee getEmp() {
@@ -34,6 +38,14 @@ public class sessionBean implements Serializable {
 	}
 	
 	
+	public List<TicketResult> getTicketResult() {
+		return ticketResult;
+	}
+
+	public void setTicketResult(List<TicketResult> ticketResult) {
+		this.ticketResult = ticketResult;
+	}
+
 	/**
      * Sets the request. required to get SpringApplicationContext to reload various Beans.
      * 
@@ -56,6 +68,7 @@ public class sessionBean implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((emp == null) ? 0 : emp.hashCode());
+		result = prime * result + ((ticketResult == null) ? 0 : ticketResult.hashCode());
 		return result;
 	}
 
@@ -73,8 +86,15 @@ public class sessionBean implements Serializable {
 				return false;
 		} else if (!emp.equals(other.emp))
 			return false;
+		if (ticketResult == null) {
+			if (other.ticketResult != null)
+				return false;
+		} else if (!ticketResult.equals(other.ticketResult))
+			return false;
 		return true;
 	}
+
+	
 	
 	
 }
